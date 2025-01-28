@@ -17,23 +17,41 @@ public final class Constants {
     // ** Controllers **
     public static final int kDriverController = 0;
     public static final int kManipulatorController = 1;
+    public static final double kManipulatorTriggerThreshold = 0.2;
 
     // ** Speeds **
     public static final double kPivotSpeedMax = 1;
-    public static final double kElevetorSpeedMax = 0.5;
+    public static final double kElevatorSpeedMax = 0.5;
+    public static final double kElevatorSpeedHome = 1;
     public static final double kClawSpeedMax = 0.8;
-    public static final double kClawSpeedLow = 0.2;
+    public static final double kClawSpeedLow = 0.1;
+
+    // ** Close Looped Controllers **
+    public static final double kPivotKP = 0;
+    public static final double kPivotKI = 0;
+    public static final double kPivotKD = 0;
+    public static final double kPivotReef = 0;
+    public static final double kPivotIntake = 0;
+    public static final double kPivotClimb = 0;
+    public static final double kElevatorKS = 0;
+    public static final double kElevatorKG = 0;
+    public static final double kElevatorKV = 0;
+    public static final double kElevatorL4 = 0;
+    public static final double kElevatorL3 = 0;
+    public static final double kElevatorL2 = 0;
+    public static final double kElevatorL1 = 0;
 
     // ** Motors **
     public static final int kPivotLeftMotor = 15;
     public static final int kPivotRightMotor = 16;
-    public static final int kElevetorMotor = 17;
+    public static final int kElevatorMotor = 17;
     public static final int kClawMotor = 18;
 
     // ** Pnumatics **
-    public static final int kPistonModule = 14;
-    public static final int kClawIn = 30;
-    public static final int kClawOut = 31;
+    public static final int kPnumaticModule = 14;
+    public static final int kClawOpen = 0;
+    public static final int kClawClose = 1;
 
     // ** Input **
+    public static final int kBeamBreak = 1;
 }

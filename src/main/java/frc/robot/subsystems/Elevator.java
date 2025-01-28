@@ -18,11 +18,11 @@ import frc.robot.Constants;
 
 public class Elevator extends SubsystemBase {
 
-  private TalonFX elevator = new TalonFX(Constants.kElevetorMotor);
+  private TalonFX elevator = new TalonFX(Constants.kElevatorMotor);
 
   private TalonFXConfiguration cfg = new TalonFXConfiguration();
 
-  private ElevatorFeedforward elevatorController = new ElevatorFeedforward(0, 0, 0);
+  private ElevatorFeedforward elevatorController = new ElevatorFeedforward(Constants.kElevatorKS, Constants.kElevatorKG, Constants.kElevatorKV);
 
   private Timer homedTimer = new Timer();
 
@@ -44,7 +44,7 @@ public class Elevator extends SubsystemBase {
 
     // Calculate pid
     double pid = elevatorController.calculate(GetAngle(), elevatorSetpoint);
-    pid = MathUtil.clamp(pid, -1 * Constants.kElevetorSpeedMax, Constants.kElevetorSpeedMax);
+    pid = MathUtil.clamp(pid, -1 * Constants.kElevatorSpeedMax, Constants.kElevatorSpeedMax);
     elevator.set(pid);
 
     if (homedTimer.get() > 10) {
@@ -59,8 +59,8 @@ public class Elevator extends SubsystemBase {
     SmartDashboard.putBoolean("Elevator Is Homed", isHomed);
   }
 
-  public void Set_0() {
-    elevatorSetpoint = 0;
+  public void Set(double setpoint) {
+    elevatorSetpoint = setpoint;
   }
 
   public void ManualMovement(double input, double sensitivity) {
@@ -68,10 +68,9 @@ public class Elevator extends SubsystemBase {
   }
 
   public void Home() {
-    elevatorSetpoint = elevatorSetpoint + 1;
+    elevatorSetpoint = elevatorSetpoint - Constants.kElevatorSpeedHome;
 
     // Check if stall current spikes, this indicates that the elevator has hit the bottom of its travel
-    // We do this incase the internal encoder drifts
     if (elevator.getStatorCurrent().getValueAsDouble() > 40) {
       elevator.setPosition(0);
       isHomed = true;
