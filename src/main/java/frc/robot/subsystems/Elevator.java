@@ -11,7 +11,6 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -24,10 +23,7 @@ public class Elevator extends SubsystemBase {
 
   private ElevatorFeedforward elevatorController = new ElevatorFeedforward(Constants.kElevatorKS, Constants.kElevatorKG, Constants.kElevatorKV);
 
-  private Timer homedTimer = new Timer();
-
   private double elevatorSetpoint = GetAngle(); // Set to current encoder value so elevetor doesnt "snap" when first enabled
-  private boolean isHomed = false;
 
   /** Creates a new Elevator. */
   public Elevator() {
@@ -47,16 +43,9 @@ public class Elevator extends SubsystemBase {
     pid = MathUtil.clamp(pid, -1 * Constants.kElevatorSpeedMax, Constants.kElevatorSpeedMax);
     elevator.set(pid);
 
-    if (homedTimer.get() > 10) {
-      isHomed = false;
-      homedTimer.stop();
-    }
-
     SmartDashboard.putNumber("Elevator PID Input", pid);
     SmartDashboard.putNumber("Elevator Setpoint", elevatorSetpoint);
     SmartDashboard.putNumber("Elevator Encoder", GetAngle());
-    SmartDashboard.putNumber("Elevator Home Timer", homedTimer.get());
-    SmartDashboard.putBoolean("Elevator Is Homed", isHomed);
   }
 
   public void Set(double setpoint) {
@@ -65,19 +54,6 @@ public class Elevator extends SubsystemBase {
 
   public void ManualMovement(double input, double sensitivity) {
     elevatorSetpoint = elevatorSetpoint + input * sensitivity;
-  }
-
-  public void Home() {
-    elevatorSetpoint = elevatorSetpoint - Constants.kElevatorSpeedHome;
-
-    // Check if stall current spikes, this indicates that the elevator has hit the bottom of its travel
-    if (elevator.getStatorCurrent().getValueAsDouble() > 40) {
-      elevator.setPosition(0);
-      isHomed = true;
-      homedTimer.reset();
-      homedTimer.start();
-      Stop();
-    }
   }
 
   public void Stop() {

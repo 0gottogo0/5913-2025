@@ -12,7 +12,6 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -24,7 +23,7 @@ public class Pivot extends SubsystemBase {
   private TalonFXConfiguration cfgLeft = new TalonFXConfiguration();
   private TalonFXConfiguration cfgRight = new TalonFXConfiguration();
 
-  private PIDController pivotController = new PIDController(Constants.kPivotKP, Constants.kPivotKI, Constants.kPivotKD);
+  private PIDController pivotController = new PIDController(Constants.kPivotKP, 0, Constants.kPivotKD);
 
   private double pivotSetpoint = GetAngle(); // Set to current encoder value so elevetor doesnt "snap" when first enabled
 

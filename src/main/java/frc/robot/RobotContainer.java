@@ -17,27 +17,33 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Pivot;
+import frc.robot.subsystems.Wrist;
 
 public class RobotContainer {
   private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
   private double MaxAngularRate = RotationsPerSecond.of(.75).in(RadiansPerSecond);
 
-  private SlewRateLimiter xLimiter = new SlewRateLimiter(20.0);
-  private SlewRateLimiter yLimiter = new SlewRateLimiter(20.0); //limit rate of change of joystick inputs
-  private SlewRateLimiter rotLimiter = new SlewRateLimiter(40.0); //reduce brownouts
+  private SlewRateLimiter xLimiter = new SlewRateLimiter(Constants.kMoveSlewRateLimiter);
+  private SlewRateLimiter yLimiter = new SlewRateLimiter(Constants.kMoveSlewRateLimiter); //limit rate of change of joystick inputs
+  private SlewRateLimiter rotLimiter = new SlewRateLimiter(Constants.kRotateSlewRateLimiter); //reduce brownouts
 
   /* Setting up bindings for necessary control of the swerve drive platform */
   private final CommandXboxController DriverController = new CommandXboxController(Constants.kDriverController); // My DriverController
   private final CommandXboxController ManipulatorController = new CommandXboxController(Constants.kManipulatorController);
   private final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain(); // My drivetrain
 
+  Arm arm = new Arm();
+  Camera camera = new Camera();
   Claw claw = new Claw();
   Elevator elevator = new Elevator();
   Pivot pivot = new Pivot();
+  Wrist wrist = new Wrist();
 
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
       .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
@@ -71,6 +77,12 @@ public class RobotContainer {
       ));
 
     // ** Driver Control **
+
+    DriverController.leftBumper().whileTrue(drivetrain.applyRequest(
+      () -> driveTrack.withVelocityX(camera.MoveReefX(Constants.kTrackDistance) + xLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftY(), .1) * MaxSpeed)) // Drive forward with negative Y (forward)
+                      .withVelocityY(camera.MoveReefY(Constants.kTrackOffset) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), 0.1) * MaxSpeed)) // Drive left with negative X (left)
+                      .withRotationalRate(rotLimiter.calculate(-MathUtil.applyDeadband(DriverController.getRightX(), .1) * MaxAngularRate))));
+
     DriverController.button(8).whileTrue(drivetrain.applyRequest(
       () -> brake));
 
@@ -90,7 +102,7 @@ public class RobotContainer {
     ManipulatorController.povDown().onTrue(elevator.runOnce(
       () -> elevator.Set(Constants.kElevatorL1)));
 
-    ManipulatorController.leftStick().whileTrue(elevator.run(
+    ManipulatorController.button(8).whileTrue(elevator.run(
       () -> elevator.ManualMovement(ManipulatorController.getLeftY(), 1)));
 
     ManipulatorController.leftTrigger(Constants.kManipulatorTriggerThreshold).whileTrue(claw.runEnd(
@@ -116,8 +128,9 @@ public class RobotContainer {
     ManipulatorController.a().onTrue(pivot.runOnce(
       () -> pivot.Set(Constants.kPivotClimb)));
 
-    ManipulatorController.rightStick().whileTrue(pivot.run(
+    ManipulatorController.button(8).whileTrue(pivot.run(
       () -> pivot.ManualMovement(ManipulatorController.getRightY(), 1)));
+
   }
 
   public Command getAutonomousCommand() {
