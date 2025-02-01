@@ -4,7 +4,9 @@
 
 package frc.robot;
 
-import static edu.wpi.first.units.Units.*;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
@@ -78,59 +80,159 @@ public class RobotContainer {
 
     // ** Driver Control **
 
+    // Track Left
     DriverController.leftBumper().whileTrue(drivetrain.applyRequest(
-      () -> driveTrack.withVelocityX(camera.MoveReefX(Constants.kTrackDistance) + xLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftY(), .1) * MaxSpeed)) // Drive forward with negative Y (forward)
-                      .withVelocityY(camera.MoveReefY(Constants.kTrackOffset) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), 0.1) * MaxSpeed)) // Drive left with negative X (left)
+      () -> driveTrack.withVelocityX(camera.MoveReefX(Constants.kTrackDistance) + xLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftY(), 0.05) * MaxSpeed)) // Drive forward with negative Y (forward)
+                      .withVelocityY(camera.MoveReefY(Constants.kTrackOffset) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), 0.05) * MaxSpeed)) // Drive left with negative X (left)
                       .withRotationalRate(rotLimiter.calculate(-MathUtil.applyDeadband(DriverController.getRightX(), .1) * MaxAngularRate))));
 
+    // Track Right
+    DriverController.rightBumper().whileTrue(drivetrain.applyRequest(
+      () -> driveTrack.withVelocityX(camera.MoveReefX(Constants.kTrackDistance) + xLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftY(), 0.05) * MaxSpeed)) // Drive forward with negative Y (forward)
+                      .withVelocityY(camera.MoveReefY(-1 * Constants.kTrackOffset) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), 0.05) * MaxSpeed)) // Drive left with negative X (left)
+                      .withRotationalRate(rotLimiter.calculate(-MathUtil.applyDeadband(DriverController.getRightX(), .1) * MaxAngularRate))));
+
+    // Stop
     DriverController.button(8).whileTrue(drivetrain.applyRequest(
       () -> brake));
 
+    // Reset Field Heading
     DriverController.button(7).onTrue(drivetrain.runOnce(
       () -> drivetrain.seedFieldCentric()));
 
     // ** Manipulator Control **
-    ManipulatorController.povRight().onTrue(elevator.runOnce(
-      () -> elevator.Set(Constants.kElevatorL4)));
+    
+    // L1
+    ManipulatorController.a().onTrue(arm.runOnce(
+      () -> arm.Set(Constants.kArmL1))
+      .alongWith(elevator.runOnce(
+      () -> elevator.Set(Constants.kElevatorL1)))
+      .alongWith(pivot.runOnce(
+      () -> pivot.Set(Constants.kPivotReef)))
+      .alongWith(wrist.runOnce(
+      () -> wrist.Set(Constants.kWristL1))));
 
-    ManipulatorController.povUp().onTrue(elevator.runOnce(
-      () -> elevator.Set(Constants.kElevatorL3)));
+    // L2
+    ManipulatorController.x().onTrue(arm.runOnce(
+      () -> arm.Set(Constants.kArmL2or3))
+      .alongWith(elevator.runOnce(
+      () -> elevator.Set(Constants.kElevatorL2)))
+      .alongWith(pivot.runOnce(
+      () -> pivot.Set(Constants.kPivotReef)))
+      .alongWith(wrist.runOnce(
+      () -> wrist.Set(Constants.kWristL2or3))));
     
-    ManipulatorController.povLeft().onTrue(elevator.runOnce(
-      () -> elevator.Set(Constants.kElevatorL2)));
+    // L3
+    ManipulatorController.y().onTrue(elevator.runOnce(
+      () -> arm.Set(Constants.kArmL2or3))
+      .alongWith(elevator.runOnce(
+      () -> elevator.Set(Constants.kElevatorL3)))
+      .alongWith(pivot.runOnce(
+      () -> pivot.Set(Constants.kPivotReef)))
+      .alongWith(wrist.runOnce(
+      () -> wrist.Set(Constants.kWristL2or3))));
     
+    // L4
+    ManipulatorController.b().onTrue(elevator.runOnce(
+      () -> arm.Set(Constants.kArmL4))
+      .alongWith(elevator.runOnce(
+      () -> elevator.Set(Constants.kElevatorL4)))
+      .alongWith(pivot.runOnce(
+      () -> pivot.Set(Constants.kPivotReef)))
+      .alongWith(wrist.runOnce(
+      () -> wrist.Set(Constants.kWristL4))));
+
+    // Climb / Home
     ManipulatorController.povDown().onTrue(elevator.runOnce(
-      () -> elevator.Set(Constants.kElevatorL1)));
+      () -> arm.Set(Constants.kArmHome))
+      .alongWith(elevator.runOnce(
+      () -> elevator.Set(Constants.kElevatorHome)))
+      .alongWith(pivot.runOnce(
+      () -> pivot.Set(Constants.kPivotHome)))
+      .alongWith(wrist.runOnce(
+      () -> wrist.Set(Constants.kWristHome))));
+  
+    // Intake
+    ManipulatorController.povLeft().onTrue(elevator.runOnce(
+      () -> arm.Set(Constants.kArmIntake))
+      .alongWith(elevator.runOnce(
+      () -> elevator.Set(Constants.kElevatorIntake)))
+      .alongWith(pivot.runOnce(
+      () -> pivot.Set(Constants.kPivotIntake)))
+      .alongWith(wrist.runOnce(
+      () -> wrist.Set(Constants.kWristIntake))));
 
-    ManipulatorController.button(8).whileTrue(elevator.run(
-      () -> elevator.ManualMovement(ManipulatorController.getLeftY(), 1)));
+    // Barge
+    ManipulatorController.povUp().onTrue(elevator.runOnce(
+      () -> arm.Set(Constants.kArmBarge))
+      .alongWith(elevator.runOnce(
+      () -> elevator.Set(Constants.kElevatorBarge)))
+      .alongWith(pivot.runOnce(
+      () -> pivot.Set(Constants.kPivotReef)))
+      .alongWith(wrist.runOnce(
+      () -> wrist.Set(Constants.kWristBarge))));
 
-    ManipulatorController.leftTrigger(Constants.kManipulatorTriggerThreshold).whileTrue(claw.runEnd(
+    // Processor
+    ManipulatorController.povRight().onTrue(elevator.runOnce(
+      () -> arm.Set(Constants.kArmProcessor))
+      .alongWith(elevator.runOnce(
+      () -> elevator.Set(Constants.kElevatorHome)))
+      .alongWith(pivot.runOnce(
+      () -> pivot.Set(Constants.kPivotReef)))
+      .alongWith(wrist.runOnce(
+      () -> wrist.Set(Constants.kWristProcessor))));
+    
+    // Top Alge
+    ManipulatorController.button(9).onTrue(elevator.runOnce(
+      () -> arm.Set(Constants.kArmL2or3))
+      .alongWith(elevator.runOnce(
+      () -> elevator.Set(Constants.kElevatorTopAlge)))
+      .alongWith(pivot.runOnce(
+      () -> pivot.Set(Constants.kPivotReef)))
+      .alongWith(wrist.runOnce(
+      () -> wrist.Set(Constants.kWristAlge))));
+
+    // Bottom Alge
+    ManipulatorController.button(10).onTrue(elevator.runOnce(
+      () -> arm.Set(Constants.kArmL2or3))
+      .alongWith(elevator.runOnce(
+      () -> elevator.Set(Constants.kElevatorBottomAlge)))
+      .alongWith(pivot.runOnce(
+      () -> pivot.Set(Constants.kPivotReef)))
+      .alongWith(wrist.runOnce(
+      () -> wrist.Set(Constants.kWristAlge))));
+
+    // Run Intake
+    ManipulatorController.leftTrigger(Constants.kTriggerThreshold).whileTrue(claw.runEnd(
       () -> claw.Intake(false),
       () -> claw.Stop()));
 
-    ManipulatorController.rightTrigger(Constants.kManipulatorTriggerThreshold).whileTrue(claw.runEnd(
+    // Run Outake
+    ManipulatorController.rightTrigger(Constants.kTriggerThreshold).whileTrue(claw.runEnd(
       () -> claw.Intake(true),
       () -> claw.Stop()));
 
+    // Open Jaws
     ManipulatorController.leftBumper().onTrue(claw.runOnce(
       () -> claw.Open(false)));
 
+    // Close Jaws
     ManipulatorController.rightBumper().onTrue(claw.runOnce(
       () -> claw.Open(true)));
 
-    ManipulatorController.y().onTrue(pivot.runOnce(
-      () -> pivot.Set(Constants.kPivotReef)));
-
-    ManipulatorController.b().onTrue(pivot.runOnce(
-      () -> pivot.Set(Constants.kPivotIntake)));
-    
-    ManipulatorController.a().onTrue(pivot.runOnce(
-      () -> pivot.Set(Constants.kPivotClimb)));
-
-    ManipulatorController.button(8).whileTrue(pivot.run(
-      () -> pivot.ManualMovement(ManipulatorController.getRightY(), 1)));
-
+    // Manual Control
+    ManipulatorController.button(8).whileTrue(arm.runEnd(
+      () -> arm.ManualMovement(ManipulatorController.getRightX(), 1),
+      () -> arm.Stop())
+      .alongWith(elevator.runEnd(
+      () -> elevator.ManualMovement(ManipulatorController.getLeftY(), 1),
+      () -> elevator.Stop())
+      .alongWith(pivot.runEnd(
+      () -> pivot.ManualMovement(ManipulatorController.getLeftX(), 1),
+      () -> pivot.Stop())
+      .alongWith(wrist.runEnd(
+      () -> wrist.ManualMovement(ManipulatorController.getRightY(), 1),
+      () -> wrist.Stop())))));
   }
 
   public Command getAutonomousCommand() {

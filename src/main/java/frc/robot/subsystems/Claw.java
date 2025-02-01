@@ -4,10 +4,10 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.InvertedValue;
-import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -18,19 +18,17 @@ import frc.robot.Constants;
 
 public class Claw extends SubsystemBase {
 
-  private TalonFX claw = new TalonFX(Constants.kClawMotor);
+  private SparkMax claw = new SparkMax(Constants.kClawMotor, MotorType.kBrushless);
   private DigitalInput beamBreak = new DigitalInput(Constants.kBeamBreak);
   private DoubleSolenoid clawSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.kClawClose, Constants.kClawOpen);
 
-  private TalonFXConfiguration cfg = new TalonFXConfiguration();
+  private SparkMaxConfig cfg = new SparkMaxConfig();
 
   /** Creates a new Claw. */
   public Claw() {
-    cfg.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-    cfg.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-    
-    claw.clearStickyFaults();
-    claw.getConfigurator().apply(cfg);
+    cfg
+      .inverted(false)
+      .idleMode(IdleMode.kCoast);
 
     clawSolenoid.set(DoubleSolenoid.Value.kForward);
   }

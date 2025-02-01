@@ -23,7 +23,7 @@ public class Arm extends SubsystemBase {
 
   private PIDController armController = new PIDController(Constants.kArmKP, 0, Constants.kArmKD);
 
-  private double armSetpoint = GetAngle(); // Set to current encoder value so elevetor doesnt "snap" when first enabled
+  private double armSetpoint;
 
   /** Creates a new Arm. */
   public Arm() {
@@ -32,14 +32,21 @@ public class Arm extends SubsystemBase {
 
     arm.clearStickyFaults();
     arm.getConfigurator().apply(cfg);
+
+    armSetpoint = GetAngle(); // Set to current encoder value so elevetor doesnt "snap" when first enabled
+
+    armController.setTolerance(Constants.kArmTolerance);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
+    double pid = 0;
     // Calculate pid
-    double pid = armController.calculate(GetAngle(), armSetpoint);
+    if(!armController.atSetpoint()) {
+      pid = armController.calculate(GetAngle(), armSetpoint);
+    }
+    
     pid = MathUtil.clamp(pid, -1 * Constants.kArmSpeedMax, Constants.kArmSpeedMax);
     arm.set(pid);
 

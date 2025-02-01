@@ -23,7 +23,7 @@ public class Elevator extends SubsystemBase {
 
   private ElevatorFeedforward elevatorController = new ElevatorFeedforward(Constants.kElevatorKS, Constants.kElevatorKG, Constants.kElevatorKV);
 
-  private double elevatorSetpoint = GetAngle(); // Set to current encoder value so elevetor doesnt "snap" when first enabled
+  private double elevatorSetpoint; 
 
   /** Creates a new Elevator. */
   public Elevator() {
@@ -32,6 +32,8 @@ public class Elevator extends SubsystemBase {
 
     elevator.clearStickyFaults();
     elevator.getConfigurator().apply(cfg);
+
+    elevatorSetpoint = GetPosition(); // Set to current encoder value so elevetor doesnt "snap" when first enabled
   }
 
   @Override
@@ -39,13 +41,13 @@ public class Elevator extends SubsystemBase {
     // This method will be called once per scheduler run
 
     // Calculate pid
-    double pid = elevatorController.calculate(GetAngle(), elevatorSetpoint);
+    double pid = elevatorController.calculate(GetPosition(), elevatorSetpoint);
     pid = MathUtil.clamp(pid, -1 * Constants.kElevatorSpeedMax, Constants.kElevatorSpeedMax);
     elevator.set(pid);
 
     SmartDashboard.putNumber("Elevator PID Input", pid);
     SmartDashboard.putNumber("Elevator Setpoint", elevatorSetpoint);
-    SmartDashboard.putNumber("Elevator Encoder", GetAngle());
+    SmartDashboard.putNumber("Elevator Encoder", GetPosition());
   }
 
   public void Set(double setpoint) {
@@ -57,10 +59,10 @@ public class Elevator extends SubsystemBase {
   }
 
   public void Stop() {
-    elevatorSetpoint = GetAngle();
+    elevatorSetpoint = GetPosition();
   }
 
-  public double GetAngle() {
+  public double GetPosition() {
     return elevator.getPosition().getValueAsDouble();
   }
 }

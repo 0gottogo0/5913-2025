@@ -23,7 +23,7 @@ private TalonFX wrist = new TalonFX(Constants.kWristMotor);
 
   private PIDController wristController = new PIDController(Constants.kWristKP, 0, Constants.kWristKD);
 
-  private double wristSetpoint = GetAngle(); // Set to current encoder value so elevetor doesnt "snap" when first enabled
+  private double wristSetpoint; // Set to current encoder value so elevetor doesnt "snap" when first enabled
 
   /** Creates a new Wrist. */
   public Wrist() {
@@ -32,14 +32,20 @@ private TalonFX wrist = new TalonFX(Constants.kWristMotor);
 
     wrist.clearStickyFaults();
     wrist.getConfigurator().apply(cfg);
+
+    wristSetpoint = GetAngle();
+
+    wristController.setTolerance(Constants.kWristTolerance);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
+    double pid = 0;
     // Calculate pid
-    double pid = wristController.calculate(GetAngle(), wristSetpoint);
+    if(!wristController.atSetpoint()) {
+      pid = wristController.calculate(GetAngle(), wristSetpoint);
+    }
     pid = MathUtil.clamp(pid, -1 * Constants.kWristSpeedMax, Constants.kWristSpeedMax);
     wrist.set(pid);
 

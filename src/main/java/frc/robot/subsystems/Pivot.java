@@ -4,28 +4,36 @@
 
 package frc.robot.subsystems;
 
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Rotations;
+
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Pivot extends SubsystemBase {
 
-  private TalonFX pivotLeft = new TalonFX(Constants.kPivotLeftMotor);
-  private TalonFX pivotRight = new TalonFX(Constants.kPivotRightMotor);
+  private TalonFX pivotLeftMaster = new TalonFX(Constants.kPivotLeftMotor);
+  private TalonFX pivotRightFollower = new TalonFX(Constants.kPivotRightMotor);
 
   private TalonFXConfiguration cfgLeft = new TalonFXConfiguration();
   private TalonFXConfiguration cfgRight = new TalonFXConfiguration();
 
   private PIDController pivotController = new PIDController(Constants.kPivotKP, 0, Constants.kPivotKD);
 
-  private double pivotSetpoint = GetAngle(); // Set to current encoder value so elevetor doesnt "snap" when first enabled
+  private double pivotSetpoint;
+
+  private DutyCycleEncoder pivotEncoder = new DutyCycleEncoder(Constants.pivotEncoderID);
 
   /** Creates a new Pivot. */
   public Pivot() {
@@ -33,30 +41,36 @@ public class Pivot extends SubsystemBase {
     cfgLeft.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
     cfgRight.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    cfgRight.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    
 
-    pivotLeft.clearStickyFaults();
-    pivotLeft.getConfigurator().apply(cfgLeft);
+    pivotLeftMaster.clearStickyFaults();
+    pivotLeftMaster.getConfigurator().apply(cfgLeft);
 
-    pivotRight.clearStickyFaults();
-    pivotRight.getConfigurator().apply(cfgRight);
+    pivotRightFollower.clearStickyFaults();
+    pivotRightFollower.getConfigurator().apply(cfgRight);
+
+    pivotRightFollower.setControl(new Follower(pivotLeftMaster.getDeviceID(), false));
+
+    pivotSetpoint = GetAngle().in(Degrees); // Set to current encoder value so elevetor doesnt "snap" when first enabled
+
+    pivotController.setTolerance(Constants.kPivotTolerance);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
+    double pid = 0;
     // Calculate pid
-    double pid = pivotController.calculate(GetAngle(), pivotSetpoint);
+    if(!pivotController.atSetpoint()) {
+      pid = pivotController.calculate(GetAngle().in(Degrees), pivotSetpoint);
+    }
+    
     pid = MathUtil.clamp(pid, -1 * Constants.kPivotSpeedMax, Constants.kPivotSpeedMax);
-    pivotLeft.set(pid);
-    pivotRight.set(pid);
+    pivotLeftMaster.set(pid);
 
     SmartDashboard.putNumber("Pivot PID Input", pid);
     SmartDashboard.putNumber("Pivot Setpoint", pivotSetpoint);
-    SmartDashboard.putNumber("Pivot Encoder Left", pivotLeft.getPosition().getValueAsDouble());
-    SmartDashboard.putNumber("Pivot Encoder Right", pivotRight.getPosition().getValueAsDouble());
-    SmartDashboard.putNumber("Pivot Encoder Average", GetAngle());
+    SmartDashboard.putNumber("Pivot Encoder", GetAngle().in(Degrees));
   }
 
   public void Set(double setpoint) {
@@ -68,11 +82,11 @@ public class Pivot extends SubsystemBase {
   }
 
   public void Stop() {
-    pivotSetpoint = GetAngle();
+    pivotSetpoint = GetAngle().in(Degrees);
   }
 
   // Average out both encoders
-  public double GetAngle() {
-    return pivotLeft.getPosition().getValueAsDouble() + pivotRight.getPosition().getValueAsDouble() /2;
-  }
+  public Angle GetAngle() {
+    return Rotations.of(pivotEncoder.get()).minus(Degrees.of(0)); // TODO: config offset
+    }
 }
