@@ -33,7 +33,7 @@ public class Pivot extends SubsystemBase {
 
   private double pivotSetpoint;
 
-  private DutyCycleEncoder pivotEncoder = new DutyCycleEncoder(Constants.pivotEncoderID);
+  private DutyCycleEncoder pivotEncoder = new DutyCycleEncoder(Constants.kPivotEncoderID);
 
   /** Creates a new Pivot. */
   public Pivot() {
@@ -59,7 +59,9 @@ public class Pivot extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
     double pid = 0;
+
     // Calculate pid
     if(!pivotController.atSetpoint()) {
       pid = pivotController.calculate(GetAngle().in(Degrees), pivotSetpoint);
@@ -85,8 +87,7 @@ public class Pivot extends SubsystemBase {
     pivotSetpoint = GetAngle().in(Degrees);
   }
 
-  // Average out both encoders
   public Angle GetAngle() {
-    return Rotations.of(pivotEncoder.get()).minus(Degrees.of(0)); // TODO: config offset
-    }
+    return Rotations.of(pivotEncoder.get()).minus(Degrees.of(Constants.kPivotEncoderOffset));
+  }
 }

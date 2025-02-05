@@ -20,7 +20,10 @@ public class Camera extends SubsystemBase {
   private double reefY;
 
   /** Creates a new Camera. */
-  public Camera() {}
+  public Camera() {
+    reefXController.setTolerance(Constants.kTrackTolerance);
+    reefYController.setTolerance(Constants.kTrackTolerance);
+  }
 
   @Override
   public void periodic() {
@@ -37,7 +40,10 @@ public class Camera extends SubsystemBase {
     double tx = LimelightHelpers.getTX(ReefLL); // Get April Tag X
 
     // Calculate pid
-    reefX = reefXController.calculate(tx, position);
+    if(!reefXController.atSetpoint()) {
+      reefX = reefXController.calculate(tx, position);
+    }
+
     return reefX;
   }
   
@@ -45,12 +51,10 @@ public class Camera extends SubsystemBase {
     double ty = LimelightHelpers.getTY(ReefLL); // Get April Tag Y
 
     // Calculate pid
-    reefY = reefYController.calculate(ty, position);
+    if(!reefYController.atSetpoint()) {
+      reefY = reefYController.calculate(ty, position);
+    }
+
     return reefY;
-  }
-  
-  public double RotateReef() {
-    double id = LimelightHelpers.getFiducialID(ReefLL); // Get April Tag ID
-    return id;
   }
 }

@@ -28,17 +28,21 @@ import frc.robot.subsystems.Pivot;
 import frc.robot.subsystems.Wrist;
 
 public class RobotContainer {
+  // Some constants needed for swerve
   private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
   private double MaxAngularRate = RotationsPerSecond.of(.75).in(RadiansPerSecond);
 
+  // Slew rate limiters smooth out drivetrain. 
   private SlewRateLimiter xLimiter = new SlewRateLimiter(Constants.kMoveSlewRateLimiter);
-  private SlewRateLimiter yLimiter = new SlewRateLimiter(Constants.kMoveSlewRateLimiter); //limit rate of change of joystick inputs
-  private SlewRateLimiter rotLimiter = new SlewRateLimiter(Constants.kRotateSlewRateLimiter); //reduce brownouts
+  private SlewRateLimiter yLimiter = new SlewRateLimiter(Constants.kMoveSlewRateLimiter);
+  private SlewRateLimiter rotLimiter = new SlewRateLimiter(Constants.kRotateSlewRateLimiter);
 
-  /* Setting up bindings for necessary control of the swerve drive platform */
-  private final CommandXboxController DriverController = new CommandXboxController(Constants.kDriverController); // My DriverController
+  // Set up controllers
+  private final CommandXboxController DriverController = new CommandXboxController(Constants.kDriverController);
   private final CommandXboxController ManipulatorController = new CommandXboxController(Constants.kManipulatorController);
-  private final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain(); // My drivetrain
+  
+  // Setting up bindings for necessary control of the swerve drive platform
+  private final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
   Arm arm = new Arm();
   Camera camera = new Camera();
@@ -47,6 +51,7 @@ public class RobotContainer {
   Pivot pivot = new Pivot();
   Wrist wrist = new Wrist();
 
+  // Swerve Requests
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
       .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
       .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
@@ -59,10 +64,12 @@ public class RobotContainer {
 
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
 
+  // For Auto
   private final SendableChooser<Command> autoChooser;
 
   public RobotContainer() {
 
+    // For Auto
     autoChooser = AutoBuilder.buildAutoChooser("test");
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -71,7 +78,9 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
+
+    // Drivetrain will execute this command periodically
+    drivetrain.setDefaultCommand(
       drivetrain.applyRequest(
         () -> drive.withVelocityX(xLimiter.calculate(MathUtil.applyDeadband(-DriverController.getLeftY(), 0.02) * MaxSpeed)) // Drive forward with negative Y (forward)
                    .withVelocityY(yLimiter.calculate(MathUtil.applyDeadband(-DriverController.getLeftX(), 0.02) * MaxSpeed)) // Drive left with negative X (left)
@@ -103,7 +112,7 @@ public class RobotContainer {
     // ** Manipulator Control **
     
     // L1
-    ManipulatorController.a().onTrue(arm.runOnce(
+    ManipulatorController.b().onTrue(arm.runOnce(
       () -> arm.Set(Constants.kArmL1))
       .alongWith(elevator.runOnce(
       () -> elevator.Set(Constants.kElevatorL1)))
@@ -113,7 +122,7 @@ public class RobotContainer {
       () -> wrist.Set(Constants.kWristL1))));
 
     // L2
-    ManipulatorController.x().onTrue(arm.runOnce(
+    ManipulatorController.a().onTrue(arm.runOnce(
       () -> arm.Set(Constants.kArmL2or3))
       .alongWith(elevator.runOnce(
       () -> elevator.Set(Constants.kElevatorL2)))
@@ -123,7 +132,7 @@ public class RobotContainer {
       () -> wrist.Set(Constants.kWristL2or3))));
     
     // L3
-    ManipulatorController.y().onTrue(elevator.runOnce(
+    ManipulatorController.x().onTrue(elevator.runOnce(
       () -> arm.Set(Constants.kArmL2or3))
       .alongWith(elevator.runOnce(
       () -> elevator.Set(Constants.kElevatorL3)))
@@ -133,7 +142,7 @@ public class RobotContainer {
       () -> wrist.Set(Constants.kWristL2or3))));
     
     // L4
-    ManipulatorController.b().onTrue(elevator.runOnce(
+    ManipulatorController.y().onTrue(elevator.runOnce(
       () -> arm.Set(Constants.kArmL4))
       .alongWith(elevator.runOnce(
       () -> elevator.Set(Constants.kElevatorL4)))
@@ -142,7 +151,7 @@ public class RobotContainer {
       .alongWith(wrist.runOnce(
       () -> wrist.Set(Constants.kWristL4))));
 
-    // Climb / Home
+    // Home
     ManipulatorController.povDown().onTrue(elevator.runOnce(
       () -> arm.Set(Constants.kArmHome))
       .alongWith(elevator.runOnce(
@@ -236,6 +245,8 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
+
+    // Return an auto from pathplanner
     return autoChooser.getSelected();
   }
 }

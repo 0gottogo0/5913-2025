@@ -4,36 +4,40 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.InvertedValue;
-import com.ctre.phoenix6.signals.NeutralModeValue;
+import static edu.wpi.first.units.Units.*;
+
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Wrist extends SubsystemBase {
 
-private TalonFX wrist = new TalonFX(Constants.kWristMotor);
+  private SparkMax wrist = new SparkMax(Constants.kWristMotor, MotorType.kBrushless);
 
-  private TalonFXConfiguration cfg = new TalonFXConfiguration();
+  private SparkMaxConfig cfg = new SparkMaxConfig();
 
   private PIDController wristController = new PIDController(Constants.kWristKP, 0, Constants.kWristKD);
 
-  private double wristSetpoint; // Set to current encoder value so elevetor doesnt "snap" when first enabled
+  private double wristSetpoint;
+
+  private DutyCycleEncoder wristEncoder = new DutyCycleEncoder(Constants.kWristEncoderID);
 
   /** Creates a new Wrist. */
   public Wrist() {
-    cfg.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    cfg.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    cfg
+      .inverted(false)
+      .idleMode(IdleMode.kBrake);
 
-    wrist.clearStickyFaults();
-    wrist.getConfigurator().apply(cfg);
-
-    wristSetpoint = GetAngle();
+    wristSetpoint = GetAngle().in(Degree);
 
     wristController.setTolerance(Constants.kWristTolerance);
   }
@@ -41,17 +45,19 @@ private TalonFX wrist = new TalonFX(Constants.kWristMotor);
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
     double pid = 0;
+
     // Calculate pid
     if(!wristController.atSetpoint()) {
-      pid = wristController.calculate(GetAngle(), wristSetpoint);
+      pid = wristController.calculate(GetAngle().in(Degree), wristSetpoint);
     }
     pid = MathUtil.clamp(pid, -1 * Constants.kWristSpeedMax, Constants.kWristSpeedMax);
     wrist.set(pid);
 
     SmartDashboard.putNumber("Wrist PID Input", pid);
     SmartDashboard.putNumber("Wrist Setpoint", wristSetpoint);
-    SmartDashboard.putNumber("Wrist Encoder", GetAngle());
+    SmartDashboard.putNumber("Wrist Encoder", GetAngle().in(Degree));
   }
 
   public void Set(double setpoint) {
@@ -63,10 +69,10 @@ private TalonFX wrist = new TalonFX(Constants.kWristMotor);
   }
 
   public void Stop() {
-    wristSetpoint = GetAngle();
+    wristSetpoint = GetAngle().in(Degrees);
   }
 
-  public double GetAngle() {
-    return wrist.getPosition().getValueAsDouble();
+  public Angle GetAngle() {
+    return Rotations.of(wristEncoder.get()).minus(Degrees.of(Constants.kWristEncoderOffset));
   }
 }
