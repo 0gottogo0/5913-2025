@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import static frc.robot.Constants.*;
+
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -13,15 +15,14 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
 public class Arm extends SubsystemBase {
 
-  private TalonFX arm = new TalonFX(Constants.kArmMotor);
+  private TalonFX arm = new TalonFX(kArmMotor);
 
   private TalonFXConfiguration cfg = new TalonFXConfiguration();
 
-  private PIDController armController = new PIDController(Constants.kArmKP, 0, Constants.kArmKD);
+  private PIDController armController = new PIDController(kArmKP, 0, kArmKD);
 
   private double armSetpoint;
 
@@ -35,7 +36,7 @@ public class Arm extends SubsystemBase {
 
     armSetpoint = GetAngle(); // Set to current encoder value so elevetor doesnt "snap" when first enabled
 
-    armController.setTolerance(Constants.kArmTolerance);
+    armController.setTolerance(kArmTolerance);
   }
 
   @Override
@@ -49,7 +50,7 @@ public class Arm extends SubsystemBase {
       pid = armController.calculate(GetAngle(), armSetpoint);
     }
     
-    pid = MathUtil.clamp(pid, -1 * Constants.kArmSpeedMax, Constants.kArmSpeedMax);
+    pid = MathUtil.clamp(pid, -1 * kArmSpeedMax, kArmSpeedMax);
     arm.set(pid);
 
     SmartDashboard.putNumber("Arm PID Input", pid);

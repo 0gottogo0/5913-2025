@@ -4,25 +4,26 @@
 
 package frc.robot.subsystems;
 
+import static frc.robot.Constants.*;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
 
 public class Camera extends SubsystemBase {
-  public final String ReefLL = Constants.kLimeLightReef;
+  public final String ReefLL = kLimeLightReef;
 
-  private PIDController reefXController = new PIDController(Constants.kTrackKP, 0, Constants.kTrackKD);
-  private PIDController reefYController = new PIDController(Constants.kTrackKP, 0, Constants.kTrackKD);
+  private PIDController reefXController = new PIDController(kTrackKP, 0, kTrackKD);
+  private PIDController reefYController = new PIDController(kTrackKP, 0, kTrackKD);
 
   private double reefX;
   private double reefY;
 
   /** Creates a new Camera. */
   public Camera() {
-    reefXController.setTolerance(Constants.kTrackTolerance);
-    reefYController.setTolerance(Constants.kTrackTolerance);
+    reefXController.setTolerance(kTrackTolerance);
+    reefYController.setTolerance(kTrackTolerance);
   }
 
   @Override

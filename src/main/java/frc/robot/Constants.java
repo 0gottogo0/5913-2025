@@ -4,14 +4,6 @@
 
 package frc.robot;
 
-/**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants. This class should not be used for any other purpose. All constants should be declared
- * globally (i.e. public static). Do not put anything functional in this class.
- *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
- * constants are needed, to reduce verbosity.
- */
 public final class Constants {
 
     // ** Controllers **
@@ -41,6 +33,7 @@ public final class Constants {
         public static final double kArmBarge = 0;
         public static final double kArmProcessor = 0;
         public static final double kArmHome = 0;
+        public static final double kArmClimb = 0;
         public static final double kArmL1 = 0;
         public static final double kArmL2or3 = 0;
         public static final double kArmL4 = 0;
@@ -52,7 +45,9 @@ public final class Constants {
         public static final double kElevatorKV = 0;
         public static final double kElevatorIntake = 0;
         public static final double kElevatorBarge = 0;
+        public static final double kElevatorProcessor = 0;
         public static final double kElevatorHome = 0;
+        public static final double kElevatorClimb = 0;
         public static final double kElevatorL1 = 0;
         public static final double kElevatorL2 = 0;
         public static final double kElevatorL3 = 0;
@@ -67,6 +62,7 @@ public final class Constants {
         public static final double kPivotReef = 0;
         public static final double kPivotIntake = 0;
         public static final double kPivotHome = 0;
+        public static final double kPivotClimb = 0;
     
         // Track
         public static final double kTrackKP = 0;
@@ -83,12 +79,13 @@ public final class Constants {
         public static final double kWristBarge = 0;
         public static final double kWristProcessor = 0;
         public static final double kWristHome = 0;
+        public static final double kWristClimb = 0;
         public static final double kWristL1 = 0;
         public static final double kWristL2or3 = 0;
         public static final double kWristL4 = 0;
         public static final double kWristAlge = 0;
         
-        // ** Drivetrain **
+    // ** Drivetrain **
         public static final double kTrackWidthX = 23.5;   // These are how far the center of the swerves are apart
         public static final double kTrackWidthY = 23.375; // Same but back to front
         public static final double kDrivetrainMaxSpeed = 17.1;   // ft/s
@@ -98,7 +95,7 @@ public final class Constants {
         public static final double kFrameWidth = 30;     // in
         public static final double kFrameLength = 29.75; // in
         
-        // ** Motors **
+    // ** Motors **
         
         // Drivetrain
         public static final int kFrontLeftDrive = 1;

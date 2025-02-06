@@ -4,9 +4,8 @@
 
 package frc.robot;
 
-import static edu.wpi.first.units.Units.MetersPerSecond;
-import static edu.wpi.first.units.Units.RadiansPerSecond;
-import static edu.wpi.first.units.Units.RotationsPerSecond;
+import static edu.wpi.first.units.Units.*;
+import static frc.robot.Constants.*;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
@@ -33,13 +32,13 @@ public class RobotContainer {
   private double MaxAngularRate = RotationsPerSecond.of(.75).in(RadiansPerSecond);
 
   // Slew rate limiters smooth out drivetrain. 
-  private SlewRateLimiter xLimiter = new SlewRateLimiter(Constants.kMoveSlewRateLimiter);
-  private SlewRateLimiter yLimiter = new SlewRateLimiter(Constants.kMoveSlewRateLimiter);
-  private SlewRateLimiter rotLimiter = new SlewRateLimiter(Constants.kRotateSlewRateLimiter);
+  private SlewRateLimiter xLimiter = new SlewRateLimiter(kMoveSlewRateLimiter);
+  private SlewRateLimiter yLimiter = new SlewRateLimiter(kMoveSlewRateLimiter);
+  private SlewRateLimiter rotLimiter = new SlewRateLimiter(kRotateSlewRateLimiter);
 
   // Set up controllers
-  private final CommandXboxController DriverController = new CommandXboxController(Constants.kDriverController);
-  private final CommandXboxController ManipulatorController = new CommandXboxController(Constants.kManipulatorController);
+  private final CommandXboxController DriverController = new CommandXboxController(kDriverController);
+  private final CommandXboxController ManipulatorController = new CommandXboxController(kManipulatorController);
   
   // Setting up bindings for necessary control of the swerve drive platform
   private final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
@@ -91,14 +90,14 @@ public class RobotContainer {
 
     // Track Left
     DriverController.leftBumper().whileTrue(drivetrain.applyRequest(
-      () -> driveTrack.withVelocityX(camera.MoveReefX(Constants.kTrackDistance) + xLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftY(), 0.05) * MaxSpeed)) // Drive forward with negative Y (forward)
-                      .withVelocityY(camera.MoveReefY(Constants.kTrackOffset) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), 0.05) * MaxSpeed)) // Drive left with negative X (left)
+      () -> driveTrack.withVelocityX(camera.MoveReefX(kTrackDistance) + xLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftY(), 0.05) * MaxSpeed)) // Drive forward with negative Y (forward)
+                      .withVelocityY(camera.MoveReefY(kTrackOffset) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), 0.05) * MaxSpeed)) // Drive left with negative X (left)
                       .withRotationalRate(rotLimiter.calculate(-MathUtil.applyDeadband(DriverController.getRightX(), .1) * MaxAngularRate))));
 
     // Track Right
     DriverController.rightBumper().whileTrue(drivetrain.applyRequest(
-      () -> driveTrack.withVelocityX(camera.MoveReefX(Constants.kTrackDistance) + xLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftY(), 0.05) * MaxSpeed)) // Drive forward with negative Y (forward)
-                      .withVelocityY(camera.MoveReefY(-1 * Constants.kTrackOffset) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), 0.05) * MaxSpeed)) // Drive left with negative X (left)
+      () -> driveTrack.withVelocityX(camera.MoveReefX(kTrackDistance) + xLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftY(), 0.05) * MaxSpeed)) // Drive forward with negative Y (forward)
+                      .withVelocityY(camera.MoveReefY(-1 * kTrackOffset) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), 0.05) * MaxSpeed)) // Drive left with negative X (left)
                       .withRotationalRate(rotLimiter.calculate(-MathUtil.applyDeadband(DriverController.getRightX(), .1) * MaxAngularRate))));
 
     // Stop
@@ -113,121 +112,145 @@ public class RobotContainer {
     
     // L1
     ManipulatorController.b().onTrue(arm.runOnce(
-      () -> arm.Set(Constants.kArmL1))
+      () -> arm.Set(kArmL1))
+      .alongWith(claw.runOnce(
+      () -> claw.Open(false)))
       .alongWith(elevator.runOnce(
-      () -> elevator.Set(Constants.kElevatorL1)))
+      () -> elevator.Set(kElevatorL1)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(Constants.kPivotReef)))
+      () -> pivot.Set(kPivotReef)))
       .alongWith(wrist.runOnce(
-      () -> wrist.Set(Constants.kWristL1))));
+      () -> wrist.Set(kWristL1))));
 
     // L2
     ManipulatorController.a().onTrue(arm.runOnce(
-      () -> arm.Set(Constants.kArmL2or3))
+      () -> arm.Set(kArmL2or3))
+      .alongWith(claw.runOnce(
+      () -> claw.Open(false)))
       .alongWith(elevator.runOnce(
-      () -> elevator.Set(Constants.kElevatorL2)))
+      () -> elevator.Set(kElevatorL2)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(Constants.kPivotReef)))
+      () -> pivot.Set(kPivotReef)))
       .alongWith(wrist.runOnce(
-      () -> wrist.Set(Constants.kWristL2or3))));
+      () -> wrist.Set(kWristL2or3))));
     
     // L3
     ManipulatorController.x().onTrue(elevator.runOnce(
-      () -> arm.Set(Constants.kArmL2or3))
+      () -> arm.Set(kArmL2or3))
+      .alongWith(claw.runOnce(
+      () -> claw.Open(false)))
       .alongWith(elevator.runOnce(
-      () -> elevator.Set(Constants.kElevatorL3)))
+      () -> elevator.Set(kElevatorL3)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(Constants.kPivotReef)))
+      () -> pivot.Set(kPivotReef)))
       .alongWith(wrist.runOnce(
-      () -> wrist.Set(Constants.kWristL2or3))));
+      () -> wrist.Set(kWristL2or3))));
     
     // L4
     ManipulatorController.y().onTrue(elevator.runOnce(
-      () -> arm.Set(Constants.kArmL4))
+      () -> arm.Set(kArmL4))
+      .alongWith(claw.runOnce(
+      () -> claw.Open(false)))
       .alongWith(elevator.runOnce(
-      () -> elevator.Set(Constants.kElevatorL4)))
+      () -> elevator.Set(kElevatorL4)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(Constants.kPivotReef)))
+      () -> pivot.Set(kPivotReef)))
       .alongWith(wrist.runOnce(
-      () -> wrist.Set(Constants.kWristL4))));
+      () -> wrist.Set(kWristL4))));
 
     // Home
-    ManipulatorController.povDown().onTrue(elevator.runOnce(
-      () -> arm.Set(Constants.kArmHome))
+    ManipulatorController.button(10).onTrue(elevator.runOnce(
+      () -> arm.Set(kArmHome))
+      .alongWith(claw.runOnce(
+      () -> claw.Open(false)))
       .alongWith(elevator.runOnce(
-      () -> elevator.Set(Constants.kElevatorHome)))
+      () -> elevator.Set(kElevatorHome)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(Constants.kPivotHome)))
+      () -> pivot.Set(kPivotHome)))
       .alongWith(wrist.runOnce(
-      () -> wrist.Set(Constants.kWristHome))));
+      () -> wrist.Set(kWristHome))));
+
+    // Climb
+    ManipulatorController.leftBumper().onTrue(elevator.runOnce(
+      () -> arm.Set(kArmClimb))
+      .alongWith(claw.runOnce(
+      () -> claw.Open(false)))
+      .alongWith(elevator.runOnce(
+      () -> elevator.Set(kElevatorClimb)))
+      .alongWith(pivot.runOnce(
+      () -> pivot.Set(kPivotClimb)))
+      .alongWith(wrist.runOnce(
+      () -> wrist.Set(kWristClimb))));
   
     // Intake
-    ManipulatorController.povLeft().onTrue(elevator.runOnce(
-      () -> arm.Set(Constants.kArmIntake))
+    ManipulatorController.rightBumper().onTrue(elevator.runOnce(
+      () -> arm.Set(kArmIntake))
+      .alongWith(claw.runOnce(
+      () -> claw.Open(false)))
       .alongWith(elevator.runOnce(
-      () -> elevator.Set(Constants.kElevatorIntake)))
+      () -> elevator.Set(kElevatorIntake)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(Constants.kPivotIntake)))
+      () -> pivot.Set(kPivotIntake)))
       .alongWith(wrist.runOnce(
-      () -> wrist.Set(Constants.kWristIntake))));
+      () -> wrist.Set(kWristIntake))));
 
     // Barge
     ManipulatorController.povUp().onTrue(elevator.runOnce(
-      () -> arm.Set(Constants.kArmBarge))
+      () -> arm.Set(kArmBarge))
+      .alongWith(claw.runOnce(
+      () -> claw.Open(true)))
       .alongWith(elevator.runOnce(
-      () -> elevator.Set(Constants.kElevatorBarge)))
+      () -> elevator.Set(kElevatorBarge)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(Constants.kPivotReef)))
+      () -> pivot.Set(kPivotReef)))
       .alongWith(wrist.runOnce(
-      () -> wrist.Set(Constants.kWristBarge))));
+      () -> wrist.Set(kWristBarge))));
 
     // Processor
     ManipulatorController.povRight().onTrue(elevator.runOnce(
-      () -> arm.Set(Constants.kArmProcessor))
+      () -> arm.Set(kArmProcessor))
+      .alongWith(claw.runOnce(
+        () -> claw.Open(true)))
       .alongWith(elevator.runOnce(
-      () -> elevator.Set(Constants.kElevatorHome)))
+      () -> elevator.Set(kElevatorHome)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(Constants.kPivotReef)))
+      () -> pivot.Set(kPivotReef)))
       .alongWith(wrist.runOnce(
-      () -> wrist.Set(Constants.kWristProcessor))));
-    
-    // Top Alge
-    ManipulatorController.button(9).onTrue(elevator.runOnce(
-      () -> arm.Set(Constants.kArmL2or3))
-      .alongWith(elevator.runOnce(
-      () -> elevator.Set(Constants.kElevatorTopAlge)))
-      .alongWith(pivot.runOnce(
-      () -> pivot.Set(Constants.kPivotReef)))
-      .alongWith(wrist.runOnce(
-      () -> wrist.Set(Constants.kWristAlge))));
-
+      () -> wrist.Set(kWristProcessor))));
+      
     // Bottom Alge
-    ManipulatorController.button(10).onTrue(elevator.runOnce(
-      () -> arm.Set(Constants.kArmL2or3))
+    ManipulatorController.povDown().onTrue(elevator.runOnce(
+      () -> arm.Set(kArmL2or3))
+      .alongWith(claw.runOnce(
+      () -> claw.Open(true)))
       .alongWith(elevator.runOnce(
-      () -> elevator.Set(Constants.kElevatorBottomAlge)))
+      () -> elevator.Set(kElevatorBottomAlge)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(Constants.kPivotReef)))
+      () -> pivot.Set(kPivotReef)))
       .alongWith(wrist.runOnce(
-      () -> wrist.Set(Constants.kWristAlge))));
+      () -> wrist.Set(kWristAlge))));
+
+    // Top Alge
+    ManipulatorController.povLeft().onTrue(elevator.runOnce(
+      () -> arm.Set(kArmL2or3))
+      .alongWith(claw.runOnce(
+      () -> claw.Open(true)))
+      .alongWith(elevator.runOnce(
+      () -> elevator.Set(kElevatorTopAlge)))
+      .alongWith(pivot.runOnce(
+      () -> pivot.Set(kPivotReef)))
+      .alongWith(wrist.runOnce(
+      () -> wrist.Set(kWristAlge))));
 
     // Run Intake
-    ManipulatorController.leftTrigger(Constants.kTriggerThreshold).whileTrue(claw.runEnd(
+    ManipulatorController.leftTrigger(kTriggerThreshold).whileTrue(claw.runEnd(
       () -> claw.Intake(false),
       () -> claw.Stop()));
 
     // Run Outake
-    ManipulatorController.rightTrigger(Constants.kTriggerThreshold).whileTrue(claw.runEnd(
+    ManipulatorController.rightTrigger(kTriggerThreshold).whileTrue(claw.runEnd(
       () -> claw.Intake(true),
       () -> claw.Stop()));
-
-    // Open Jaws
-    ManipulatorController.leftBumper().onTrue(claw.runOnce(
-      () -> claw.Open(false)));
-
-    // Close Jaws
-    ManipulatorController.rightBumper().onTrue(claw.runOnce(
-      () -> claw.Open(true)));
 
     // Manual Control
     ManipulatorController.button(8).whileTrue(arm.runEnd(

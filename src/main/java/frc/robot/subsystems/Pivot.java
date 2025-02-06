@@ -4,8 +4,8 @@
 
 package frc.robot.subsystems;
 
-import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.Rotations;
+import static edu.wpi.first.units.Units.*;
+import static frc.robot.Constants.*;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
@@ -19,21 +19,20 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
 public class Pivot extends SubsystemBase {
 
-  private TalonFX pivotLeftMaster = new TalonFX(Constants.kPivotLeftMotor);
-  private TalonFX pivotRightFollower = new TalonFX(Constants.kPivotRightMotor);
+  private TalonFX pivotLeftMaster = new TalonFX(kPivotLeftMotor);
+  private TalonFX pivotRightFollower = new TalonFX(kPivotRightMotor);
 
   private TalonFXConfiguration cfgLeft = new TalonFXConfiguration();
   private TalonFXConfiguration cfgRight = new TalonFXConfiguration();
 
-  private PIDController pivotController = new PIDController(Constants.kPivotKP, 0, Constants.kPivotKD);
+  private PIDController pivotController = new PIDController(kPivotKP, 0, kPivotKD);
 
   private double pivotSetpoint;
 
-  private DutyCycleEncoder pivotEncoder = new DutyCycleEncoder(Constants.kPivotEncoderID);
+  private DutyCycleEncoder pivotEncoder = new DutyCycleEncoder(kPivotEncoderID);
 
   /** Creates a new Pivot. */
   public Pivot() {
@@ -53,7 +52,7 @@ public class Pivot extends SubsystemBase {
 
     pivotSetpoint = GetAngle().in(Degrees); // Set to current encoder value so elevetor doesnt "snap" when first enabled
 
-    pivotController.setTolerance(Constants.kPivotTolerance);
+    pivotController.setTolerance(kPivotTolerance);
   }
 
   @Override
@@ -67,7 +66,7 @@ public class Pivot extends SubsystemBase {
       pid = pivotController.calculate(GetAngle().in(Degrees), pivotSetpoint);
     }
     
-    pid = MathUtil.clamp(pid, -1 * Constants.kPivotSpeedMax, Constants.kPivotSpeedMax);
+    pid = MathUtil.clamp(pid, -1 * kPivotSpeedMax, kPivotSpeedMax);
     pivotLeftMaster.set(pid);
 
     SmartDashboard.putNumber("Pivot PID Input", pid);
@@ -88,6 +87,6 @@ public class Pivot extends SubsystemBase {
   }
 
   public Angle GetAngle() {
-    return Rotations.of(pivotEncoder.get()).minus(Degrees.of(Constants.kPivotEncoderOffset));
+    return Rotations.of(pivotEncoder.get()).minus(Degrees.of(kPivotEncoderOffset));
   }
 }

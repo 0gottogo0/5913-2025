@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.*;
+import static frc.robot.Constants.*;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
@@ -17,19 +18,18 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
 public class Wrist extends SubsystemBase {
 
-  private SparkMax wrist = new SparkMax(Constants.kWristMotor, MotorType.kBrushless);
+  private SparkMax wrist = new SparkMax(kWristMotor, MotorType.kBrushless);
 
   private SparkMaxConfig cfg = new SparkMaxConfig();
 
-  private PIDController wristController = new PIDController(Constants.kWristKP, 0, Constants.kWristKD);
+  private PIDController wristController = new PIDController(kWristKP, 0, kWristKD);
 
   private double wristSetpoint;
 
-  private DutyCycleEncoder wristEncoder = new DutyCycleEncoder(Constants.kWristEncoderID);
+  private DutyCycleEncoder wristEncoder = new DutyCycleEncoder(kWristEncoderID);
 
   /** Creates a new Wrist. */
   public Wrist() {
@@ -39,7 +39,7 @@ public class Wrist extends SubsystemBase {
 
     wristSetpoint = GetAngle().in(Degree);
 
-    wristController.setTolerance(Constants.kWristTolerance);
+    wristController.setTolerance(kWristTolerance);
   }
 
   @Override
@@ -52,7 +52,7 @@ public class Wrist extends SubsystemBase {
     if(!wristController.atSetpoint()) {
       pid = wristController.calculate(GetAngle().in(Degree), wristSetpoint);
     }
-    pid = MathUtil.clamp(pid, -1 * Constants.kWristSpeedMax, Constants.kWristSpeedMax);
+    pid = MathUtil.clamp(pid, -1 * kWristSpeedMax, kWristSpeedMax);
     wrist.set(pid);
 
     SmartDashboard.putNumber("Wrist PID Input", pid);
@@ -73,6 +73,6 @@ public class Wrist extends SubsystemBase {
   }
 
   public Angle GetAngle() {
-    return Rotations.of(wristEncoder.get()).minus(Degrees.of(Constants.kWristEncoderOffset));
+    return Rotations.of(wristEncoder.get()).minus(Degrees.of(kWristEncoderOffset));
   }
 }

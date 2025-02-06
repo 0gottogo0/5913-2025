@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import static frc.robot.Constants.*;
+
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
@@ -14,13 +16,12 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
 public class Claw extends SubsystemBase {
 
-  private SparkMax claw = new SparkMax(Constants.kClawMotor, MotorType.kBrushless);
-  private DigitalInput beamBreak = new DigitalInput(Constants.kBeamBreak);
-  private DoubleSolenoid clawSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.kClawClose, Constants.kClawOpen);
+  private SparkMax claw = new SparkMax(kClawMotor, MotorType.kBrushless);
+  private DigitalInput beamBreak = new DigitalInput(kBeamBreak);
+  private DoubleSolenoid clawSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, kClawClose, kClawOpen);
 
   private SparkMaxConfig cfg = new SparkMaxConfig();
 
@@ -42,16 +43,16 @@ public class Claw extends SubsystemBase {
 
   public void Intake(boolean outake) {
     if (outake) {
-      claw.set(-1 * Constants.kClawSpeedMax);
+      claw.set(-1 * kClawSpeedMax);
     } else if (!beamBreak.get()) {
-      claw.set(Constants.kClawSpeedMax);
+      claw.set(kClawSpeedMax);
     } else {
-      claw.set(Constants.kClawSpeedLow);
+      claw.set(kClawSpeedLow);
     }
   }
 
-  public void Open(boolean close) {
-    if (!close) {
+  public void Open(boolean alge) {
+    if (!alge) {
       clawSolenoid.set(DoubleSolenoid.Value.kReverse);
     } else {
       clawSolenoid.set(DoubleSolenoid.Value.kForward);

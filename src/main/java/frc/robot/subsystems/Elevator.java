@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import static frc.robot.Constants.*;
+
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -13,15 +15,14 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
 public class Elevator extends SubsystemBase {
 
-  private TalonFX elevator = new TalonFX(Constants.kElevatorMotor);
+  private TalonFX elevator = new TalonFX(kElevatorMotor);
 
   private TalonFXConfiguration cfg = new TalonFXConfiguration();
 
-  private ElevatorFeedforward elevatorController = new ElevatorFeedforward(Constants.kElevatorKS, Constants.kElevatorKG, Constants.kElevatorKV);
+  private ElevatorFeedforward elevatorController = new ElevatorFeedforward(kElevatorKS, kElevatorKG, kElevatorKV);
 
   private double elevatorSetpoint; 
 
@@ -42,7 +43,7 @@ public class Elevator extends SubsystemBase {
 
     // Calculate pid
     double pid = elevatorController.calculate(GetPosition(), elevatorSetpoint);
-    pid = MathUtil.clamp(pid, -1 * Constants.kElevatorSpeedMax, Constants.kElevatorSpeedMax);
+    pid = MathUtil.clamp(pid, -1 * kElevatorSpeedMax, kElevatorSpeedMax);
     elevator.set(pid);
 
     SmartDashboard.putNumber("Elevator PID Input", pid);
