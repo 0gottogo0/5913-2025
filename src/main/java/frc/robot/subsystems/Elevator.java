@@ -26,6 +26,8 @@ public class Elevator extends SubsystemBase {
 
   private double elevatorSetpoint; 
 
+  private boolean pidToggle;
+
   /** Creates a new Elevator. */
   public Elevator() {
     cfg.MotorOutput.NeutralMode = NeutralModeValue.Brake;
@@ -35,6 +37,8 @@ public class Elevator extends SubsystemBase {
     elevator.getConfigurator().apply(cfg);
 
     elevatorSetpoint = GetPosition(); // Set to current encoder value so elevetor doesnt "snap" when first enabled
+
+    pidToggle = true;
   }
 
   @Override
@@ -43,8 +47,11 @@ public class Elevator extends SubsystemBase {
 
     // Calculate pid
     double pid = elevatorController.calculate(GetPosition(), elevatorSetpoint);
-    pid = MathUtil.clamp(pid, -1 * kElevatorSpeedMax, kElevatorSpeedMax);
-    elevator.set(pid);
+
+    if (pidToggle) {
+      pid = MathUtil.clamp(pid, -1 * kElevatorSpeedMax, kElevatorSpeedMax);
+      elevator.set(pid);
+    }
 
     SmartDashboard.putNumber("Elevator PID Input", pid);
     SmartDashboard.putNumber("Elevator Setpoint", elevatorSetpoint);
@@ -55,12 +62,18 @@ public class Elevator extends SubsystemBase {
     elevatorSetpoint = setpoint;
   }
 
-  public void ManualMovement(double input, double sensitivity) {
-    elevatorSetpoint = elevatorSetpoint + input * sensitivity;
+  public void ManualMovement(double input, double sensitivity, boolean rawMode) {
+    if (rawMode) {
+      elevator.set(input);
+      pidToggle = false;
+    } else {
+      elevatorSetpoint = elevatorSetpoint + input * sensitivity;
+    }
   }
 
   public void Stop() {
     elevatorSetpoint = GetPosition();
+    pidToggle = true;
   }
 
   public double GetPosition() {

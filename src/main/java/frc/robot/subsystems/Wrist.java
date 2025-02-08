@@ -29,6 +29,8 @@ public class Wrist extends SubsystemBase {
 
   private double wristSetpoint;
 
+  private boolean pidToggle;
+
   private DutyCycleEncoder wristEncoder = new DutyCycleEncoder(kWristEncoderID);
 
   /** Creates a new Wrist. */
@@ -38,6 +40,8 @@ public class Wrist extends SubsystemBase {
       .idleMode(IdleMode.kBrake);
 
     wristSetpoint = GetAngle().in(Degree);
+
+    pidToggle = true;
 
     wristController.setTolerance(kWristTolerance);
   }
@@ -52,9 +56,12 @@ public class Wrist extends SubsystemBase {
     if(!wristController.atSetpoint()) {
       pid = wristController.calculate(GetAngle().in(Degree), wristSetpoint);
     }
-    pid = MathUtil.clamp(pid, -1 * kWristSpeedMax, kWristSpeedMax);
-    wrist.set(pid);
 
+    if (pidToggle) {
+      pid = MathUtil.clamp(pid, -1 * kWristSpeedMax, kWristSpeedMax);
+      wrist.set(pid);
+    }
+    
     SmartDashboard.putNumber("Wrist PID Input", pid);
     SmartDashboard.putNumber("Wrist Setpoint", wristSetpoint);
     SmartDashboard.putNumber("Wrist Encoder", GetAngle().in(Degree));
@@ -64,12 +71,18 @@ public class Wrist extends SubsystemBase {
     wristSetpoint = setpoint;
   }
 
-  public void ManualMovement(double input, double sensitivity) {
-    wristSetpoint = wristSetpoint + input * sensitivity;
+  public void ManualMovement(double input, double sensitivity, boolean rawMode) {
+    if (rawMode) {
+      wrist.set(input);
+      pidToggle = false;
+    } else {
+      wristSetpoint = wristSetpoint + input * sensitivity;
+    }
   }
 
   public void Stop() {
     wristSetpoint = GetAngle().in(Degrees);
+    pidToggle = true;
   }
 
   public Angle GetAngle() {

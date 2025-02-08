@@ -9,7 +9,7 @@ public final class Constants {
     // ** Controllers **
     public static final int kDriverController = 0;
     public static final int kManipulatorController = 1;
-    public static final double kTriggerThreshold = 0.8;
+    public static final double kTriggerThreshold = 0.5;
 
     // ** Speeds **
     public static final double kArmSpeedMax = 1;

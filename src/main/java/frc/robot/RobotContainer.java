@@ -66,12 +66,17 @@ public class RobotContainer {
   // For Auto
   private final SendableChooser<Command> autoChooser;
 
+  private final boolean rawManualControlMode;
+
   public RobotContainer() {
 
     // For Auto
     autoChooser = AutoBuilder.buildAutoChooser("test");
 
+    rawManualControlMode = true;
+
     SmartDashboard.putData("Auto Chooser", autoChooser);
+    SmartDashboard.putBoolean("Manual Control Mode", rawManualControlMode);
 
     configureBindings();
   }
@@ -99,6 +104,23 @@ public class RobotContainer {
       () -> driveTrack.withVelocityX(camera.MoveReefX(kTrackDistance) + xLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftY(), 0.05) * MaxSpeed)) // Drive forward with negative Y (forward)
                       .withVelocityY(camera.MoveReefY(-1 * kTrackOffset) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), 0.05) * MaxSpeed)) // Drive left with negative X (left)
                       .withRotationalRate(rotLimiter.calculate(-MathUtil.applyDeadband(DriverController.getRightX(), .1) * MaxAngularRate))));
+
+    // Run Intake
+    DriverController.rightTrigger(kTriggerThreshold).whileTrue(claw.runEnd(
+      () -> claw.Intake(),
+      () -> claw.Stop()));
+
+    // Climb
+    DriverController.a().onTrue(elevator.runOnce(
+      () -> arm.Set(kArmClimb))
+      .alongWith(claw.runOnce(
+      () -> claw.Open(false)))
+      .alongWith(elevator.runOnce(
+      () -> elevator.Set(kElevatorClimb)))
+      .alongWith(pivot.runOnce(
+      () -> pivot.Set(kPivotClimb)))
+      .alongWith(wrist.runOnce(
+      () -> wrist.Set(kWristClimb))));
 
     // Stop
     DriverController.button(8).whileTrue(drivetrain.applyRequest(
@@ -169,18 +191,6 @@ public class RobotContainer {
       () -> pivot.Set(kPivotHome)))
       .alongWith(wrist.runOnce(
       () -> wrist.Set(kWristHome))));
-
-    // Climb
-    ManipulatorController.leftBumper().onTrue(elevator.runOnce(
-      () -> arm.Set(kArmClimb))
-      .alongWith(claw.runOnce(
-      () -> claw.Open(false)))
-      .alongWith(elevator.runOnce(
-      () -> elevator.Set(kElevatorClimb)))
-      .alongWith(pivot.runOnce(
-      () -> pivot.Set(kPivotClimb)))
-      .alongWith(wrist.runOnce(
-      () -> wrist.Set(kWristClimb))));
   
     // Intake
     ManipulatorController.rightBumper().onTrue(elevator.runOnce(
@@ -242,29 +252,21 @@ public class RobotContainer {
       .alongWith(wrist.runOnce(
       () -> wrist.Set(kWristAlge))));
 
-    // Run Intake
-    ManipulatorController.leftTrigger(kTriggerThreshold).whileTrue(claw.runEnd(
-      () -> claw.Intake(false),
-      () -> claw.Stop()));
-
-    // Run Outake
-    ManipulatorController.rightTrigger(kTriggerThreshold).whileTrue(claw.runEnd(
-      () -> claw.Intake(true),
-      () -> claw.Stop()));
-
     // Manual Control
     ManipulatorController.button(8).whileTrue(arm.runEnd(
-      () -> arm.ManualMovement(ManipulatorController.getRightX(), 1),
+      () -> arm.ManualMovement(ManipulatorController.getRightX(), 1, rawManualControlMode),
       () -> arm.Stop())
+      .alongWith(claw.run(
+      () -> claw.Open(ManipulatorController.button(9).getAsBoolean()))
       .alongWith(elevator.runEnd(
-      () -> elevator.ManualMovement(ManipulatorController.getLeftY(), 1),
+      () -> elevator.ManualMovement(ManipulatorController.getLeftY(), 1, rawManualControlMode),
       () -> elevator.Stop())
       .alongWith(pivot.runEnd(
-      () -> pivot.ManualMovement(ManipulatorController.getLeftX(), 1),
+      () -> pivot.ManualMovement(ManipulatorController.getLeftX(), 1, rawManualControlMode),
       () -> pivot.Stop())
       .alongWith(wrist.runEnd(
-      () -> wrist.ManualMovement(ManipulatorController.getRightY(), 1),
-      () -> wrist.Stop())))));
+      () -> wrist.ManualMovement(ManipulatorController.getRightY(), 1, rawManualControlMode),
+      () -> wrist.Stop()))))));
   }
 
   public Command getAutonomousCommand() {

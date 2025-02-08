@@ -26,6 +26,8 @@ public class Arm extends SubsystemBase {
 
   private double armSetpoint;
 
+  private boolean pidToggle;
+
   /** Creates a new Arm. */
   public Arm() {
     cfg.MotorOutput.NeutralMode = NeutralModeValue.Brake;
@@ -35,6 +37,8 @@ public class Arm extends SubsystemBase {
     arm.getConfigurator().apply(cfg);
 
     armSetpoint = GetAngle(); // Set to current encoder value so elevetor doesnt "snap" when first enabled
+
+    pidToggle = true;
 
     armController.setTolerance(kArmTolerance);
   }
@@ -50,8 +54,10 @@ public class Arm extends SubsystemBase {
       pid = armController.calculate(GetAngle(), armSetpoint);
     }
     
-    pid = MathUtil.clamp(pid, -1 * kArmSpeedMax, kArmSpeedMax);
-    arm.set(pid);
+    if (pidToggle) {
+      pid = MathUtil.clamp(pid, -1 * kArmSpeedMax, kArmSpeedMax);
+      arm.set(pid);
+    }
 
     SmartDashboard.putNumber("Arm PID Input", pid);
     SmartDashboard.putNumber("Arm Setpoint", armSetpoint);
@@ -62,12 +68,18 @@ public class Arm extends SubsystemBase {
     armSetpoint = setpoint;
   }
 
-  public void ManualMovement(double input, double sensitivity) {
-    armSetpoint = armSetpoint + input * sensitivity;
+  public void ManualMovement(double input, double sensitivity, boolean rawMode) {
+    if (rawMode) {
+      arm.set(input);
+      pidToggle = false;
+    } else {
+      armSetpoint = armSetpoint + input * sensitivity;
+    }
   }
 
   public void Stop() {
     armSetpoint = GetAngle();
+    pidToggle = true;
   }
 
   public double GetAngle() {

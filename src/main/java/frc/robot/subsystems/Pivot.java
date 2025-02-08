@@ -32,6 +32,8 @@ public class Pivot extends SubsystemBase {
 
   private double pivotSetpoint;
 
+  private boolean pidToggle;
+
   private DutyCycleEncoder pivotEncoder = new DutyCycleEncoder(kPivotEncoderID);
 
   /** Creates a new Pivot. */
@@ -52,6 +54,8 @@ public class Pivot extends SubsystemBase {
 
     pivotSetpoint = GetAngle().in(Degrees); // Set to current encoder value so elevetor doesnt "snap" when first enabled
 
+    pidToggle = true;
+
     pivotController.setTolerance(kPivotTolerance);
   }
 
@@ -66,8 +70,10 @@ public class Pivot extends SubsystemBase {
       pid = pivotController.calculate(GetAngle().in(Degrees), pivotSetpoint);
     }
     
-    pid = MathUtil.clamp(pid, -1 * kPivotSpeedMax, kPivotSpeedMax);
-    pivotLeftMaster.set(pid);
+    if (pidToggle) {
+      pid = MathUtil.clamp(pid, -1 * kPivotSpeedMax, kPivotSpeedMax);
+      pivotLeftMaster.set(pid);
+    }
 
     SmartDashboard.putNumber("Pivot PID Input", pid);
     SmartDashboard.putNumber("Pivot Setpoint", pivotSetpoint);
@@ -78,12 +84,18 @@ public class Pivot extends SubsystemBase {
     pivotSetpoint = setpoint;
   }
 
-  public void ManualMovement(double input, double sensitivity) {
-    pivotSetpoint = pivotSetpoint + input * sensitivity;
+  public void ManualMovement(double input, double sensitivity, boolean rawMode) {
+    if (rawMode) {
+      pivotLeftMaster.set(input);
+      pidToggle = false;
+    } else {
+      pivotSetpoint = pivotSetpoint + input * sensitivity;
+    }
   }
 
   public void Stop() {
     pivotSetpoint = GetAngle().in(Degrees);
+    pidToggle = true;
   }
 
   public Angle GetAngle() {
