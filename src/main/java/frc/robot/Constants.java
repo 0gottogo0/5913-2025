@@ -38,11 +38,13 @@ public final class Constants {
         public static final double kArmL2or3 = 0;
         public static final double kArmL4 = 0;
         public static final double kArmTolerance = 0;
+        public static final double kArmNoGoZone = 0;
+        public static final double kArmNoGoZoneLow = 0;
+        public static final double kArmNoGoZoneHigh = 0;
 
         // Elevator
-        public static final double kElevatorKS = 0;
-        public static final double kElevatorKG = 0;
-        public static final double kElevatorKV = 0;
+        public static final double kElevatorKP = 0;
+        public static final double kElevatorKD = 0;
         public static final double kElevatorIntake = 0;
         public static final double kElevatorBarge = 0;
         public static final double kElevatorProcessor = 0;

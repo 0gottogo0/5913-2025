@@ -52,6 +52,7 @@ public class Wrist extends SubsystemBase {
 
     double pid = 0;
 
+    /*
     // Calculate pid
     if(!wristController.atSetpoint()) {
       pid = wristController.calculate(GetAngle().in(Degree), wristSetpoint);
@@ -61,6 +62,7 @@ public class Wrist extends SubsystemBase {
       pid = MathUtil.clamp(pid, -1 * kWristSpeedMax, kWristSpeedMax);
       wrist.set(pid);
     }
+    */
     
     SmartDashboard.putNumber("Wrist PID Input", pid);
     SmartDashboard.putNumber("Wrist Setpoint", wristSetpoint);

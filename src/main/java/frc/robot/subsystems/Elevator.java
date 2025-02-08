@@ -12,7 +12,7 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.ElevatorFeedforward;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -22,7 +22,7 @@ public class Elevator extends SubsystemBase {
 
   private TalonFXConfiguration cfg = new TalonFXConfiguration();
 
-  private ElevatorFeedforward elevatorController = new ElevatorFeedforward(kElevatorKS, kElevatorKG, kElevatorKV);
+  private PIDController elevatorController = new PIDController(kElevatorKP, 0, kElevatorKD);
 
   private double elevatorSetpoint; 
 
@@ -45,6 +45,9 @@ public class Elevator extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
+    double pid = 0;
+
+    /*
     // Calculate pid
     double pid = elevatorController.calculate(GetPosition(), elevatorSetpoint);
 
@@ -52,6 +55,7 @@ public class Elevator extends SubsystemBase {
       pid = MathUtil.clamp(pid, -1 * kElevatorSpeedMax, kElevatorSpeedMax);
       elevator.set(pid);
     }
+    */
 
     SmartDashboard.putNumber("Elevator PID Input", pid);
     SmartDashboard.putNumber("Elevator Setpoint", elevatorSetpoint);

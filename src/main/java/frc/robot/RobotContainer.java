@@ -66,17 +66,16 @@ public class RobotContainer {
   // For Auto
   private final SendableChooser<Command> autoChooser;
 
-  private final boolean rawManualControlMode;
-
   public RobotContainer() {
 
     // For Auto
     autoChooser = AutoBuilder.buildAutoChooser("test");
 
-    rawManualControlMode = true;
-
     SmartDashboard.putData("Auto Chooser", autoChooser);
-    SmartDashboard.putBoolean("Manual Control Mode", rawManualControlMode);
+    SmartDashboard.putNumber("Left X", ManipulatorController.getLeftX());
+    SmartDashboard.putNumber("Left Y", ManipulatorController.getRightY());
+    SmartDashboard.putNumber("Right X", ManipulatorController.getLeftX());
+    SmartDashboard.putNumber("Right Y", ManipulatorController.getRightY());
 
     configureBindings();
   }
@@ -254,18 +253,18 @@ public class RobotContainer {
 
     // Manual Control
     ManipulatorController.button(8).whileTrue(arm.runEnd(
-      () -> arm.ManualMovement(ManipulatorController.getRightX(), 1, rawManualControlMode),
+      () -> arm.ManualMovement(ManipulatorController.getRightX(), 1, true),
       () -> arm.Stop())
       .alongWith(claw.run(
       () -> claw.Open(ManipulatorController.button(9).getAsBoolean()))
       .alongWith(elevator.runEnd(
-      () -> elevator.ManualMovement(ManipulatorController.getLeftY(), 1, rawManualControlMode),
+      () -> elevator.ManualMovement(ManipulatorController.getLeftY(), 1, true),
       () -> elevator.Stop())
       .alongWith(pivot.runEnd(
-      () -> pivot.ManualMovement(ManipulatorController.getLeftX(), 1, rawManualControlMode),
+      () -> pivot.ManualMovement(ManipulatorController.getLeftX(), 1, true),
       () -> pivot.Stop())
       .alongWith(wrist.runEnd(
-      () -> wrist.ManualMovement(ManipulatorController.getRightY(), 1, rawManualControlMode),
+      () -> wrist.ManualMovement(ManipulatorController.getRightY(), 1, true),
       () -> wrist.Stop()))))));
   }
 

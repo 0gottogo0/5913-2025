@@ -15,6 +15,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.Elevator;
 
 public class Arm extends SubsystemBase {
 
@@ -27,6 +28,8 @@ public class Arm extends SubsystemBase {
   private double armSetpoint;
 
   private boolean pidToggle;
+
+  Elevator elevator = new Elevator();
 
   /** Creates a new Arm. */
   public Arm() {
@@ -49,6 +52,12 @@ public class Arm extends SubsystemBase {
     
     double pid = 0;
 
+    /*
+    // Add no-go zones
+    if(elevator.GetPosition() < kArmNoGoZone) {
+      armSetpoint = MathUtil.clamp(armSetpoint, kArmNoGOZoneLow, kArmNoGOZoneHigh);
+    }
+
     // Calculate pid
     if(!armController.atSetpoint()) {
       pid = armController.calculate(GetAngle(), armSetpoint);
@@ -58,6 +67,7 @@ public class Arm extends SubsystemBase {
       pid = MathUtil.clamp(pid, -1 * kArmSpeedMax, kArmSpeedMax);
       arm.set(pid);
     }
+    */
 
     SmartDashboard.putNumber("Arm PID Input", pid);
     SmartDashboard.putNumber("Arm Setpoint", armSetpoint);
