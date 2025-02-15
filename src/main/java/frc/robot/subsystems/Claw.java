@@ -41,13 +41,11 @@ public class Claw extends SubsystemBase {
     SmartDashboard.putBoolean("Claw Is Loaded", beamBreak.get());
   }
 
-  public void Intake() {
-    if (!beamBreak.get()) {
+  public void Intake(boolean reverse) {
+    if (reverse) {
       claw.set(-1 * kClawSpeedMax);
-    } else if (!beamBreak.get()) {
-      claw.set(kClawSpeedMax);
     } else {
-      claw.set(kClawSpeedLow);
+      claw.set(kClawSpeedMax);
     }
   }
 

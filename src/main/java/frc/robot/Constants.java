@@ -80,15 +80,15 @@ public final class Constants {
         // Wrist
         public static final double kWristKP = 0.1;
         public static final double kWristKD = 0;
-        public static final double kWristTolerance = 2;
-        public static final double kWristIntake = 100;
+        public static final double kWristTolerance = 0;
+        public static final double kWristIntake = 300;
         public static final double kWristBarge = 0;
         public static final double kWristProcessor = 0;
         public static final double kWristHome = 0;
         public static final double kWristClimb = 0;
         public static final double kWristL1 = 0;
         public static final double kWristL2or3 = 0;
-        public static final double kWristL4 = 10;
+        public static final double kWristL4 = 210;
         public static final double kWristAlge = 0;
         
     // ** Drivetrain **

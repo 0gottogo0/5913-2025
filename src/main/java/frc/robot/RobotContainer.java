@@ -92,6 +92,7 @@ public class RobotContainer {
 
     // ** Driver Control **
 
+    /*
     // Track Left
     DriverController.leftBumper().whileTrue(drivetrain.applyRequest(
       () -> driveTrack.withVelocityX(camera.MoveReefX(kTrackDistance) + xLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftY(), 0.05) * MaxSpeed)) // Drive forward with negative Y (forward)
@@ -103,12 +104,19 @@ public class RobotContainer {
       () -> driveTrack.withVelocityX(camera.MoveReefX(kTrackDistance) + xLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftY(), 0.05) * MaxSpeed)) // Drive forward with negative Y (forward)
                       .withVelocityY(camera.MoveReefY(-1 * kTrackOffset) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), 0.05) * MaxSpeed)) // Drive left with negative X (left)
                       .withRotationalRate(rotLimiter.calculate(-MathUtil.applyDeadband(DriverController.getRightX(), .1) * MaxAngularRate))));
+    */
 
     // Run Intake
     DriverController.a().whileTrue(claw.runEnd(
-      () -> claw.Intake(),
+      () -> claw.Intake(false),
       () -> claw.Stop()));
 
+    // Reverse Intake
+    DriverController.b().whileTrue(claw.runEnd(
+      () -> claw.Intake(true),
+      () -> claw.Stop()));
+
+    /*
     // Climb
     DriverController.b().onTrue(arm.runOnce(
       () -> arm.Set(kArmClimb))
@@ -120,6 +128,7 @@ public class RobotContainer {
       () -> pivot.Set(kPivotClimb)))
       .alongWith(wrist.runOnce(
       () -> wrist.Set(kWristClimb))));
+    */
 
     // Stop
     DriverController.button(8).whileTrue(drivetrain.applyRequest(
@@ -131,6 +140,7 @@ public class RobotContainer {
 
     // ** Manipulator Control **
     
+    /*
     // L1
     ManipulatorController.b().onTrue(arm.runOnce(
       () -> arm.Set(kArmL1))
@@ -166,7 +176,8 @@ public class RobotContainer {
       () -> pivot.Set(kPivotL3)))
       .alongWith(wrist.runOnce(
       () -> wrist.Set(kWristL2or3))));
-    
+    */
+
     // L4
     ManipulatorController.y().onTrue(arm.runOnce(
       () -> arm.Set(kArmL4))
@@ -179,6 +190,7 @@ public class RobotContainer {
       .alongWith(wrist.runOnce(
       () -> wrist.Set(kWristL4))));
 
+    /*
     // Home
     ManipulatorController.button(10).onTrue(arm.runOnce(
       () -> arm.Set(kArmHome))
@@ -190,7 +202,8 @@ public class RobotContainer {
       () -> pivot.Set(kPivotHome)))
       .alongWith(wrist.runOnce(
       () -> wrist.Set(kWristHome))));
-  
+    */
+
     // Intake
     ManipulatorController.rightBumper().onTrue(arm.runOnce(
       () -> arm.Set(kArmIntake))
@@ -203,6 +216,7 @@ public class RobotContainer {
       .alongWith(wrist.runOnce(
       () -> wrist.Set(kWristIntake))));
 
+    /*
     // Barge
     ManipulatorController.povUp().onTrue(arm.runOnce(
       () -> arm.Set(kArmBarge))
@@ -250,6 +264,7 @@ public class RobotContainer {
       () -> pivot.Set(kPivotL3)))
       .alongWith(wrist.runOnce(
       () -> wrist.Set(kWristAlge))));
+    */
 
     // Manual Control
     ManipulatorController.button(8).whileTrue(arm.runEnd(
