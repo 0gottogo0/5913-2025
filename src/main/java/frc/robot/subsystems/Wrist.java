@@ -61,12 +61,8 @@ public class Wrist extends SubsystemBase {
       pid = wristController.calculate(GetAngle().in(Degree), wristSetpoint);
     }
 
-    if(GetAngle().in(Degree) > 300) {
-      wrist.set(0.3);
-    } else {
-      pid = MathUtil.clamp(pid, -1 * kWristSpeedMax, kWristSpeedMax);
-      wrist.set(-1 * pid);
-    }
+    pid = MathUtil.clamp(pid, -1 * kWristSpeedMax, kWristSpeedMax);
+    wrist.set(-1 * pid);
     
     SmartDashboard.putNumber("Wrist PID Input", pid);
     SmartDashboard.putNumber("Wrist Setpoint", wristSetpoint);
@@ -78,11 +74,7 @@ public class Wrist extends SubsystemBase {
   }
 
   public void ManualMovement(double input, double sensitivity, boolean rawMode) {
-    if (rawMode) {
-      wrist.set(input);
-    } else {
-      wristSetpoint = wristSetpoint + input * sensitivity;
-    }
+    wristSetpoint = wristSetpoint + input * sensitivity;
   }
 
   public void Stop() {

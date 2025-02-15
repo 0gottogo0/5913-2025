@@ -16,6 +16,7 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Arm;
@@ -24,12 +25,13 @@ import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Pivot;
+import frc.robot.subsystems.Pneumatics;
 import frc.robot.subsystems.Wrist;
 
 public class RobotContainer {
   // Some constants needed for swerve
   private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-  private double MaxAngularRate = RotationsPerSecond.of(.75).in(RadiansPerSecond);
+  private double MaxAngularRate = RotationsPerSecond.of(2).in(RadiansPerSecond);
 
   // Slew rate limiters smooth out drivetrain. 
   private SlewRateLimiter xLimiter = new SlewRateLimiter(kMoveSlewRateLimiter);
@@ -48,6 +50,7 @@ public class RobotContainer {
   Claw claw = new Claw();
   Elevator elevator = new Elevator();
   Pivot pivot = new Pivot();
+  Pneumatics pneumatics = new Pneumatics();
   Wrist wrist = new Wrist();
 
   // Swerve Requests
@@ -184,9 +187,10 @@ public class RobotContainer {
       .alongWith(claw.runOnce(
       () -> claw.Open(false)))
       .alongWith(elevator.runOnce(
-      () -> elevator.Set(kElevatorL4)))
-      .alongWith(pivot.runOnce(
-      () -> pivot.Set(kPivotL4)))
+        () -> elevator.Set(kElevatorL4)))
+      .alongWith(new WaitCommand(1)
+        .andThen(pivot.runOnce(
+        () -> pivot.Set(kPivotL4))))
       .alongWith(wrist.runOnce(
       () -> wrist.Set(kWristL4))));
 
@@ -205,16 +209,20 @@ public class RobotContainer {
     */
 
     // Intake
-    ManipulatorController.rightBumper().onTrue(arm.runOnce(
-      () -> arm.Set(kArmIntake))
-      .alongWith(claw.runOnce(
-      () -> claw.Open(false)))
-      .alongWith(elevator.runOnce(
-      () -> elevator.Set(kElevatorIntake)))
+    ManipulatorController.b().onTrue(new WaitCommand(1)
+        .andThen(arm.runOnce(
+        () -> arm.Set(kArmIntake)))
+      .alongWith(new WaitCommand(1)
+        .andThen(claw.runOnce(
+        () -> claw.Open(false))))
+      .alongWith(new WaitCommand(1)
+        .andThen(elevator.runOnce(
+        () -> elevator.Set(kElevatorIntake))))
       .alongWith(pivot.runOnce(
       () -> pivot.Set(kPivotIntake)))
-      .alongWith(wrist.runOnce(
-      () -> wrist.Set(kWristIntake))));
+      .alongWith(new WaitCommand(1)
+        .andThen(wrist.runOnce(
+        () -> wrist.Set(kWristIntake)))));
 
     /*
     // Barge
@@ -268,10 +276,10 @@ public class RobotContainer {
 
     // Manual Control
     ManipulatorController.button(8).whileTrue(arm.runEnd(
-      () -> arm.ManualMovement(MathUtil.applyDeadband(ManipulatorController.getRightX(), 0.2), 1, false),
+      () -> arm.ManualMovement(MathUtil.applyDeadband(ManipulatorController.getRightY(), 0.2), 1, false),
       () -> arm.Stop())
       .alongWith(claw.run(
-      () -> claw.Open(ManipulatorController.button(9).getAsBoolean()))
+      () -> claw.Open(ManipulatorController.rightBumper().getAsBoolean()))
       .alongWith(elevator.runEnd(
       () -> elevator.ManualMovement(MathUtil.applyDeadband(ManipulatorController.getLeftY(), 0.2), 1, false),
       () -> elevator.Stop())
@@ -279,7 +287,7 @@ public class RobotContainer {
       () -> pivot.ManualMovement(MathUtil.applyDeadband(ManipulatorController.getLeftX(), 0.2), 1, false),
       () -> pivot.Stop())
       .alongWith(wrist.runEnd(
-      () -> wrist.ManualMovement(MathUtil.applyDeadband(ManipulatorController.getRightY() * 0.4, 0.2), 1, false),
+      () -> wrist.ManualMovement(MathUtil.applyDeadband(ManipulatorController.getRightX() * 0.4, 0.2), 1, false),
       () -> wrist.Stop()))))));
   }
 

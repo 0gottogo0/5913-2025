@@ -17,10 +17,10 @@ public final class Constants {
     public static final double kClawSpeedLow = 0.4;
     public static final double kElevatorSpeedMax = 0.85;
     public static final double kPivotSpeedMax = 1;
-    public static final double kWristSpeedMax = 0.25;
+    public static final double kWristSpeedMax = 0.15;
 
     // ** Rate Limiters **
-    public static final double kMoveSlewRateLimiter = 20;
+    public static final double kMoveSlewRateLimiter = 15;
     public static final double kRotateSlewRateLimiter = 40;
 
     // ** Close Looped Controllers **
@@ -28,7 +28,7 @@ public final class Constants {
         // Arm
         public static final double kArmKP = 0.1;
         public static final double kArmKD = 0;
-        public static final double kArmIntake = 294;
+        public static final double kArmIntake = 290;
         public static final double kArmBarge = 0;
         public static final double kArmProcessor = 0;
         public static final double kArmHome = 0;
@@ -40,7 +40,7 @@ public final class Constants {
         public static final double kArmTolerance = 0.5;
         public static final double kArmNoGoZone = -66;
         public static final double kArmNoGoZoneLow = 0;
-        public static final double kArmNoGoZoneHigh = 294;
+        public static final double kArmNoGoZoneHigh = 290;
 
         // Elevator
         public static final double kElevatorKP = 0.2;
@@ -78,10 +78,10 @@ public final class Constants {
         public static final double kTrackOffset = 0;
     
         // Wrist
-        public static final double kWristKP = 0.1;
+        public static final double kWristKP = 0.015;
         public static final double kWristKD = 0;
         public static final double kWristTolerance = 0;
-        public static final double kWristIntake = 300;
+        public static final double kWristIntake = 293;
         public static final double kWristBarge = 0;
         public static final double kWristProcessor = 0;
         public static final double kWristHome = 0;
@@ -122,7 +122,9 @@ public final class Constants {
         public static final int kWristMotor = 26;
 
     // ** Pnumatics **
-    public static final int kPnumaticModule = 42;
+    public static final int kPHID = 42;
+    public static final int kMinPressure = 110;
+    public static final int kMaxPressure = 120;
     public static final int kClawOpen = 0;
     public static final int kClawClose = 1;
 

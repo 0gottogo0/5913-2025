@@ -13,6 +13,7 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -21,7 +22,8 @@ public class Claw extends SubsystemBase {
 
   private SparkMax claw = new SparkMax(kClawMotor, MotorType.kBrushless);
   private DigitalInput beamBreak = new DigitalInput(kBeamBreak);
-  private DoubleSolenoid clawSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, kClawClose, kClawOpen);
+  private PneumaticHub PH = new PneumaticHub(kPHID);
+  private DoubleSolenoid clawSolenoid = PH.makeDoubleSolenoid(kClawClose, kClawOpen);
 
   private SparkMaxConfig cfg = new SparkMaxConfig();
 
@@ -51,9 +53,9 @@ public class Claw extends SubsystemBase {
 
   public void Open(boolean alge) {
     if (!alge) {
-      clawSolenoid.set(DoubleSolenoid.Value.kReverse);
-    } else {
       clawSolenoid.set(DoubleSolenoid.Value.kForward);
+    } else {
+      clawSolenoid.set(DoubleSolenoid.Value.kReverse);
     }
   }
 
