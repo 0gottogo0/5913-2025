@@ -105,12 +105,12 @@ public class RobotContainer {
                       .withRotationalRate(rotLimiter.calculate(-MathUtil.applyDeadband(DriverController.getRightX(), .1) * MaxAngularRate))));
 
     // Run Intake
-    DriverController.rightTrigger(kTriggerThreshold).whileTrue(claw.runEnd(
+    DriverController.a().whileTrue(claw.runEnd(
       () -> claw.Intake(),
       () -> claw.Stop()));
 
     // Climb
-    DriverController.a().onTrue(elevator.runOnce(
+    DriverController.b().onTrue(arm.runOnce(
       () -> arm.Set(kArmClimb))
       .alongWith(claw.runOnce(
       () -> claw.Open(false)))
@@ -139,48 +139,48 @@ public class RobotContainer {
       .alongWith(elevator.runOnce(
       () -> elevator.Set(kElevatorL1)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(kPivotReef)))
+      () -> pivot.Set(kPivotL1)))
       .alongWith(wrist.runOnce(
       () -> wrist.Set(kWristL1))));
 
     // L2
     ManipulatorController.a().onTrue(arm.runOnce(
-      () -> arm.Set(kArmL2or3))
+      () -> arm.Set(kArmL2))
       .alongWith(claw.runOnce(
       () -> claw.Open(false)))
       .alongWith(elevator.runOnce(
       () -> elevator.Set(kElevatorL2)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(kPivotReef)))
+      () -> pivot.Set(kPivotL2)))
       .alongWith(wrist.runOnce(
       () -> wrist.Set(kWristL2or3))));
     
     // L3
-    ManipulatorController.x().onTrue(elevator.runOnce(
-      () -> arm.Set(kArmL2or3))
+    ManipulatorController.x().onTrue(arm.runOnce(
+      () -> arm.Set(kArmL3))
       .alongWith(claw.runOnce(
       () -> claw.Open(false)))
       .alongWith(elevator.runOnce(
       () -> elevator.Set(kElevatorL3)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(kPivotReef)))
+      () -> pivot.Set(kPivotL3)))
       .alongWith(wrist.runOnce(
       () -> wrist.Set(kWristL2or3))));
     
     // L4
-    ManipulatorController.y().onTrue(elevator.runOnce(
+    ManipulatorController.y().onTrue(arm.runOnce(
       () -> arm.Set(kArmL4))
       .alongWith(claw.runOnce(
       () -> claw.Open(false)))
       .alongWith(elevator.runOnce(
       () -> elevator.Set(kElevatorL4)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(kPivotReef)))
+      () -> pivot.Set(kPivotL4)))
       .alongWith(wrist.runOnce(
       () -> wrist.Set(kWristL4))));
 
     // Home
-    ManipulatorController.button(10).onTrue(elevator.runOnce(
+    ManipulatorController.button(10).onTrue(arm.runOnce(
       () -> arm.Set(kArmHome))
       .alongWith(claw.runOnce(
       () -> claw.Open(false)))
@@ -192,7 +192,7 @@ public class RobotContainer {
       () -> wrist.Set(kWristHome))));
   
     // Intake
-    ManipulatorController.rightBumper().onTrue(elevator.runOnce(
+    ManipulatorController.rightBumper().onTrue(arm.runOnce(
       () -> arm.Set(kArmIntake))
       .alongWith(claw.runOnce(
       () -> claw.Open(false)))
@@ -204,67 +204,67 @@ public class RobotContainer {
       () -> wrist.Set(kWristIntake))));
 
     // Barge
-    ManipulatorController.povUp().onTrue(elevator.runOnce(
+    ManipulatorController.povUp().onTrue(arm.runOnce(
       () -> arm.Set(kArmBarge))
       .alongWith(claw.runOnce(
       () -> claw.Open(true)))
       .alongWith(elevator.runOnce(
       () -> elevator.Set(kElevatorBarge)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(kPivotReef)))
+      () -> pivot.Set(kPivotL1)))
       .alongWith(wrist.runOnce(
       () -> wrist.Set(kWristBarge))));
 
     // Processor
-    ManipulatorController.povRight().onTrue(elevator.runOnce(
+    ManipulatorController.povRight().onTrue(arm.runOnce(
       () -> arm.Set(kArmProcessor))
       .alongWith(claw.runOnce(
         () -> claw.Open(true)))
       .alongWith(elevator.runOnce(
       () -> elevator.Set(kElevatorHome)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(kPivotReef)))
+      () -> pivot.Set(kPivotL1)))
       .alongWith(wrist.runOnce(
       () -> wrist.Set(kWristProcessor))));
       
     // Bottom Alge
-    ManipulatorController.povDown().onTrue(elevator.runOnce(
-      () -> arm.Set(kArmL2or3))
+    ManipulatorController.povDown().onTrue(arm.runOnce(
+      () -> arm.Set(kArmL2))
       .alongWith(claw.runOnce(
       () -> claw.Open(true)))
       .alongWith(elevator.runOnce(
       () -> elevator.Set(kElevatorBottomAlge)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(kPivotReef)))
+      () -> pivot.Set(kPivotL2)))
       .alongWith(wrist.runOnce(
       () -> wrist.Set(kWristAlge))));
 
     // Top Alge
-    ManipulatorController.povLeft().onTrue(elevator.runOnce(
-      () -> arm.Set(kArmL2or3))
+    ManipulatorController.povLeft().onTrue(arm.runOnce(
+      () -> arm.Set(kArmL3))
       .alongWith(claw.runOnce(
       () -> claw.Open(true)))
       .alongWith(elevator.runOnce(
       () -> elevator.Set(kElevatorTopAlge)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(kPivotReef)))
+      () -> pivot.Set(kPivotL3)))
       .alongWith(wrist.runOnce(
       () -> wrist.Set(kWristAlge))));
 
     // Manual Control
     ManipulatorController.button(8).whileTrue(arm.runEnd(
-      () -> arm.ManualMovement(ManipulatorController.getRightX(), 1, true),
+      () -> arm.ManualMovement(MathUtil.applyDeadband(ManipulatorController.getRightX(), 0.2), 1, false),
       () -> arm.Stop())
       .alongWith(claw.run(
       () -> claw.Open(ManipulatorController.button(9).getAsBoolean()))
       .alongWith(elevator.runEnd(
-      () -> elevator.ManualMovement(ManipulatorController.getLeftY(), 1, true),
+      () -> elevator.ManualMovement(MathUtil.applyDeadband(ManipulatorController.getLeftY(), 0.2), 1, false),
       () -> elevator.Stop())
       .alongWith(pivot.runEnd(
-      () -> pivot.ManualMovement(ManipulatorController.getLeftX(), 1, true),
+      () -> pivot.ManualMovement(MathUtil.applyDeadband(ManipulatorController.getLeftX(), 0.2), 1, false),
       () -> pivot.Stop())
       .alongWith(wrist.runEnd(
-      () -> wrist.ManualMovement(ManipulatorController.getRightY(), 1, true),
+      () -> wrist.ManualMovement(MathUtil.applyDeadband(ManipulatorController.getRightY() * 0.4, 0.2), 1, false),
       () -> wrist.Stop()))))));
   }
 

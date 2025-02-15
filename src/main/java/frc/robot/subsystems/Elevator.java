@@ -39,15 +39,22 @@ public class Elevator extends SubsystemBase {
     elevatorSetpoint = GetPosition(); // Set to current encoder value so elevetor doesnt "snap" when first enabled
 
     pidToggle = true;
+
+    elevatorController.setTolerance(kElevatorTolerance);
+
+    new Thread(() -> {
+      try {
+          Thread.sleep(3000);
+          elevatorSetpoint = GetPosition();
+      } catch (Exception e) {
+      }
+    }).start();
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
 
-    double pid = 0;
-
-    /*
     // Calculate pid
     double pid = elevatorController.calculate(GetPosition(), elevatorSetpoint);
 
@@ -55,7 +62,6 @@ public class Elevator extends SubsystemBase {
       pid = MathUtil.clamp(pid, -1 * kElevatorSpeedMax, kElevatorSpeedMax);
       elevator.set(pid);
     }
-    */
 
     SmartDashboard.putNumber("Elevator PID Input", pid);
     SmartDashboard.putNumber("Elevator Setpoint", elevatorSetpoint);
