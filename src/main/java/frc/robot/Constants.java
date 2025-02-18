@@ -28,15 +28,15 @@ public final class Constants {
         // Arm
         public static final double kArmKP = 0.1;
         public static final double kArmKD = 0;
-        public static final double kArmIntake = 290;
+        public static final double kArmIntake = 313;
         public static final double kArmBarge = 0;
         public static final double kArmProcessor = 0;
         public static final double kArmHome = 0;
         public static final double kArmClimb = 0;
         public static final double kArmL1 = 0;
-        public static final double kArmL2 = 0;
-        public static final double kArmL3 = 0;
-        public static final double kArmL4 = 352;
+        public static final double kArmL2 = 290;
+        public static final double kArmL3 = 290;
+        public static final double kArmL4 = 313;
         public static final double kArmTolerance = 0.5;
         public static final double kArmNoGoZone = -66;
         public static final double kArmNoGoZoneLow = 0;
@@ -51,9 +51,9 @@ public final class Constants {
         public static final double kElevatorHome = 0;
         public static final double kElevatorClimb = 0;
         public static final double kElevatorL1 = 0;
-        public static final double kElevatorL2 = 0;
-        public static final double kElevatorL3 = 0;
-        public static final double kElevatorL4 = -122;
+        public static final double kElevatorL2 = -22;
+        public static final double kElevatorL3 = -57;
+        public static final double kElevatorL4 = -124.6;
         public static final double kElevatorBottomAlge = 0;
         public static final double kElevatorTopAlge = 0;
         public static final double kElevatorTolerance = 0.5;
@@ -63,9 +63,9 @@ public final class Constants {
         public static final double kPivotKD = 0;
         public static final double kPivotTolerance = 0;
         public static final double kPivotL1 = 0;
-        public static final double kPivotL2 = 0;
-        public static final double kPivotL3 = 0;
-        public static final double kPivotL4 = 134;
+        public static final double kPivotL2 = 128;
+        public static final double kPivotL3 = 135;
+        public static final double kPivotL4 = 140;
         public static final double kPivotIntake = 149;
         public static final double kPivotHome = 0;
         public static final double kPivotClimb = 0;
@@ -87,8 +87,8 @@ public final class Constants {
         public static final double kWristHome = 0;
         public static final double kWristClimb = 0;
         public static final double kWristL1 = 0;
-        public static final double kWristL2or3 = 0;
-        public static final double kWristL4 = 210;
+        public static final double kWristL2or3 = 293;
+        public static final double kWristL4 = 245;
         public static final double kWristAlge = 0;
         
     // ** Drivetrain **

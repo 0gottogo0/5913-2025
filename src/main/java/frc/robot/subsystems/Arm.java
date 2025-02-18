@@ -59,12 +59,7 @@ public class Arm extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    // Add no-go zones
-    if(elevator.GetPosition() > kArmNoGoZone) {
-      armSetpointFinal = MathUtil.clamp(armSetpoint, kArmNoGoZoneLow, kArmNoGoZoneHigh);
-    } else {
-      armSetpointFinal = armSetpoint;
-    }
+    armSetpointFinal = armSetpoint;
 
     // Calculate pid
     double pid = armController.calculate(GetAngle().in(Degrees), armSetpointFinal);

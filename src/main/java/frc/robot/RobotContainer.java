@@ -110,12 +110,22 @@ public class RobotContainer {
     */
 
     // Run Intake
-    DriverController.a().whileTrue(claw.runEnd(
+    DriverController.rightTrigger().whileTrue(claw.runEnd(
       () -> claw.Intake(false),
       () -> claw.Stop()));
 
     // Reverse Intake
-    DriverController.b().whileTrue(claw.runEnd(
+    DriverController.leftTrigger().whileTrue(claw.runEnd(
+      () -> claw.Intake(true),
+      () -> claw.Stop()));
+
+    // Run Intake
+    ManipulatorController.rightTrigger().whileTrue(claw.runEnd(
+      () -> claw.Intake(false),
+      () -> claw.Stop()));
+
+    // Reverse Intake
+    ManipulatorController.leftTrigger().whileTrue(claw.runEnd(
       () -> claw.Intake(true),
       () -> claw.Stop()));
 
@@ -155,6 +165,7 @@ public class RobotContainer {
       () -> pivot.Set(kPivotL1)))
       .alongWith(wrist.runOnce(
       () -> wrist.Set(kWristL1))));
+    */
 
     // L2
     ManipulatorController.a().onTrue(arm.runOnce(
@@ -167,7 +178,7 @@ public class RobotContainer {
       () -> pivot.Set(kPivotL2)))
       .alongWith(wrist.runOnce(
       () -> wrist.Set(kWristL2or3))));
-    
+
     // L3
     ManipulatorController.x().onTrue(arm.runOnce(
       () -> arm.Set(kArmL3))
@@ -175,11 +186,11 @@ public class RobotContainer {
       () -> claw.Open(false)))
       .alongWith(elevator.runOnce(
       () -> elevator.Set(kElevatorL3)))
-      .alongWith(pivot.runOnce(
-      () -> pivot.Set(kPivotL3)))
+      .alongWith(new WaitCommand(1)
+        .andThen(pivot.runOnce(
+        () -> pivot.Set(kPivotL3))))
       .alongWith(wrist.runOnce(
       () -> wrist.Set(kWristL2or3))));
-    */
 
     // L4
     ManipulatorController.y().onTrue(arm.runOnce(
