@@ -44,22 +44,52 @@ public class Camera extends SubsystemBase {
   }
 
   public double AutoReefX(double position) {
-    /*
     double tx = LimelightHelpers.getTX(ReefLL); // Get April Tag X
-    double x = drivetrain.getState().Pose.getX();
-    double tid = LimelightHelpers.getFiducialID(ReefLL);
-    int id = (int)tid; // stupid dumb limelight devs using doubles insted of ints :(
-    int target;
-
+    double dx = drivetrain.getState().Pose.getX();
+    double llid = LimelightHelpers.getFiducialID(ReefLL);
+    int id = (int)llid; // stupid dumb limelight devs using doubles insted of ints :(
+  
     switch (id) {
       default:
-        target = 0;
+        
         break;
       case kReefABRed:
-        target = 2;
+        
+        break;
+      case kReefCDRed:
+        
+        break;
+      case kReefEFRed:
+        
+        break;
+      case kReefGHRed:
+        
+        break;
+      case kReefIJRed:
+        
+        break;
+      case kReefKLRed:
+        
+        break;
+      case kReefABBlue:
+        
+        break;
+      case kReefCDBlue:
+        
+        break;
+      case kReefEFBlue:
+        
+        break;
+      case kReefGHBlue:
+        
+        break;
+      case kReefIJBlue:
+        
+        break;
+      case kReefKLBlue:
+        
         break;
     }
-    */
     return 0;
   }
 

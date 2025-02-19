@@ -13,7 +13,8 @@ public final class Constants {
 
     // ** Speeds **
     public static final double kArmSpeedMax = 1;
-    public static final double kIntakeSpeedMax = 0.4;
+    public static final double kIntakeSpeedMax = 1;
+    public static final double kIntakeSpeed = 0.4;
     public static final double kElevatorSpeedMax = 0.85;
     public static final double kPivotSpeedMax = 1;
     public static final double kWristSpeedMax = 0.15;
@@ -28,32 +29,30 @@ public final class Constants {
         public static final double kArmKP = 0.1;
         public static final double kArmKD = 0;
         public static final double kArmIntake = 313;
-        public static final double kArmBarge = 0;
-        public static final double kArmProcessor = 0;
-        public static final double kArmHome = 290;
-        public static final double kArmClimb = 0;
-        public static final double kArmL1 = 0;
-        public static final double kArmL2 = 290;
-        public static final double kArmL3 = 290;
+        public static final double kArmBarge = 313;
+        public static final double kArmProcessor = 313;
+        public static final double kArmHome = 313;
+        public static final double kArmClimb = 313;
+        public static final double kArmL1 = 313;
+        public static final double kArmL2 = 313;
+        public static final double kArmL3 = 313;
         public static final double kArmL4 = 313;
         public static final double kArmTolerance = 0.5;
-        public static final double kArmNoGoZone = -66;
-        public static final double kArmNoGoZoneLow = 0;
-        public static final double kArmNoGoZoneHigh = 290;
 
         // Elevator
         public static final double kElevatorKP = 0.2;
         public static final double kElevatorKD = 0;
         public static final double kElevatorIntake = 0;
-        public static final double kElevatorBarge = 0;
+        public static final double kElevatorBarge = -124.6;
         public static final double kElevatorProcessor = 0;
         public static final double kElevatorHome = 0;
         public static final double kElevatorClimb = 0;
+        public static final double kElevatorGround = -24;
         public static final double kElevatorL1 = 0;
         public static final double kElevatorL2 = -22;
         public static final double kElevatorL3 = -57;
         public static final double kElevatorL4 = -124.6;
-        public static final double kElevatorBottomAlge = 0;
+        public static final double kElevatorBottomAlge = -69;
         public static final double kElevatorTopAlge = 0;
         public static final double kElevatorTolerance = 0.5;
     
@@ -67,8 +66,9 @@ public final class Constants {
         public static final double kPivotL4 = 140;
         public static final double kPivotIntake = 149;
         public static final double kPivotHome = 135;
-        public static final double kPivotClimb = 0;
-        public static final double kPivotClimbEnd = 0;
+        public static final double kPivotClimb = 117;
+        public static final double kPivotClimbEnd = 97;
+        public static final double kPivotGround = 96;
     
         // Track
         public static final double kTrackKP = 0.2;
@@ -80,17 +80,17 @@ public final class Constants {
         
             // April Tag Ids
             public static final int kReefABRed = 0;  //blah blah put normal values here...
-            public static final int kReefABBlue = 0;
-            public static final int kReefCDRed = 0;
-            public static final int kReefCDBlue = 0;
-            public static final int kReefEFRed = 0;
-            public static final int kReefEFBlue = 0;
-            public static final int kReefGHRed = 0;
-            public static final int kReefGHBlue = 0;
-            public static final int kReefIJRed = 0;
-            public static final int kReefIJBlue = 0;
-            public static final int kReefKLRed = 0;
-            public static final int kReefKLBlue = 0;
+            public static final int kReefABBlue = 1;
+            public static final int kReefCDRed = 2;
+            public static final int kReefCDBlue = 3;
+            public static final int kReefEFRed = 4;
+            public static final int kReefEFBlue = 5;
+            public static final int kReefGHRed = 6;
+            public static final int kReefGHBlue = 7;
+            public static final int kReefIJRed = 8;
+            public static final int kReefIJBlue = 9;
+            public static final int kReefKLRed = 10;
+            public static final int kReefKLBlue = 11;
     
         // Wrist
         public static final double kWristKP = 0.015;
@@ -101,6 +101,7 @@ public final class Constants {
         public static final double kWristProcessor = 0;
         public static final double kWristHome = 325;
         public static final double kWristClimb = 0;
+        public static final double kWristGround = 88;
         public static final double kWristL1 = 0;
         public static final double kWristL2 = 325;
         public static final double kWristL3 = 325;

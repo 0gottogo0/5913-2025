@@ -52,9 +52,9 @@ public class Claw extends SubsystemBase {
 
   public void Intake(boolean reverse) {
     if (reverse) {
-      intake.set(kIntakeSpeedMax);
+      intake.set(-1 * kIntakeSpeedMax); // Shoot algae
     } else {
-      intake.set(-1 * kIntakeSpeedMax);
+      intake.set(kIntakeSpeed);
     }
   }
 
@@ -65,7 +65,7 @@ public class Claw extends SubsystemBase {
     } else if (intakeTimer.get() < 0.8 && intakeTimer.get() > 0.0) {
       Stop();
     } else {
-      intake.set(kIntakeSpeedMax);
+      intake.set(kIntakeSpeed);
     }
   }
 

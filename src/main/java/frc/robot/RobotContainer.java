@@ -182,7 +182,7 @@ public class RobotContainer {
 
     // Run Intake
     DriverController.rightTrigger().whileTrue(claw.runEnd(
-      () -> claw.IntakeWithBeam(),
+      () -> claw.Intake(false),
       () -> claw.Stop()));
 
     // Reverse Intake
