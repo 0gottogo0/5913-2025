@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import static frc.robot.Constants.*;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -33,18 +34,18 @@ public class Camera extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    SmartDashboard.putNumber("Reef TX", LimelightHelpers.getTX(ReefLL));
-    SmartDashboard.putNumber("Reef TY", LimelightHelpers.getTY(ReefLL));
+    SmartDashboard.putNumber("Reef TX", LimelightHelpers.getTX("limelight-ll"));
+    SmartDashboard.putNumber("Reef TY", LimelightHelpers.getTY("limelight-ll"));
     SmartDashboard.putNumber("Reef PID X", reefX);
     SmartDashboard.putNumber("Reef PID Y", reefY);
-    SmartDashboard.putNumber("Reef ID", LimelightHelpers.getFiducialID(ReefLL));
+    SmartDashboard.putNumber("Reef ID", LimelightHelpers.getFiducialID(kLimeLightReef));
 
     SmartDashboard.putNumber("Robot X", drivetrain.getState().Pose.getX());
     SmartDashboard.putNumber("Robot Y", drivetrain.getState().Pose.getY());
   }
 
   public double AutoReefX(double position) {
-    double tx = LimelightHelpers.getTX(ReefLL); // Get April Tag X
+    double tx = LimelightHelpers.getTX("limelight-ll"); // Get April Tag X
     double dx = drivetrain.getState().Pose.getX();
     double llid = LimelightHelpers.getFiducialID(ReefLL);
     int id = (int)llid; // stupid dumb limelight devs using doubles insted of ints :(
@@ -94,23 +95,21 @@ public class Camera extends SubsystemBase {
   }
 
   public double MoveReefX(double position) {
-    double tx = LimelightHelpers.getTX(ReefLL); // Get April Tag X
+    double tx = LimelightHelpers.getTX("limelight-ll"); // Get April Tag X
 
     // Calculate pid
-    if(!reefXController.atSetpoint()) {
-      reefX = reefXController.calculate(tx, position);
-    }
+    reefX = tx - position;
+    reefX = MathUtil.clamp(reefX, 0.2, 0.2);
 
     return reefX;
   }
 
   public double MoveReefY(double position) {
-    double ty = LimelightHelpers.getTY(ReefLL); // Get April Tag Y
+    double ty = LimelightHelpers.getTY("limelight-ll"); // Get April Tag Y
 
     // Calculate pid
-    if(!reefYController.atSetpoint()) {
-      reefY = reefYController.calculate(ty, position);
-    }
+    reefY = ty - position;
+    reefY = MathUtil.clamp(reefY, 0.2, 0.2);
 
     return reefY;
   }

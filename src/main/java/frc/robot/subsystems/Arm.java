@@ -21,9 +21,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Arm extends SubsystemBase {
 
-  private TalonFX arm = new TalonFX(kArmMotor);
+  // private TalonFX arm = new TalonFX(kArmMotor);
 
-  private TalonFXConfiguration cfg = new TalonFXConfiguration();
+  // private TalonFXConfiguration cfg = new TalonFXConfiguration();
 
   // private PIDController armController = new PIDController(kArmKP, 0, kArmKD);
 
@@ -35,13 +35,13 @@ public class Arm extends SubsystemBase {
 
   /** Creates a new Arm. */
   public Arm() {
+    /*
     cfg.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     cfg.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
     arm.clearStickyFaults();
     arm.getConfigurator().apply(cfg);
 
-    /*
     armSetpoint = GetAngle().in(Degrees); // Set to current encoder value so elevetor doesnt "snap" when first enabled
 
     armController.setTolerance(kArmTolerance);

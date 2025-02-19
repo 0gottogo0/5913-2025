@@ -33,7 +33,7 @@ import frc.robot.subsystems.Wrist;
 public class RobotContainer {
   // Some constants needed for swerve
   private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-  private double MaxAngularRate = RotationsPerSecond.of(2).in(RadiansPerSecond);
+  private double MaxAngularRate = RotationsPerSecond.of(1).in(RadiansPerSecond);
 
   // Slew rate limiters smooth out drivetrain. 
   private SlewRateLimiter xLimiter = new SlewRateLimiter(kMoveSlewRateLimiter);
@@ -177,7 +177,7 @@ public class RobotContainer {
     // Track Right
     DriverController.rightBumper().whileTrue(drivetrain.applyRequest(
       () -> driveTrack.withVelocityX(camera.MoveReefX(kTrackDistance) + xLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftY(), 0.05) * MaxSpeed)) // Drive forward with negative Y (forward)
-                      .withVelocityY(camera.MoveReefY(-1 * kTrackOffsetRight) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), 0.05) * MaxSpeed)) // Drive left with negative X (left)
+                      .withVelocityY(camera.MoveReefY(kTrackOffsetRight) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), 0.05) * MaxSpeed)) // Drive left with negative X (left)
                       .withRotationalRate(rotLimiter.calculate(-MathUtil.applyDeadband(DriverController.getRightX(), .1) * MaxAngularRate))));
 
     // Run Intake

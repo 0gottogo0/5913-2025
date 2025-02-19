@@ -74,8 +74,8 @@ public final class Constants {
         public static final double kTrackKP = 0.2;
         public static final double kTrackKD = 0;
         public static final double kTrackTolerance = 0;
-        public static final double kTrackDistance = 0;
-        public static final double kTrackOffsetLeft = 0;
+        public static final double kTrackDistance = 4.58;
+        public static final double kTrackOffsetLeft = 6.32;
         public static final double kTrackOffsetRight = 0;
         
             // April Tag Ids
@@ -162,5 +162,5 @@ public final class Constants {
         public static final double kWristEncoderOffset = 0;
         public static final int kArmEncoderID = 0;
         public static final double kArmEncoderOffset = 0;
-        public static final String kLimeLightReef = "limelight3";
+        public static final String kLimeLightReef = "limelight-ll";
 }
