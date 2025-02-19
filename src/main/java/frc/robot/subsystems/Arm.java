@@ -25,12 +25,11 @@ public class Arm extends SubsystemBase {
 
   private TalonFXConfiguration cfg = new TalonFXConfiguration();
 
-  private PIDController armController = new PIDController(kArmKP, 0, kArmKD);
+  // private PIDController armController = new PIDController(kArmKP, 0, kArmKD);
 
   private DutyCycleEncoder armEncoder = new DutyCycleEncoder(kArmEncoderID);
 
-  private double armSetpoint;
-  private double armSetpointFinal;
+  // private double armSetpoint;
 
   Elevator elevator = new Elevator();
 
@@ -42,6 +41,7 @@ public class Arm extends SubsystemBase {
     arm.clearStickyFaults();
     arm.getConfigurator().apply(cfg);
 
+    /*
     armSetpoint = GetAngle().in(Degrees); // Set to current encoder value so elevetor doesnt "snap" when first enabled
 
     armController.setTolerance(kArmTolerance);
@@ -53,42 +53,46 @@ public class Arm extends SubsystemBase {
       } catch (Exception e) {
       }
     }).start();
+    */
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
 
-    armSetpointFinal = armSetpoint;
-
+    /*
     // Calculate pid
-    double pid = armController.calculate(GetAngle().in(Degrees), armSetpointFinal);
+    double pid = armController.calculate(GetAngle().in(Degrees), armSetpoint);
 
     pid = MathUtil.clamp(pid, -1 * kArmSpeedMax, kArmSpeedMax);
     arm.set(-1 * pid);
 
     SmartDashboard.putNumber("Arm PID Input", pid);
     SmartDashboard.putNumber("Arm Setpoint", armSetpoint);
-    SmartDashboard.putNumber("Arm Setpoint Final", armSetpointFinal);
+    */
+
     SmartDashboard.putNumber("Arm Encoder", GetAngle().in(Degrees));
   }
 
   public void Set(double setpoint) {
-    armSetpoint = setpoint;
+    // armSetpoint = setpoint;
   }
 
+  
   public void ManualMovement(double input, double sensitivity, boolean rawMode) {
+    /*
     if (rawMode) {
       arm.set(input);
     } else {
       armSetpoint = armSetpoint + input * sensitivity;
     }
+    */
   }
 
   public void Stop() {
-    armSetpoint = GetAngle().in(Degrees);
+    // armSetpoint = GetAngle().in(Degrees);
   }
-
+  
   public Angle GetAngle() {
     return Rotations.of(armEncoder.get()).minus(Degrees.of(kArmEncoderOffset));
   }

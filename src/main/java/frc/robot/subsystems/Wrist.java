@@ -26,10 +26,10 @@ public class Wrist extends SubsystemBase {
   private SparkMaxConfig cfg = new SparkMaxConfig();
 
   private PIDController wristController = new PIDController(kWristKP, 0, kWristKD);
-
-  private double wristSetpoint;
-
+  
   private DutyCycleEncoder wristEncoder = new DutyCycleEncoder(kWristEncoderID);
+  
+  private double wristSetpoint;
 
   /** Creates a new Wrist. */
   public Wrist() {

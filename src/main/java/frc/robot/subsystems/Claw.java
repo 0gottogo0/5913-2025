@@ -14,18 +14,22 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticHub;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Claw extends SubsystemBase {
 
-  private SparkMax claw = new SparkMax(kClawMotor, MotorType.kBrushless);
-  private DigitalInput beamBreak = new DigitalInput(kBeamBreak);
-  private PneumaticHub PH = new PneumaticHub(kPHID);
-  private DoubleSolenoid clawSolenoid = PH.makeDoubleSolenoid(kClawClose, kClawOpen);
-
+  private SparkMax intake = new SparkMax(kIntakeMotor, MotorType.kBrushless);
   private SparkMaxConfig cfg = new SparkMaxConfig();
+  
+  private PneumaticHub PH = new PneumaticHub(kPHID);
+  
+  private DoubleSolenoid clawSolenoid = PH.makeDoubleSolenoid(kClawClose, kClawOpen);
+  
+  private DigitalInput beamBreak = new DigitalInput(kBeamBreak);
+
+  private Timer intakeTimer = new Timer();
 
   /** Creates a new Claw. */
   public Claw() {
@@ -34,32 +38,51 @@ public class Claw extends SubsystemBase {
       .idleMode(IdleMode.kCoast);
 
     clawSolenoid.set(DoubleSolenoid.Value.kForward);
+    
+    intakeTimer.stop();
+    intakeTimer.reset();
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
 
-    SmartDashboard.putBoolean("Claw Is Loaded", beamBreak.get());
+    SmartDashboard.putBoolean("Claw Is Loaded", GetBeamBreak());
   }
 
   public void Intake(boolean reverse) {
     if (reverse) {
-      claw.set(-1 * kClawSpeedMax);
+      intake.set(kIntakeSpeedMax);
     } else {
-      claw.set(kClawSpeedMax);
+      intake.set(-1 * kIntakeSpeedMax);
     }
   }
 
-  public void Open(boolean alge) {
-    if (!alge) {
+  public void IntakeWithBeam() {
+    if (GetBeamBreak()) {
+      intakeTimer.start();
+      Stop();
+    } else if (intakeTimer.get() < 0.8 && intakeTimer.get() > 0.0) {
+      Stop();
+    } else {
+      intake.set(kIntakeSpeedMax);
+    }
+  }
+
+  public void Open(boolean algae) {
+    if (!algae) {
       clawSolenoid.set(DoubleSolenoid.Value.kForward);
     } else {
       clawSolenoid.set(DoubleSolenoid.Value.kReverse);
     }
   }
 
+  // Whenever GetBeamBreak is true, there is a coral (or algae) in the claw
+  public boolean GetBeamBreak() {
+    return !beamBreak.get();
+  }
+
   public void Stop() {
-    claw.set(0);
+    intake.set(0);
   }
 }

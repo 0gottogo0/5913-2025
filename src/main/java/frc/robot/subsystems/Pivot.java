@@ -23,16 +23,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Pivot extends SubsystemBase {
 
   private TalonFX pivotLeftMaster = new TalonFX(kPivotLeftMotor);
-  private TalonFX pivotRightFollower = new TalonFX(kPivotRightMotor);
-
   private TalonFXConfiguration cfgLeft = new TalonFXConfiguration();
+
+  private TalonFX pivotRightFollower = new TalonFX(kPivotRightMotor);
   private TalonFXConfiguration cfgRight = new TalonFXConfiguration();
 
   private PIDController pivotController = new PIDController(kPivotKP, 0, kPivotKD);
 
-  private double pivotSetpoint;
-
   private DutyCycleEncoder pivotEncoder = new DutyCycleEncoder(kPivotEncoderID);
+  
+  private double pivotSetpoint;
 
   /** Creates a new Pivot. */
   public Pivot() {

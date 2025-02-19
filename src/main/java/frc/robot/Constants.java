@@ -13,14 +13,13 @@ public final class Constants {
 
     // ** Speeds **
     public static final double kArmSpeedMax = 1;
-    public static final double kClawSpeedMax = 0.4;
-    public static final double kClawSpeedLow = 0.4;
+    public static final double kIntakeSpeedMax = 0.4;
     public static final double kElevatorSpeedMax = 0.85;
     public static final double kPivotSpeedMax = 1;
     public static final double kWristSpeedMax = 0.15;
 
     // ** Rate Limiters **
-    public static final double kMoveSlewRateLimiter = 15;
+    public static final double kMoveSlewRateLimiter = 25;
     public static final double kRotateSlewRateLimiter = 40;
 
     // ** Close Looped Controllers **
@@ -31,7 +30,7 @@ public final class Constants {
         public static final double kArmIntake = 313;
         public static final double kArmBarge = 0;
         public static final double kArmProcessor = 0;
-        public static final double kArmHome = 0;
+        public static final double kArmHome = 290;
         public static final double kArmClimb = 0;
         public static final double kArmL1 = 0;
         public static final double kArmL2 = 290;
@@ -67,39 +66,56 @@ public final class Constants {
         public static final double kPivotL3 = 135;
         public static final double kPivotL4 = 140;
         public static final double kPivotIntake = 149;
-        public static final double kPivotHome = 0;
+        public static final double kPivotHome = 135;
         public static final double kPivotClimb = 0;
+        public static final double kPivotClimbEnd = 0;
     
         // Track
-        public static final double kTrackKP = 0;
+        public static final double kTrackKP = 0.2;
         public static final double kTrackKD = 0;
         public static final double kTrackTolerance = 0;
         public static final double kTrackDistance = 0;
-        public static final double kTrackOffset = 0;
+        public static final double kTrackOffsetLeft = 0;
+        public static final double kTrackOffsetRight = 0;
+        
+            // April Tag Ids
+            public static final int kReefABRed = 0;  //blah blah put normal values here...
+            public static final int kReefABBlue = 0;
+            public static final int kReefCDRed = 0;
+            public static final int kReefCDBlue = 0;
+            public static final int kReefEFRed = 0;
+            public static final int kReefEFBlue = 0;
+            public static final int kReefGHRed = 0;
+            public static final int kReefGHBlue = 0;
+            public static final int kReefIJRed = 0;
+            public static final int kReefIJBlue = 0;
+            public static final int kReefKLRed = 0;
+            public static final int kReefKLBlue = 0;
     
         // Wrist
         public static final double kWristKP = 0.015;
         public static final double kWristKD = 0;
         public static final double kWristTolerance = 0;
-        public static final double kWristIntake = 293;
+        public static final double kWristIntake = 325;
         public static final double kWristBarge = 0;
         public static final double kWristProcessor = 0;
-        public static final double kWristHome = 0;
+        public static final double kWristHome = 325;
         public static final double kWristClimb = 0;
         public static final double kWristL1 = 0;
-        public static final double kWristL2or3 = 293;
-        public static final double kWristL4 = 245;
+        public static final double kWristL2 = 325;
+        public static final double kWristL3 = 325;
+        public static final double kWristL4 = 273;
         public static final double kWristAlge = 0;
         
     // ** Drivetrain **
-        public static final double kTrackWidthX = 23.5;   // These are how far the center of the swerves are apart
-        public static final double kTrackWidthY = 23.375; // Same but back to front
-        public static final double kDrivetrainMaxSpeed = 17.1;   // ft/s
-        public static final double kDrivetrainWheelDiameter = 2; // inches
-        public static final double kDrivetrainGearRatio = 6.1224489;
-        public static final double kDrivetrainSteerRatio = 12.8;
-        public static final double kFrameWidth = 30;     // in
-        public static final double kFrameLength = 29.75; // in
+    public static final double kTrackWidthX = 23.5;   // These are how far the center of the swerves are apart
+    public static final double kTrackWidthY = 23.375; // Same but back to front
+    public static final double kDrivetrainMaxSpeed = 17.1;   // ft/s
+    public static final double kDrivetrainWheelDiameter = 2; // inches
+    public static final double kDrivetrainGearRatio = 6.1224489;
+    public static final double kDrivetrainSteerRatio = 12.8;
+    public static final double kFrameWidth = 30;     // in
+    public static final double kFrameLength = 29.75; // in
         
     // ** Motors **
         
@@ -115,7 +131,7 @@ public final class Constants {
 
         // Misc
         public static final int kArmMotor = 21;
-        public static final int kClawMotor = 24;
+        public static final int kIntakeMotor = 24;
         public static final int kPivotLeftMotor = 20;
         public static final int kPivotRightMotor = 17;
         public static final int kElevatorMotor = 30;
@@ -138,7 +154,7 @@ public final class Constants {
         public static final int kPigeon = 13;
 
         // Misc
-        public static final int kBeamBreak = 3;
+        public static final int kBeamBreak = 5;
         public static final int kPivotEncoderID = 2;
         public static final double kPivotEncoderOffset = 0;
         public static final int kWristEncoderID = 8;

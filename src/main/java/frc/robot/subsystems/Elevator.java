@@ -19,13 +19,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Elevator extends SubsystemBase {
 
   private TalonFX elevator = new TalonFX(kElevatorMotor);
-
   private TalonFXConfiguration cfg = new TalonFXConfiguration();
 
   private PIDController elevatorController = new PIDController(kElevatorKP, 0, kElevatorKD);
 
   private double elevatorSetpoint; 
-
   private boolean pidToggle;
 
   /** Creates a new Elevator. */

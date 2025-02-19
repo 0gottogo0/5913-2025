@@ -10,9 +10,12 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.LimelightHelpers;
+import frc.robot.generated.TunerConstants;
 
 public class Camera extends SubsystemBase {
   public final String ReefLL = kLimeLightReef;
+
+  private final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
   private PIDController reefXController = new PIDController(kTrackKP, 0, kTrackKD);
   private PIDController reefYController = new PIDController(kTrackKP, 0, kTrackKD);
@@ -35,6 +38,29 @@ public class Camera extends SubsystemBase {
     SmartDashboard.putNumber("Reef PID X", reefX);
     SmartDashboard.putNumber("Reef PID Y", reefY);
     SmartDashboard.putNumber("Reef ID", LimelightHelpers.getFiducialID(ReefLL));
+
+    SmartDashboard.putNumber("Robot X", drivetrain.getState().Pose.getX());
+    SmartDashboard.putNumber("Robot Y", drivetrain.getState().Pose.getY());
+  }
+
+  public double AutoReefX(double position) {
+    /*
+    double tx = LimelightHelpers.getTX(ReefLL); // Get April Tag X
+    double x = drivetrain.getState().Pose.getX();
+    double tid = LimelightHelpers.getFiducialID(ReefLL);
+    int id = (int)tid; // stupid dumb limelight devs using doubles insted of ints :(
+    int target;
+
+    switch (id) {
+      default:
+        target = 0;
+        break;
+      case kReefABRed:
+        target = 2;
+        break;
+    }
+    */
+    return 0;
   }
 
   public double MoveReefX(double position) {
@@ -47,7 +73,7 @@ public class Camera extends SubsystemBase {
 
     return reefX;
   }
-  
+
   public double MoveReefY(double position) {
     double ty = LimelightHelpers.getTY(ReefLL); // Get April Tag Y
 
