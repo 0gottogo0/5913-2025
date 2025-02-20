@@ -43,59 +43,60 @@ public class Camera extends SubsystemBase {
 
   public double AutoReefX(double position) {
     double tx = LimelightHelpers.getTX(kLimeLightReef); // Get April Tag X
-    double dx = drivetrain.getState().Pose.getX();
+    double ty = LimelightHelpers.getTY(kLimeLightReef); // Get April Tag Y
     double llid = LimelightHelpers.getFiducialID(kLimeLightReef);
     int id = (int)llid; // stupid dumb limelight devs using doubles insted of ints :(
+                        // Its not their fault
   
     switch (id) {
       default:
-        
+        reefX = reefXController.calculate(position, tx);
         break;
       case kReefABRed:
-        
+        reefX = reefXController.calculate(position, tx);
         break;
       case kReefCDRed:
-        
+        reefX = 0.5 * ty + position;
         break;
       case kReefEFRed:
-        
+        reefX = -0.5 * ty + position;
         break;
       case kReefGHRed:
-        
+        reefX = -reefXController.calculate(position, tx);
         break;
       case kReefIJRed:
-        
+        reefX = -0.5 * ty + position;
         break;
       case kReefKLRed:
-        
+        reefX = 0.5 * ty + position;
         break;
       case kReefABBlue:
-        
+        reefX = reefXController.calculate(position, tx);
         break;
       case kReefCDBlue:
-        
+        reefX = 0.5 * ty + position;
         break;
       case kReefEFBlue:
-        
+        reefX = -0.5 * ty + position;
         break;
       case kReefGHBlue:
-        
+        reefX = -reefXController.calculate(position, tx);
         break;
       case kReefIJBlue:
-        
+        reefX = -0.5 * ty + position;
         break;
       case kReefKLBlue:
-        
+        reefX = 0.5 * ty + position;
         break;
     }
-    return 0;
+    return reefX;
   }
 
   public double MoveReefX(double position) {
     double tx = LimelightHelpers.getTX(kLimeLightReef); // Get April Tag X
 
     // Calculate pid
-    reefXController.calculate(position, tx);
+    reefX = reefXController.calculate(position, tx);
     reefX = MathUtil.clamp(reefX, -0.2, 0.2);
 
     return reefX;
@@ -104,10 +105,16 @@ public class Camera extends SubsystemBase {
   public double MoveReefY(double position) {
     double ty = LimelightHelpers.getTY(kLimeLightReef); // Get April Tag Y
 
+    LimelightHelpers.setLEDMode_ForceOn(kLimeLightReef);
+
     // Calculate pid
-    reefYController.calculate(position, ty);
+    reefY = reefYController.calculate(position, ty);
     reefY = MathUtil.clamp(reefY, -0.2, 0.2);
 
     return reefY;
+  }
+
+  public void SetLEDOff() {
+    LimelightHelpers.setLEDMode_ForceOff(kLimeLightReef);
   }
 }

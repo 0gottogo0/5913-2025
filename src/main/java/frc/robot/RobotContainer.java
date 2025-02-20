@@ -180,6 +180,27 @@ public class RobotContainer {
                       .withVelocityY(camera.MoveReefY(kTrackOffsetRight) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), 0.05) * MaxSpeed)) // Drive left with negative X (left)
                       .withRotationalRate(rotLimiter.calculate(-MathUtil.applyDeadband(DriverController.getRightX(), .1) * MaxAngularRate))));
 
+    // Uncomment for auto testing during tele
+    /*
+    // Track Left
+    DriverController.leftBumper().whileTrue(drivetrain.applyRequest(
+      () ->drive.withVelocityX(camera.AutoReefX(kTrackDistance) + xLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftY(), 0.05) * MaxSpeed)) // Drive forward with negative Y (forward)
+                .withVelocityY(camera.AutoReefY(kTrackOffsetLeft) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), 0.05) * MaxSpeed)) // Drive left with negative X (left)
+                .withRotationalRate(rotLimiter.calculate(-MathUtil.applyDeadband(DriverController.getRightX(), .1) * MaxAngularRate))));
+
+    // Track Right
+    DriverController.rightBumper().whileTrue(drivetrain.applyRequest(
+      () -> drive.withVelocityX(camera.AutoReefX(kTrackDistance) + xLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftY(), 0.05) * MaxSpeed)) // Drive forward with negative Y (forward)
+                .withVelocityY(camera.AutoReefY(kTrackOffsetRight) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), 0.05) * MaxSpeed)) // Drive left with negative X (left)
+                .withRotationalRate(rotLimiter.calculate(-MathUtil.applyDeadband(DriverController.getRightX(), .1) * MaxAngularRate))));
+    */
+
+    DriverController.leftBumper().whileFalse(camera.run(
+      () -> camera.SetLEDOff()));
+
+    DriverController.rightBumper().whileFalse(camera.run(
+      () -> camera.SetLEDOff()));
+
     // Run Intake
     DriverController.rightTrigger().whileTrue(claw.runEnd(
       () -> claw.RunIntakeWithBeam(),
