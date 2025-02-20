@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Claw extends SubsystemBase {
+public class Intake extends SubsystemBase {
 
   private SparkMax intake = new SparkMax(kIntakeMotor, MotorType.kBrushless);
   private SparkMaxConfig cfg = new SparkMaxConfig();
@@ -32,7 +32,7 @@ public class Claw extends SubsystemBase {
   private Timer intakeTimer = new Timer();
 
   /** Creates a new Claw. */
-  public Claw() {
+  public Intake() {
     cfg
       .inverted(false)
       .idleMode(IdleMode.kCoast);
@@ -50,15 +50,15 @@ public class Claw extends SubsystemBase {
     SmartDashboard.putBoolean("Claw Is Loaded", GetBeamBreak());
   }
 
-  public void Intake(boolean reverse) {
-    if (reverse) {
-      intake.set(-1 * kIntakeSpeedMax); // Shoot algae
-    } else {
-      intake.set(kIntakeSpeed);
-    }
+  public void RunIntake() {
+    intake.set(kIntakeSpeed);
   }
 
-  public void IntakeWithBeam() {
+  public  void RunIntakeReverse() {
+    intake.set(kIntakeSpeedMax);
+  }
+
+  public void RunIntakeWithBeam() {
     if (GetBeamBreak()) {
       intakeTimer.start();
       Stop();
@@ -67,6 +67,11 @@ public class Claw extends SubsystemBase {
     } else {
       intake.set(kIntakeSpeed);
     }
+  }
+
+  public void EjectAlgae() {
+    clawSolenoid.set(DoubleSolenoid.Value.kForward);
+    intake.set(kIntakeSpeedMax);
   }
 
   public void Open(boolean algae) {

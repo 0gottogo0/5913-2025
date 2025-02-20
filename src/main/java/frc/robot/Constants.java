@@ -12,10 +12,9 @@ public final class Constants {
     public static final double kTriggerThreshold = 0.5;
 
     // ** Speeds **
-    public static final double kArmSpeedMax = 1;
-    public static final double kIntakeSpeedMax = 1;
-    public static final double kIntakeSpeed = 0.4;
     public static final double kElevatorSpeedMax = 0.85;
+    public static final double kIntakeSpeedMax = -1;
+    public static final double kIntakeSpeed = 0.4;
     public static final double kPivotSpeedMax = 1;
     public static final double kWristSpeedMax = 0.15;
 
@@ -26,18 +25,18 @@ public final class Constants {
     // ** Close Looped Controllers **
 
         // Arm
-        public static final double kArmKP = 0.1;
+        public static final double kArmKP = 0;
         public static final double kArmKD = 0;
-        public static final double kArmIntake = 313;
-        public static final double kArmBarge = 313;
-        public static final double kArmProcessor = 313;
-        public static final double kArmHome = 313;
-        public static final double kArmClimb = 313;
-        public static final double kArmL1 = 313;
-        public static final double kArmL2 = 313;
-        public static final double kArmL3 = 313;
-        public static final double kArmL4 = 313;
-        public static final double kArmTolerance = 0.5;
+        public static final double kArmIntake = 0;
+        public static final double kArmBarge = 0;
+        public static final double kArmProcessor = 0;
+        public static final double kArmHome = 0;
+        public static final double kArmClimb = 0;
+        public static final double kArmL1 = 0;
+        public static final double kArmL2 = 0;
+        public static final double kArmL3 = 0;
+        public static final double kArmL4 = 0;
+        public static final double kArmTolerance = 0;
 
         // Elevator
         public static final double kElevatorKP = 0.2;
@@ -131,7 +130,6 @@ public final class Constants {
         public static final int kBackRightSteer = 8;
 
         // Misc
-        public static final int kArmMotor = 21;
         public static final int kIntakeMotor = 24;
         public static final int kPivotLeftMotor = 20;
         public static final int kPivotRightMotor = 17;
@@ -160,7 +158,5 @@ public final class Constants {
         public static final double kPivotEncoderOffset = 0;
         public static final int kWristEncoderID = 8;
         public static final double kWristEncoderOffset = 0;
-        public static final int kArmEncoderID = 0;
-        public static final double kArmEncoderOffset = 0;
         public static final String kLimeLightReef = "limelight-ll";
 }

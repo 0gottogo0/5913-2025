@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Camera;
-import frc.robot.subsystems.Claw;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Pivot;
@@ -49,8 +49,8 @@ public class RobotContainer {
 
   Arm arm = new Arm();
   Camera camera = new Camera();
-  Claw claw = new Claw();
   Elevator elevator = new Elevator();
+  Intake claw = new Intake();
   Pivot pivot = new Pivot();
   Pneumatics pneumatics = new Pneumatics();
   Wrist wrist = new Wrist();
@@ -93,11 +93,11 @@ public class RobotContainer {
     */
 
     NamedCommands.registerCommand("Intake With Beam Break", claw.runEnd(
-      () -> claw.IntakeWithBeam(),
+      () -> claw.RunIntakeWithBeam(),
       () -> claw.Stop()));
 
     NamedCommands.registerCommand("Intake Raw", claw.runEnd(
-      () -> claw.Intake(false),
+      () -> claw.RunIntake(),
       () -> claw.Stop()));
 
     NamedCommands.registerCommand("L2", arm.runOnce(
@@ -182,12 +182,12 @@ public class RobotContainer {
 
     // Run Intake
     DriverController.rightTrigger().whileTrue(claw.runEnd(
-      () -> claw.Intake(false),
+      () -> claw.RunIntakeWithBeam(),
       () -> claw.Stop()));
 
     // Reverse Intake
     DriverController.leftTrigger().whileTrue(claw.runEnd(
-      () -> claw.Intake(true),
+      () -> claw.RunIntakeReverse(),
       () -> claw.Stop()));
 
     /*
@@ -216,12 +216,17 @@ public class RobotContainer {
     
     // Run Intake
     ManipulatorController.rightTrigger().whileTrue(claw.runEnd(
-      () -> claw.Intake(false),
+      () -> claw.RunIntakeWithBeam(),
       () -> claw.Stop()));
 
     // Reverse Intake
     ManipulatorController.leftTrigger().whileTrue(claw.runEnd(
-      () -> claw.Intake(true),
+      () -> claw.RunIntakeReverse(),
+      () -> claw.Stop()));
+
+    // Eject Algae
+    ManipulatorController.povDown().whileTrue(claw.runEnd(
+      () -> claw.EjectAlgae(),
       () -> claw.Stop()));
 
     /*
