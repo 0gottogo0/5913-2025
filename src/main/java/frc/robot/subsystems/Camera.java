@@ -31,6 +31,11 @@ public class Camera extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
+    double tx = LimelightHelpers.getTX(kLimeLightReef);
+    double ty = LimelightHelpers.getTY(kLimeLightReef);
+    reefX = reefXController.calculate(tx);
+    reefY = reefXController.calculate(ty);
+
     SmartDashboard.putNumber("Reef TX", LimelightHelpers.getTX(kLimeLightReef));
     SmartDashboard.putNumber("Reef TY", LimelightHelpers.getTY(kLimeLightReef));
     SmartDashboard.putNumber("Reef PID X", reefX);
@@ -94,12 +99,16 @@ public class Camera extends SubsystemBase {
 
   public double MoveReefX(double position) {
     double tx = LimelightHelpers.getTX(kLimeLightReef); // Get April Tag X
+    
+    LimelightHelpers.setLEDMode_ForceOn(kLimeLightReef);
 
     // Calculate pid
-    reefX = reefXController.calculate(position, tx);
-    reefX = MathUtil.clamp(reefX, -0.2, 0.2);
+    reefXController.setSetpoint(position);
+    //reefX = reefXController.calculate(position, tx);
+    reefX = reefX / 1.6;
+    
 
-    return reefX;
+    return -reefX;
   }
 
   public double MoveReefY(double position) {
@@ -108,8 +117,7 @@ public class Camera extends SubsystemBase {
     LimelightHelpers.setLEDMode_ForceOn(kLimeLightReef);
 
     // Calculate pid
-    reefY = reefYController.calculate(position, ty);
-    reefY = MathUtil.clamp(reefY, -0.2, 0.2);
+    reefYController.setSetpoint(position);
 
     return reefY;
   }

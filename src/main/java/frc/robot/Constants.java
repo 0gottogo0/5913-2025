@@ -70,12 +70,12 @@ public final class Constants {
         public static final double kPivotGround = 96;
     
         // Track
-        public static final double kTrackKP = 0.2;
-        public static final double kTrackKD = 0;
+        public static final double kTrackKP = 0.05;
+        public static final double kTrackKD = 0.00;
         public static final double kTrackTolerance = 0;
-        public static final double kTrackDistance = 4.58;
-        public static final double kTrackOffsetLeft = 6.32;
-        public static final double kTrackOffsetRight = 0;
+        public static final double kTrackDistance = 0;
+        public static final double kTrackOffsetLeft = 5.62;
+        public static final double kTrackOffsetRight = -23.00;
         
             // April Tag Ids
             public static final int kReefABRed = 0;  //blah blah put normal values here...
@@ -156,7 +156,7 @@ public final class Constants {
         public static final int kBeamBreak = 5;
         public static final int kPivotEncoderID = 2;
         public static final double kPivotEncoderOffset = 0;
-        public static final int kWristEncoderID = 8;
+        public static final int kWristEncoderID = 1;
         public static final double kWristEncoderOffset = 0;
         public static final String kLimeLightReef = "limelight-ll";
 }
