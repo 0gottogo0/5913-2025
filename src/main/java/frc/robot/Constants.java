@@ -4,6 +4,10 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.*;
+
+import edu.wpi.first.units.measure.Angle;
+
 public final class Constants {
 
     // ** Controllers **
@@ -70,40 +74,40 @@ public final class Constants {
         public static final double kPivotGround = 96;
     
         // Track
-        public static final double kTrackKP = 0.05;
-        public static final double kTrackKD = 0.00;
-        public static final double kTrackTolerance = 0;
-        public static final double kTrackDistance = 0;
+        public static final double kTrackXKP = 5;
+        public static final double kTrackXKI = 0.00;
+        public static final double kTrackXKD = 0.00;
+        public static final double kTrackYKP = 5;
+        public static final double kTrackYKI = 0.00;
+        public static final double kTrackYKD = 0.00;
+        public static final double kTrackRotKP = 0.15;
+        public static final double kTrackRotKI = 0.00;
+        public static final double kTrackRotKD = 0.00;
+        public static final double kTrackTolerance = 0.01;
+        public static final double kTrackDistanceLeft = 3.46;
+        public static final double kTrackDistanceRight = 7.41;
         public static final double kTrackOffsetLeft = 5.62;
         public static final double kTrackOffsetRight = -23.00;
-        
-            // April Tag Ids
-            public static final int kReefABRed = 0;  //blah blah put normal values here...
-            public static final int kReefABBlue = 1;
-            public static final int kReefCDRed = 2;
-            public static final int kReefCDBlue = 3;
-            public static final int kReefEFRed = 4;
-            public static final int kReefEFBlue = 5;
-            public static final int kReefGHRed = 6;
-            public static final int kReefGHBlue = 7;
-            public static final int kReefIJRed = 8;
-            public static final int kReefIJBlue = 9;
-            public static final int kReefKLRed = 10;
-            public static final int kReefKLBlue = 11;
+        public static final double kTrackXOffsetLeft = -0.173;
+        public static final double kTrackYOffsetLeft = -0.494;
+        public static final Angle kTrackRotOffsetLeft = Degrees.of(0);
+        public static final double kTrackXOffsetRight = 0.159;
+        public static final double kTrackYOffsetRight = -0.484;
+        public static final Angle kTrackRotOffsetRight = Degrees.of(0);
     
         // Wrist
         public static final double kWristKP = 0.015;
         public static final double kWristKD = 0;
         public static final double kWristTolerance = 0;
-        public static final double kWristIntake = 325;
+        public static final double kWristIntake = 321;
         public static final double kWristBarge = 0;
         public static final double kWristProcessor = 0;
-        public static final double kWristHome = 325;
+        public static final double kWristHome = 321;
         public static final double kWristClimb = 0;
         public static final double kWristGround = 88;
         public static final double kWristL1 = 0;
-        public static final double kWristL2 = 325;
-        public static final double kWristL3 = 325;
+        public static final double kWristL2 = 321;
+        public static final double kWristL3 = 321;
         public static final double kWristL4 = 273;
         public static final double kWristAlge = 0;
         
@@ -153,7 +157,7 @@ public final class Constants {
         public static final int kPigeon = 13;
 
         // Misc
-        public static final int kBeamBreak = 5;
+        public static final int kBeamBreak = 9;
         public static final int kPivotEncoderID = 2;
         public static final double kPivotEncoderOffset = 0;
         public static final int kWristEncoderID = 1;

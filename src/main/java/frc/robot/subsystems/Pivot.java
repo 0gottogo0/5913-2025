@@ -101,4 +101,8 @@ public class Pivot extends SubsystemBase {
   public Angle GetAngle() {
     return Rotations.of(pivotEncoder.get()).minus(Degrees.of(kPivotEncoderOffset));
   }
+
+  public double GetSetpoint() {
+    return pivotController.getSetpoint();
+  }
 }

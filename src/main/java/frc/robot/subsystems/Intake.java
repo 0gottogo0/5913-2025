@@ -31,6 +31,8 @@ public class Intake extends SubsystemBase {
 
   private Timer intakeTimer = new Timer();
 
+  public boolean ignoreBeamBreak = false;
+
   /** Creates a new Claw. */
   public Intake() {
     cfg
@@ -51,21 +53,28 @@ public class Intake extends SubsystemBase {
   }
 
   public void RunIntake() {
-    intake.set(kIntakeSpeed);
+    intake.set(-kIntakeSpeed);
   }
 
   public  void RunIntakeReverse() {
-    intake.set(kIntakeSpeedMax);
+    intake.set(kIntakeSpeed);
   }
 
   public void RunIntakeWithBeam() {
-    if (GetBeamBreak()) {
-      intakeTimer.start();
-      Stop();
-    } else if (intakeTimer.get() < 0.8 && intakeTimer.get() > 0.0) {
-      Stop();
+    if (!ignoreBeamBreak) {
+      if (!GetBeamBreak()) {
+        intake.set(-kIntakeSpeed);
+        intakeTimer.stop();
+        intakeTimer.reset();
+      } else if (intakeTimer.get() < 0.4) {
+        intake.set(-kIntakeSpeed);
+        intakeTimer.start();
+      } else {
+        Stop();
+      }
     } else {
-      intake.set(kIntakeSpeed);
+      intake.set(-kIntakeSpeed);
+      intakeTimer.reset();
     }
   }
 
