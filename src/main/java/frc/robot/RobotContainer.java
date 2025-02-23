@@ -31,7 +31,7 @@ import frc.robot.subsystems.Wrist;
 public class RobotContainer {
   // Some constants needed for swerve
   private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-  private double MaxAngularRate = RotationsPerSecond.of(1).in(RadiansPerSecond);
+  private double MaxAngularRate = RotationsPerSecond.of(kRotateMagnitude).in(RadiansPerSecond);
 
   // Slew rate limiters smooth out drivetrain. 
   private SlewRateLimiter xLimiter = new SlewRateLimiter(kMoveSlewRateLimiter);
@@ -59,8 +59,8 @@ public class RobotContainer {
                                                                // driving in open loop
 
   private final SwerveRequest.RobotCentric driveTrack = new SwerveRequest.RobotCentric()
-      .withDeadband(MaxSpeed * 0.02).withRotationalDeadband(MaxAngularRate * 0.02) // Add a 10% deadband
-      .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
+      .withDeadband(MaxSpeed * 0.02).withRotationalDeadband(MaxAngularRate * 0.02) // Add a 2% deadband
+      .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want robot-centric
                                                                // driving in open loop
 
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();

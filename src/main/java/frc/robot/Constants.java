@@ -21,9 +21,10 @@ public final class Constants {
     public static final double kPivotSpeedMax = 1;
     public static final double kWristSpeedMax = 0.15;
 
-    // ** Rate Limiters **
+    // ** Drivetrain Tuning **
     public static final double kMoveSlewRateLimiter = 25;
     public static final double kRotateSlewRateLimiter = 40;
+    public static final double kRotateMagnitude = 0.9;
 
     // ** Close Looped Controllers **
 
