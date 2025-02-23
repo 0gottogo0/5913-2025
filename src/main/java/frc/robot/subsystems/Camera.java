@@ -29,11 +29,7 @@ public class Camera extends SubsystemBase {
   private Angle rotToTarget = Degrees.of(0);
 
   /** Creates a new Camera. */
-  public Camera() {
-    reefXController.setTolerance(kTrackTolerance);
-    reefYController.setTolerance(kTrackTolerance);
-    reefRotController.setTolerance(kTrackTolerance);
-  }
+  public Camera() {}
 
   @Override
   public void periodic() {
@@ -60,33 +56,18 @@ public class Camera extends SubsystemBase {
   }
 
   public double MoveReefX(double position) {
-    // double tx = LimelightHelpers.getTX(kLimeLightReef); // Get April Tag X
-    
-    // LimelightHelpers.setLEDMode_ForceOn(kLimeLightReef);
-
-    // Calculate pid
-    // reefX = reefXController.calculate(position, tx);
-    // reefX = reefX / 1.6;
-    
     reefXController.setSetpoint(position);
 
     return -MathUtil.clamp(reefX, -0.8, 0.8);
   }
 
   public double MoveReefY(double position) {
-    //double ty = LimelightHelpers.getTY(kLimeLightReef); // Get April Tag Y
-
-    //LimelightHelpers.setLEDMode_ForceOn(kLimeLightReef);
-
-    // Calculate pid
-
     reefYController.setSetpoint(position);
 
     return MathUtil.clamp(reefY, -0.8, 0.8);
   }
 
   public double MoveReefRot(Angle position) {
-
     reefRotController.setSetpoint(position.in(Degrees));
     
     return reefRot;

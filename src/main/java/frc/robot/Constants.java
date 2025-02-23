@@ -13,7 +13,6 @@ public final class Constants {
     // ** Controllers **
     public static final int kDriverController = 0;
     public static final int kManipulatorController = 1;
-    public static final double kTriggerThreshold = 0.5;
 
     // ** Speeds **
     public static final double kElevatorSpeedMax = 0.85;
@@ -27,20 +26,6 @@ public final class Constants {
     public static final double kRotateSlewRateLimiter = 40;
 
     // ** Close Looped Controllers **
-
-        // Arm
-        public static final double kArmKP = 0;
-        public static final double kArmKD = 0;
-        public static final double kArmIntake = 0;
-        public static final double kArmBarge = 0;
-        public static final double kArmProcessor = 0;
-        public static final double kArmHome = 0;
-        public static final double kArmClimb = 0;
-        public static final double kArmL1 = 0;
-        public static final double kArmL2 = 0;
-        public static final double kArmL3 = 0;
-        public static final double kArmL4 = 0;
-        public static final double kArmTolerance = 0;
 
         // Elevator
         public static final double kElevatorKP = 0.05;
@@ -72,6 +57,9 @@ public final class Constants {
         public static final double kPivotClimb = 117;
         public static final double kPivotClimbEnd = 97;
         public static final double kPivotGround = 96;
+        public static final double kPivotBottomAlgae = 0;
+        public static final double kPivotTopAlgae = 0;
+        public static final double kPivotAlgaeHome = 0;
     
         // Track
         public static final double kTrackXKP = 5;
@@ -83,14 +71,12 @@ public final class Constants {
         public static final double kTrackRotKP = 0.15;
         public static final double kTrackRotKI = 0.00;
         public static final double kTrackRotKD = 0.00;
-        public static final double kTrackTolerance = 0.01;
-        public static final double kTrackDistanceLeft = 3.46;
-        public static final double kTrackDistanceRight = 7.41;
-        public static final double kTrackOffsetLeft = 5.62;
-        public static final double kTrackOffsetRight = -23.00;
         public static final double kTrackXOffsetLeft = -0.173;
         public static final double kTrackYOffsetLeft = -0.494;
         public static final Angle kTrackRotOffsetLeft = Degrees.of(0);
+        public static final double kTrackXOffsetCenter = -0.173;
+        public static final double kTrackYOffsetCenter = -0.494;
+        public static final Angle kTrackRotOffsetCenter = Degrees.of(0);
         public static final double kTrackXOffsetRight = 0.159;
         public static final double kTrackYOffsetRight = -0.484;
         public static final Angle kTrackRotOffsetRight = Degrees.of(0);
@@ -109,7 +95,9 @@ public final class Constants {
         public static final double kWristL2 = 321;
         public static final double kWristL3 = 321;
         public static final double kWristL4 = 273;
-        public static final double kWristAlge = 0;
+        public static final double kWristBottomAlgae = 0;
+        public static final double kWristTopAlgae = 0;
+        public static final double kWristAlgaeHome = 0;
         
     // ** Drivetrain **
     public static final double kTrackWidthX = 23.5;   // These are how far the center of the swerves are apart
