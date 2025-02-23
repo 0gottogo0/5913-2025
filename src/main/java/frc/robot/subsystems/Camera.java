@@ -9,15 +9,11 @@ import static frc.robot.Constants.*;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.LimelightHelpers;
-import frc.robot.LimelightHelpers.LimelightResults;
-import frc.robot.LimelightHelpers.LimelightTarget_Fiducial;
-import frc.robot.generated.TunerConstants;
 
 public class Camera extends SubsystemBase {
   private PIDController reefXController = new PIDController(kTrackXKP, kTrackXKI, kTrackXKD);
@@ -27,9 +23,6 @@ public class Camera extends SubsystemBase {
   private double reefX;
   private double reefY;
   private double reefRot;
-
-  private double tx;
-  private double ty;
 
   private double xToTarget = 0;
   private double yToTarget = 0;
@@ -77,7 +70,7 @@ public class Camera extends SubsystemBase {
     
     reefXController.setSetpoint(position);
 
-    return -MathUtil.clamp(reefX, -0.7, 0.7);
+    return -MathUtil.clamp(reefX, -0.8, 0.8);
   }
 
   public double MoveReefY(double position) {
@@ -89,7 +82,7 @@ public class Camera extends SubsystemBase {
 
     reefYController.setSetpoint(position);
 
-    return MathUtil.clamp(reefY, -0.7, 0.7);
+    return MathUtil.clamp(reefY, -0.8, 0.8);
   }
 
   public double MoveReefRot(Angle position) {

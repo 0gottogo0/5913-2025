@@ -17,7 +17,7 @@ public final class Constants {
 
     // ** Speeds **
     public static final double kElevatorSpeedMax = 0.85;
-    public static final double kIntakeSpeedMax = -1;
+    public static final double kIntakeSpeedMax = 1;
     public static final double kIntakeSpeed = 0.4;
     public static final double kPivotSpeedMax = 1;
     public static final double kWristSpeedMax = 0.15;
@@ -43,7 +43,7 @@ public final class Constants {
         public static final double kArmTolerance = 0;
 
         // Elevator
-        public static final double kElevatorKP = 0.2;
+        public static final double kElevatorKP = 0.05;
         public static final double kElevatorKD = 0;
         public static final double kElevatorIntake = 0;
         public static final double kElevatorBarge = -124.6;
@@ -60,7 +60,7 @@ public final class Constants {
         public static final double kElevatorTolerance = 0.5;
     
         // Pivot
-        public static final double kPivotKP = 0.1;
+        public static final double kPivotKP = 0.125;
         public static final double kPivotKD = 0;
         public static final double kPivotTolerance = 0;
         public static final double kPivotL1 = 0;
@@ -115,7 +115,7 @@ public final class Constants {
     public static final double kTrackWidthX = 23.5;   // These are how far the center of the swerves are apart
     public static final double kTrackWidthY = 23.375; // Same but back to front
     public static final double kDrivetrainMaxSpeed = 17.1;   // ft/s
-    public static final double kDrivetrainWheelDiameter = 2; // inches
+    public static final double kDrivetrainWheelDiameter = 1.95; // inches
     public static final double kDrivetrainGearRatio = 6.1224489;
     public static final double kDrivetrainSteerRatio = 12.8;
     public static final double kFrameWidth = 30;     // in

@@ -29,8 +29,6 @@ public class Intake extends SubsystemBase {
   
   private DigitalInput beamBreak = new DigitalInput(kBeamBreak);
 
-  private Timer intakeTimer = new Timer();
-
   public boolean ignoreBeamBreak = false;
 
   /** Creates a new Claw. */
@@ -40,9 +38,6 @@ public class Intake extends SubsystemBase {
       .idleMode(IdleMode.kCoast);
 
     clawSolenoid.set(DoubleSolenoid.Value.kForward);
-    
-    intakeTimer.stop();
-    intakeTimer.reset();
   }
 
   @Override
@@ -64,17 +59,11 @@ public class Intake extends SubsystemBase {
     if (!ignoreBeamBreak) {
       if (!GetBeamBreak()) {
         intake.set(-kIntakeSpeed);
-        intakeTimer.stop();
-        intakeTimer.reset();
-      } else if (intakeTimer.get() < 0.4) {
-        intake.set(-kIntakeSpeed);
-        intakeTimer.start();
       } else {
         Stop();
       }
     } else {
       intake.set(-kIntakeSpeed);
-      intakeTimer.reset();
     }
   }
 

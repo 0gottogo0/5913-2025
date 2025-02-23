@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.1867827868845071,
-        "y": 0.9981045081939328
+        "x": 4.17172131147541,
+        "y": 2.0170594262295083
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7885978100365554,
-        "y": 1.7967400182412252
+        "x": 4.027868852459017,
+        "y": 2.4486168032786884
       },
       "isLocked": false,
-      "linkedName": "Right Coral"
+      "linkedName": "D Track"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 2.820235655737705
       },
       "prevControl": {
-        "x": 3.4799180327868857,
-        "y": 1.9542102519532665
+        "x": 4.039856557377049,
+        "y": 2.41265368852459
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": "Right",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 53.58362148011394
+    "rotation": 59.62087398863163
   },
   "useDefaultConstraints": true
 }
