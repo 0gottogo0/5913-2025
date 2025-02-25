@@ -54,12 +54,12 @@ public class RobotContainer {
 
   // Swerve Requests
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-      .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+      .withDeadband(MaxSpeed * 0.02).withRotationalDeadband(MaxAngularRate * 0.02) // Add a 2% deadband
       .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
                                                                // driving in open loop
 
   private final SwerveRequest.RobotCentric driveTrack = new SwerveRequest.RobotCentric()
-      .withDeadband(MaxSpeed * 0.02).withRotationalDeadband(MaxAngularRate * 0.02) // Add a 10% deadband
+      .withDeadband(MaxSpeed * 0.02).withRotationalDeadband(MaxAngularRate * 0.02) // Add a 2% deadband
       .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
                                                                // driving in open loop
 
@@ -105,7 +105,7 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("L2", intake.run(
       () -> intake.Open(false))
-      .alongWith(new WaitCommand(0.6)
+      .alongWith(new WaitCommand(0.1)
         .andThen(elevator.run(
         () -> elevator.Set(kElevatorL2))))
       .alongWith(pivot.run(
@@ -117,30 +117,50 @@ public class RobotContainer {
       () -> intake.Open(false))
       .alongWith(elevator.run(
       () -> elevator.Set(kElevatorL3)))
-      .alongWith(new WaitCommand(0.75)
+      .alongWith(new WaitCommand(0.1)
         .andThen(pivot.run(
         () -> pivot.Set(kPivotL3))))
       .alongWith(wrist.run(
       () -> wrist.Set(kWristL3))));
 
+    NamedCommands.registerCommand("L3 With Delay", new WaitCommand(0.5)
+      .andThen(elevator.run(
+      () -> elevator.Set(kElevatorL3)))
+    .alongWith(new WaitCommand(0.75)
+      .andThen(pivot.run(
+      () -> pivot.Set(kPivotL3))))
+    .alongWith(new WaitCommand(0.5)
+      .andThen(wrist.run(
+      () -> wrist.Set(kWristL3)))));
+
     NamedCommands.registerCommand("L4", intake.run(
       () -> intake.Open(false))
       .alongWith(elevator.run(
       () -> elevator.Set(kElevatorL4)))
-      .alongWith(new WaitCommand(1)
+      .alongWith(new WaitCommand(0.25)
         .andThen(pivot.run(
         () -> pivot.Set(kPivotL4))))
       .alongWith(wrist.run(
       () -> wrist.Set(kWristL4))));
 
+    NamedCommands.registerCommand("L4 With Delay", new WaitCommand(0.5)
+      .andThen(elevator.run(
+      () -> elevator.Set(kElevatorL4)))
+    .alongWith(new WaitCommand(0.75)
+      .andThen(pivot.run(
+      () -> pivot.Set(kPivotL4))))
+    .alongWith(new WaitCommand(0.5)
+      .andThen(wrist.run(
+      () -> wrist.Set(kWristL4)))));
+
     NamedCommands.registerCommand("Intake", intake.runOnce(
         () -> intake.Open(false))
-      .alongWith(new WaitCommand(0.8)
+      .alongWith(new WaitCommand(0.6)
         .andThen(elevator.runOnce(
         () -> elevator.Set(kElevatorIntake))))
       .alongWith(pivot.runOnce(
       () -> pivot.Set(kPivotIntake)))
-      .alongWith(new WaitCommand(0.8)
+      .alongWith(new WaitCommand(0.6)
         .andThen(wrist.runOnce(
         () -> wrist.Set(kWristIntake)))));
 
@@ -200,7 +220,7 @@ public class RobotContainer {
       .alongWith(pivot.runOnce(
       () -> pivot.Set(kPivotClimbEnd)))
       .alongWith(wrist.runOnce(
-      () -> wrist.Set(kWristClimb))));
+      () -> wrist.Set(kWristIntake))));
 
     // Stop
     DriverController.button(8).whileTrue(drivetrain.applyRequest(
@@ -222,6 +242,7 @@ public class RobotContainer {
       () -> intake.RunIntakeReverse(),
       () -> intake.Stop()));
 
+    /*
     // L1
     ManipulatorController.rightBumper().onTrue(intake.runOnce(
       () -> intake.Open(false))
@@ -231,11 +252,12 @@ public class RobotContainer {
       () -> pivot.Set(kPivotL1)))
       .alongWith(wrist.runOnce(
       () -> wrist.Set(kWristL1))));
+    */
 
     // L2
     ManipulatorController.a().onTrue(intake.runOnce(
       () -> intake.Open(false))
-      .alongWith(new WaitCommand(0.6)
+      .alongWith(new WaitCommand(0.1)
         .andThen(elevator.runOnce(
         () -> elevator.Set(kElevatorL2))))
       .alongWith(pivot.runOnce(
@@ -248,7 +270,7 @@ public class RobotContainer {
       () -> intake.Open(false))
       .alongWith(elevator.runOnce(
       () -> elevator.Set(kElevatorL3)))
-      .alongWith(new WaitCommand(0.75)
+      .alongWith(new WaitCommand(0.1)
         .andThen(pivot.runOnce(
         () -> pivot.Set(kPivotL3))))
       .alongWith(wrist.runOnce(
@@ -259,7 +281,7 @@ public class RobotContainer {
       () -> intake.Open(false))
       .alongWith(elevator.runOnce(
       () -> elevator.Set(kElevatorL4)))
-      .alongWith(new WaitCommand(1)
+      .alongWith(new WaitCommand(0.25)
         .andThen(pivot.runOnce(
         () -> pivot.Set(kPivotL4))))
       .alongWith(wrist.runOnce(
@@ -288,12 +310,12 @@ public class RobotContainer {
     // Intake
     ManipulatorController.b().onTrue(intake.runOnce(
       () -> intake.Open(false))
-      .alongWith(new WaitCommand(0.8)
+      .alongWith(new WaitCommand(0.6)
         .andThen(elevator.runOnce(
         () -> elevator.Set(kElevatorIntake))))
       .alongWith(pivot.runOnce(
       () -> pivot.Set(kPivotIntake)))
-      .alongWith(new WaitCommand(0.8)
+      .alongWith(new WaitCommand(0.6)
         .andThen(wrist.runOnce(
         () -> wrist.Set(kWristIntake)))));
 
@@ -303,9 +325,9 @@ public class RobotContainer {
       .alongWith(elevator.runOnce(
       () -> elevator.Set(kElevatorClimb)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(kPivotClimbEnd)))
+      () -> pivot.Set(kPivotClimb)))
       .alongWith(wrist.runOnce(
-      () -> wrist.Set(kWristClimb))));
+      () -> wrist.Set(kWristIntake))));
 
     // Barge
     ManipulatorController.povLeft().onTrue(intake.runOnce(
@@ -313,20 +335,21 @@ public class RobotContainer {
       .alongWith(elevator.runOnce(
       () -> elevator.Set(kElevatorBarge)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(kPivotL1)))
+      () -> pivot.Set(kPivotIntake)))
       .alongWith(wrist.runOnce(
       () -> wrist.Set(kWristBarge))));
 
     // Processor
-    ManipulatorController.button(10).onTrue(intake.runOnce(
+    ManipulatorController.povRight().onTrue(intake.runOnce(
       () -> intake.Open(true))
       .alongWith(elevator.runOnce(
-      () -> elevator.Set(kElevatorHome)))
+      () -> elevator.Set(kElevatorProcessor)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(kPivotL1)))
+      () -> pivot.Set(kPivotProcessor)))
       .alongWith(wrist.runOnce(
       () -> wrist.Set(kWristProcessor))));
       
+    /*
     // Ground Algae
     ManipulatorController.povRight().onTrue(intake.runOnce(
       () -> intake.Open(true))
@@ -336,6 +359,7 @@ public class RobotContainer {
       () -> pivot.Set(kPivotGround)))
       .alongWith(wrist.runOnce(
       () -> wrist.Set(kWristGround))));
+    */
 
     // Bottom Algae
     ManipulatorController.povDown().onTrue(intake.runOnce(

@@ -25,6 +25,7 @@ public class Elevator extends SubsystemBase {
 
   private double elevatorSetpoint; 
   private boolean pidToggle;
+  public boolean holdAglae;
 
   /** Creates a new Elevator. */
   public Elevator() {
@@ -37,6 +38,7 @@ public class Elevator extends SubsystemBase {
     elevatorSetpoint = GetPosition(); // Set to current encoder value so elevetor doesnt "snap" when first enabled
 
     pidToggle = true;
+    holdAglae = false;
 
     elevatorController.setTolerance(kElevatorTolerance);
 
@@ -56,9 +58,17 @@ public class Elevator extends SubsystemBase {
     // Calculate pid
     double pid = elevatorController.calculate(GetPosition(), elevatorSetpoint);
 
-    if (pidToggle) {
-      pid = MathUtil.clamp(pid, -1 * kElevatorSpeedMax, kElevatorSpeedMax);
-      elevator.set(pid);
+    // Slow elevator if we have algae
+    if (!holdAglae) {
+      if (pidToggle) {
+        pid = MathUtil.clamp(pid, -1 * kElevatorSpeedMax, kElevatorSpeedMax);
+        elevator.set(pid);
+      }
+    } else {
+      if (pidToggle) {
+        pid = MathUtil.clamp(pid, -1 * kElevatorSpeedAlgae, kElevatorSpeedAlgae);
+        elevator.set(pid);
+      }
     }
 
     SmartDashboard.putNumber("Elevator PID Input", pid);

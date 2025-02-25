@@ -70,7 +70,7 @@ public class Camera extends SubsystemBase {
   public double MoveReefRot(Angle position) {
     reefRotController.setSetpoint(position.in(Degrees));
     
-    return reefRot;
+    return MathUtil.clamp(reefRot, -0.5, 0.5);
   } 
   
   public void SetLEDOff() {

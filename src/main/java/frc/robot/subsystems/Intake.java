@@ -29,6 +29,7 @@ public class Intake extends SubsystemBase {
   private DigitalInput beamBreak = new DigitalInput(kBeamBreak);
 
   public boolean ignoreBeamBreak = false;
+  public boolean holdAlgae = false;
 
   /** Creates a new Claw. */
   public Intake() {
@@ -69,13 +70,18 @@ public class Intake extends SubsystemBase {
   public void EjectAlgae() {
     clawSolenoid.set(DoubleSolenoid.Value.kForward);
     intake.set(kIntakeSpeedMax);
+    holdAlgae = false;
   }
 
   public void Open(boolean algae) {
     if (!algae) {
       clawSolenoid.set(DoubleSolenoid.Value.kForward);
+      holdAlgae = false;
+      Stop();
     } else {
       clawSolenoid.set(DoubleSolenoid.Value.kReverse);
+      holdAlgae = true;
+      Stop();
     }
   }
 
@@ -85,6 +91,10 @@ public class Intake extends SubsystemBase {
   }
 
   public void Stop() {
-    intake.set(0);
+    if (holdAlgae) {
+      intake.set(kIntakeSpeedHoldAlgae);
+    } else if (!holdAlgae) {
+      intake.set(0);
+    }
   }
 }

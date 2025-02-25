@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.1867827868845071,
-        "y": 0.9981045081939328
+        "x": 1.4265368852459013,
+        "y": 1.3217725409836065
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7885978100365554,
-        "y": 1.7967400182412252
+        "x": 2.0283519083979495,
+        "y": 2.1204080510308962
       },
       "isLocked": false,
       "linkedName": "Right Coral"
@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 3.9799180327868857,
-        "y": 2.820235655737705
+        "y": 2.8082479508196716
       },
       "prevControl": {
         "x": 3.4799180327868857,
-        "y": 1.9542102519532665
+        "y": 1.9422225470352332
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.5,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 2.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

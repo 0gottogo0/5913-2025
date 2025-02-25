@@ -84,4 +84,8 @@ public class Wrist extends SubsystemBase {
   public Angle GetAngle() {
     return Rotations.of(wristEncoder.get()).minus(Degrees.of(kWristEncoderOffset));
   }
+
+  public double GetSetpoint() {
+    return wristController.getSetpoint();
+  }
 }

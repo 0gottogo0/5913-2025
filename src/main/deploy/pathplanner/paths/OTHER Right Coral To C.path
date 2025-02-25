@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.18063524590164,
-        "y": 0.49462090163934364
+        "x": 1.3785860655737705,
+        "y": 1.2977971311475414
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.52,
-        "y": 1.2075000000000005
+        "x": 1.9804010887258188,
+        "y": 2.0964326411948333
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Other Right Coral"
     },
     {
       "anchor": {
-        "x": 3.9799180327868857,
-        "y": 2.8082479508196716
+        "x": 3.668237704918033,
+        "y": 2.976075819672131
       },
       "prevControl": {
-        "x": 4.175,
-        "y": 1.7848872950819668
+        "x": 3.168237704918033,
+        "y": 2.1100504158876925
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Reef D"
+      "linkedName": "Reef C"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 59.62087398863163
+    "rotation": 58.609731895812196
   },
   "reversed": false,
   "folder": "Right",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": 53.58362148011394
   },
   "useDefaultConstraints": true
 }

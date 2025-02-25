@@ -39,6 +39,8 @@ public class Robot extends TimedRobot {
 
     // Dont ignore the beambreak if we are intaking
     m_robotContainer.intake.ignoreBeamBreak = m_robotContainer.pivot.GetSetpoint() != kPivotIntake;
+
+    m_robotContainer.elevator.holdAglae = m_robotContainer.intake.holdAlgae == true;
   }
 
   @Override
