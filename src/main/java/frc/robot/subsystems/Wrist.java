@@ -58,8 +58,10 @@ public class Wrist extends SubsystemBase {
     double pid = 0;
 
     // Calculate pid
-    if(!wristController.atSetpoint()) {
-      pid = wristController.calculate(GetAngle().in(Degree), wristSetpoint);
+    if (GetAngle().in(Degree) != 360) {
+      if(!wristController.atSetpoint()) {
+        pid = wristController.calculate(GetAngle().in(Degree), wristSetpoint);
+      }
     }
 
     pid = MathUtil.clamp(pid, -1 * kWristSpeedMax, kWristSpeedMax);
@@ -69,7 +71,7 @@ public class Wrist extends SubsystemBase {
     SmartDashboard.putNumber("Wrist PID Input", pid);
     SmartDashboard.putNumber("Wrist Setpoint", wristSetpoint);
     SmartDashboard.putNumber("Wrist Encoder", GetAngle().in(Degree));
-    SmartDashboard.putBoolean("Encoder Status", GetAngle().in(Degree) != 360); // Returns false if roborio gets shorted or encoder gets unplugged
+    SmartDashboard.putBoolean("Wrist Encoder Status", GetAngle().in(Degree) != 360); // Returns false if roborio gets shorted or encoder gets unplugged
   }
 
   // Set the setpoint

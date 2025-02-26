@@ -71,7 +71,9 @@ public class Pivot extends SubsystemBase {
     double pid = 0;
     
     // Calculate pid
-    pid = pivotController.calculate(GetAngle().in(Degrees), pivotSetpoint);
+    if (GetAngle().in(Degree) != 360) {
+      pid = pivotController.calculate(GetAngle().in(Degrees), pivotSetpoint);
+    }
     
     pid = MathUtil.clamp(pid, -1 * kPivotSpeedMax, kPivotSpeedMax);
     pivotLeftMaster.set(-1 * pid);
@@ -80,6 +82,7 @@ public class Pivot extends SubsystemBase {
     SmartDashboard.putNumber("Pivot PID Input", pid);
     SmartDashboard.putNumber("Pivot Setpoint", pivotSetpoint);
     SmartDashboard.putNumber("Pivot Encoder", GetAngle().in(Degrees));
+    SmartDashboard.putBoolean("Pivot Encoder Status", GetAngle().in(Degree) != 360); // Returns false if roborio gets shorted or encoder gets unplugged
   }
 
   // Set the setpoint

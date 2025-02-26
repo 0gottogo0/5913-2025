@@ -89,10 +89,10 @@ public final class Constants {
         public static final double kWristKP = 0.015;
         public static final double kWristKD = 0;
         public static final double kWristTolerance = 0;
-        public static final double kWristIntake = 292.2;
+        public static final double kWristIntake = 290;
         public static final double kWristBarge = 146.1;
         public static final double kWristProcessor = 93.7;
-        public static final double kWristHome = 292.2;
+        public static final double kWristHome = 290;
         public static final double kWristClimb = 0;
         public static final double kWristGround = 54;
         public static final double kWristL1 = 0;
