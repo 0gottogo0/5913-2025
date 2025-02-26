@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.4265368852459013,
-        "y": 1.3217725409836065
+        "x": 3.6894886363636363,
+        "y": 5.05064935064935
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5294057377049177,
-        "y": 2.6284323770491795
+        "x": 3.182468509800242,
+        "y": 5.91258356580712
       },
       "isLocked": false,
-      "linkedName": "Right Coral"
+      "linkedName": "Reef L"
     },
     {
       "anchor": {
-        "x": 3.2127049180287104,
-        "y": 3.8032274590212944
+        "x": 1.3604099025974026,
+        "y": 6.717329545454545
       },
       "prevControl": {
-        "x": 2.1457991803278684,
-        "y": 4.04298155737705
+        "x": 2.0032811513475677,
+        "y": 5.95135529162456
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "B"
+      "linkedName": "Other Left Coral"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -52.81529354676687
   },
   "reversed": false,
-  "folder": "Right",
+  "folder": "Left",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 53.58362148011394
+    "rotation": -60.64224645720873
   },
   "useDefaultConstraints": true
 }

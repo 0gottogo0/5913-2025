@@ -5,9 +5,14 @@
   "pathFolders": [
     "Center",
     "Left",
+    "!temp",
     "Right"
   ],
-  "autoFolders": [],
+  "autoFolders": [
+    "1 Coral",
+    "2 Coral",
+    "No Coral"
+  ],
   "defaultMaxVel": 2.0,
   "defaultMaxAccel": 4.0,
   "defaultMaxAngVel": 540.0,
@@ -33,7 +38,9 @@
   "bumperOffsetX": 0.0,
   "bumperOffsetY": 0.0,
   "robotFeatures": [
-    "{\"name\":\"Elevator\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":-0.2,\"y\":0.0},\"size\":{\"width\":0.4,\"length\":0.08},\"borderRadius\":0.01,\"strokeWidth\":0.02,\"filled\":true}}",
-    "{\"name\":\"Frame\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.0,\"y\":0.0},\"size\":{\"width\":0.762,\"length\":0.762},\"borderRadius\":0.05,\"strokeWidth\":0.02,\"filled\":false}}"
+    "{\"name\":\"Elevator\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":-0.2,\"y\":0.0},\"size\":{\"width\":0.45,\"length\":0.1},\"borderRadius\":0.01,\"strokeWidth\":0.02,\"filled\":true}}",
+    "{\"name\":\"Frame\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.0,\"y\":0.0},\"size\":{\"width\":0.762,\"length\":0.762},\"borderRadius\":0.05,\"strokeWidth\":0.02,\"filled\":false}}",
+    "{\"name\":\"Frame\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.0,\"y\":0.22},\"size\":{\"width\":0.025,\"length\":0.762},\"borderRadius\":0.05,\"strokeWidth\":0.02,\"filled\":true}}",
+    "{\"name\":\"Frame\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.0,\"y\":-0.22},\"size\":{\"width\":0.025,\"length\":0.762},\"borderRadius\":0.05,\"strokeWidth\":0.02,\"filled\":true}}"
   ]
 }

@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.17172131147541,
-        "y": 2.0170594262295083
+        "x": 1.3604099025974026,
+        "y": 6.717329545454545
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.027868852459017,
-        "y": 2.4486168032786884
+        "x": 1.5064860840562555,
+        "y": 6.514445960089931
       },
       "isLocked": false,
-      "linkedName": "D Track"
+      "linkedName": "Other Left Coral"
     },
     {
       "anchor": {
-        "x": 3.9799180327868857,
-        "y": 2.8082479508196716
+        "x": 1.915969967531197,
+        "y": 5.990827922075214
       },
       "prevControl": {
-        "x": 4.039856557377049,
-        "y": 2.4006659836065567
+        "x": 1.7659699675311964,
+        "y": 6.190827922075213
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Reef D"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 59.62087398863163
+    "rotation": -52.81529354676687
   },
   "reversed": false,
-  "folder": "Right",
+  "folder": "Left",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 59.62087398863163
+    "rotation": -52.81529354676687
   },
   "useDefaultConstraints": true
 }
