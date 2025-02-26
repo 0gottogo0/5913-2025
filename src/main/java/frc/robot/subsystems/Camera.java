@@ -35,16 +35,20 @@ public class Camera extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
+    // Get the metatag2 results of where our robot is relative to the tag
     double[] results = NetworkTableInstance.getDefault().getTable("limelight-ll").getEntry("botpose_targetspace").getDoubleArray(new double[6]);
 
+    // Get the X, Y, and Rotation from said results
     xToTarget = results[0];
     yToTarget = results[2];
     rotToTarget = Degrees.of(results[4]);
 
+    // Calculate X, Y, and Rotation movements
     reefX = reefXController.calculate(xToTarget);
     reefY = reefYController.calculate(yToTarget);
     reefRot = reefRotController.calculate(rotToTarget.in(Degrees));
 
+    // Debug
     SmartDashboard.putNumber("Reef PID X", reefX);
     SmartDashboard.putNumber("Reef PID Y", reefY);
     SmartDashboard.putNumber("Reef PID Rot", reefRot);
@@ -55,26 +59,34 @@ public class Camera extends SubsystemBase {
     SmartDashboard.putNumber("Rot to Target", rotToTarget.in(Degrees));
   }
 
+  // Set setpoint and return X movement
   public double MoveReefX(double position) {
     reefXController.setSetpoint(position);
 
     return -MathUtil.clamp(reefX, -0.8, 0.8);
   }
 
+  // Set setpoint and return Y movement
   public double MoveReefY(double position) {
     reefYController.setSetpoint(position);
 
     return MathUtil.clamp(reefY, -0.8, 0.8);
   }
 
+  // Set setpoint and return Rotation movement
   public double MoveReefRot(Angle position) {
     reefRotController.setSetpoint(position.in(Degrees));
     
     return MathUtil.clamp(reefRot, -0.5, 0.5);
   } 
   
+  // Set leds to on if the venue lights are shit
   public void SetLEDOff() {
     LimelightHelpers.setLEDMode_ForceOff(kLimeLightReef);
   }
 
+  // Set leds to off to save on power
+  public void SetLEDOn() {
+    LimelightHelpers.setLEDMode_ForceOn(kLimeLightReef);
+  }
 }

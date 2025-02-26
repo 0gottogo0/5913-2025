@@ -40,7 +40,6 @@ public class Pivot extends SubsystemBase {
     cfgLeft.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
     cfgRight.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    
 
     pivotLeftMaster.clearStickyFaults();
     pivotLeftMaster.getConfigurator().apply(cfgLeft);
@@ -48,12 +47,14 @@ public class Pivot extends SubsystemBase {
     pivotRightFollower.clearStickyFaults();
     pivotRightFollower.getConfigurator().apply(cfgRight);
 
+    // Set the right motor to follow the left one
     pivotRightFollower.setControl(new Follower(pivotLeftMaster.getDeviceID(), false));
 
     pivotSetpoint = GetAngle().in(Degrees); // Set to current encoder value so elevetor doesnt "snap" when first enabled
 
     pivotController.setTolerance(kPivotTolerance);
 
+    // Wait to set current encoder value, sometimes it takes a tinsie bit
     new Thread(() -> {
       try {
           Thread.sleep(3000);
@@ -75,15 +76,19 @@ public class Pivot extends SubsystemBase {
     pid = MathUtil.clamp(pid, -1 * kPivotSpeedMax, kPivotSpeedMax);
     pivotLeftMaster.set(-1 * pid);
 
+    // Debug
     SmartDashboard.putNumber("Pivot PID Input", pid);
     SmartDashboard.putNumber("Pivot Setpoint", pivotSetpoint);
     SmartDashboard.putNumber("Pivot Encoder", GetAngle().in(Degrees));
   }
 
+  // Set the setpoint
   public void Set(double setpoint) {
     pivotSetpoint = setpoint;
   }
 
+  // Move the pivot manually with the pid
+  // Move the pivot manually without the pid if rawMode is true
   public void ManualMovement(double input, double sensitivity, boolean rawMode) {
     if (rawMode) {
       pivotLeftMaster.set(input);
@@ -92,14 +97,18 @@ public class Pivot extends SubsystemBase {
     }
   }
 
+  // Stop pivot
   public void Stop() {
     pivotSetpoint = GetAngle().in(Degrees);
   }
 
+  // Get external encoder position
   public Angle GetAngle() {
     return Rotations.of(pivotEncoder.get()).minus(Degrees.of(kPivotEncoderOffset));
   }
 
+  // Get the current setpoint for the pid controller
+  // This helps with the beambreak in Robot.java
   public double GetSetpoint() {
     return pivotController.getSetpoint();
   }

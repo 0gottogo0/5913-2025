@@ -29,7 +29,7 @@ public class Intake extends SubsystemBase {
   private DigitalInput beamBreak = new DigitalInput(kBeamBreak);
 
   public boolean ignoreBeamBreak = false;
-  public boolean holdAlgae = false;
+  public boolean holdAlgae = false; // Turn this varable true if we are in an algae spot
 
   /** Creates a new Claw. */
   public Intake() {
@@ -44,17 +44,22 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
+    // Debug
     SmartDashboard.putBoolean("Claw Is Loaded", GetBeamBreak());
   }
 
+  // Run the intake without the beambreak
   public void RunIntake() {
     intake.set(-kIntakeSpeed);
   }
 
-  public  void RunIntakeReverse() {
+  // Run the intake backwards
+  public void RunIntakeReverse() {
     intake.set(kIntakeSpeed);
   }
 
+  // Run the intake with the beambreak
+  // If we arnt in the intake position we can just run the intake normally
   public void RunIntakeWithBeam() {
     if (!ignoreBeamBreak) {
       if (!GetBeamBreak()) {
@@ -63,16 +68,18 @@ public class Intake extends SubsystemBase {
         Stop();
       }
     } else {
-      intake.set(-kIntakeSpeed);
+      RunIntake();
     }
   }
 
+  // Eject the Algae by closing the claw and outtake
   public void EjectAlgae() {
     clawSolenoid.set(DoubleSolenoid.Value.kForward);
     intake.set(kIntakeSpeedMax);
     holdAlgae = false;
   }
 
+  // Open the claw if algae is true
   public void Open(boolean algae) {
     if (!algae) {
       clawSolenoid.set(DoubleSolenoid.Value.kForward);
@@ -85,11 +92,14 @@ public class Intake extends SubsystemBase {
     }
   }
 
-  // Whenever GetBeamBreak is true, there is a coral (or algae) in the claw
+  // Get the status of the beambreak
+  // Whenever GetBeamBreak is true, there is a coral (or algae) in the claw and the beam is broken
   public boolean GetBeamBreak() {
     return !beamBreak.get();
   }
 
+  // Stop the intake
+  // Keeps intaking slightly if we are in an algae spot
   public void Stop() {
     if (holdAlgae) {
       intake.set(kIntakeSpeedHoldAlgae);

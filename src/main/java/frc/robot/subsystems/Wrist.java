@@ -41,6 +41,7 @@ public class Wrist extends SubsystemBase {
 
     wristController.setTolerance(kWristTolerance);
 
+    // Wait to set current encoder value, sometimes it takes a tinsie bit
     new Thread(() -> {
       try {
           Thread.sleep(3000);
@@ -64,27 +65,35 @@ public class Wrist extends SubsystemBase {
     pid = MathUtil.clamp(pid, -1 * kWristSpeedMax, kWristSpeedMax);
     wrist.set(-1 * pid);
     
+    // Debug
     SmartDashboard.putNumber("Wrist PID Input", pid);
     SmartDashboard.putNumber("Wrist Setpoint", wristSetpoint);
     SmartDashboard.putNumber("Wrist Encoder", GetAngle().in(Degree));
   }
 
+  // Set the setpoint
   public void Set(double setpoint) {
     wristSetpoint = setpoint;
   }
 
+  // Move the wrist manually with the pid
+  // Move the wrist manually without the pid if rawMode is true
   public void ManualMovement(double input, double sensitivity, boolean rawMode) {
     wristSetpoint = wristSetpoint + input * sensitivity;
   }
 
+  // Stop pivot
   public void Stop() {
     wristSetpoint = GetAngle().in(Degrees);
   }
 
+  // Get external encoder position
   public Angle GetAngle() {
     return Rotations.of(wristEncoder.get()).minus(Degrees.of(kWristEncoderOffset));
   }
 
+  // Get the current setpoint for the pid controller
+  // This is currently not used to my knowlage
   public double GetSetpoint() {
     return wristController.getSetpoint();
   }

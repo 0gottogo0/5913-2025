@@ -25,7 +25,7 @@ public class Elevator extends SubsystemBase {
 
   private double elevatorSetpoint; 
   private boolean pidToggle;
-  public boolean holdAglae;
+  public boolean holdAglae; // Turn this varable true if we are in an algae spot
 
   /** Creates a new Elevator. */
   public Elevator() {
@@ -58,7 +58,8 @@ public class Elevator extends SubsystemBase {
     // Calculate pid
     double pid = elevatorController.calculate(GetPosition(), elevatorSetpoint);
 
-    // Slow elevator if we have algae
+    // Slow elevator if we have want to go to algae position
+    // This helps keep the algae stay in the robot
     if (!holdAglae) {
       if (pidToggle) {
         pid = MathUtil.clamp(pid, -1 * kElevatorSpeedMax, kElevatorSpeedMax);
@@ -66,20 +67,24 @@ public class Elevator extends SubsystemBase {
       }
     } else {
       if (pidToggle) {
-        pid = MathUtil.clamp(pid, -1 * kElevatorSpeedAlgae, kElevatorSpeedAlgae);
+        pid = MathUtil.clamp(pid, -1 * kElevatorSpeedAlgae, kElevatorSpeedAlgae); // Slowed elevator
         elevator.set(pid);
       }
     }
 
+    // Debug
     SmartDashboard.putNumber("Elevator PID Input", pid);
     SmartDashboard.putNumber("Elevator Setpoint", elevatorSetpoint);
     SmartDashboard.putNumber("Elevator Encoder", GetPosition());
   }
 
+  // Set the setpoint
   public void Set(double setpoint) {
     elevatorSetpoint = setpoint;
   }
 
+  // Move the elevator manually with the pid
+  // Move the elevator manually without the pid if rawMode is true
   public void ManualMovement(double input, double sensitivity, boolean rawMode) {
     if (rawMode) {
       elevator.set(input);
@@ -89,11 +94,13 @@ public class Elevator extends SubsystemBase {
     }
   }
 
+  // Stop elevator
   public void Stop() {
     elevatorSetpoint = GetPosition();
     pidToggle = true;
   }
 
+  // Get internal motor encoder position
   public double GetPosition() {
     return elevator.getPosition().getValueAsDouble();
   }

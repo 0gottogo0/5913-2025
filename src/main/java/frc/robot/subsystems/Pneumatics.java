@@ -21,8 +21,10 @@ public class Pneumatics extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
+    // Debug
     SmartDashboard.putNumber("Pressure", PH.getPressure(0));
 
+    // Enable the compressor whenever we are below the min pressure until we hit the max pressure
     PH.enableCompressorAnalog(kMinPressure, kMaxPressure);
   }
 }

@@ -26,8 +26,9 @@ public final class Constants {
     // ** Rate Limiters **
     public static final double kMoveSlewRateLimiter = 12;
     public static final double kRotateSlewRateLimiter = 40;
+    public static final double kRotateMagnitude = 1;
 
-    // ** Close Looped Controllers **
+    // ** Close Loop Controllers **
 
         // Elevator
         public static final double kElevatorKP = 0.05;
@@ -105,12 +106,12 @@ public final class Constants {
     // ** Drivetrain **
     public static final double kTrackWidthX = 23.5;   // These are how far the center of the swerves are apart
     public static final double kTrackWidthY = 23.375; // Same but back to front
-    public static final double kDrivetrainMaxSpeed = 17.1;   // ft/s
+    public static final double kDrivetrainMaxSpeed = 17.1;      // ft/s
     public static final double kDrivetrainWheelDiameter = 1.95; // inches
     public static final double kDrivetrainGearRatio = 6.1224489;
     public static final double kDrivetrainSteerRatio = 12.8;
-    public static final double kFrameWidth = 30;     // in
-    public static final double kFrameLength = 29.75; // in
+    public static final double kFrameWidth = 30;     // inches
+    public static final double kFrameLength = 29.75; // inches
         
     // ** Motors **
         

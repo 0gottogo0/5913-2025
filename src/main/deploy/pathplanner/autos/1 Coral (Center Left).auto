@@ -11,7 +11,13 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Start Right To D"
+                  "pathName": "Start Center To H"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.5
                 }
               }
             ]
@@ -22,9 +28,21 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "D To Right Coral"
+                  "name": "Track Right"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "L4"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 2.5
                 }
               }
             ]
@@ -35,9 +53,15 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "Right Coral To D"
+                  "name": "Run Intake"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.5
                 }
               }
             ]
@@ -48,22 +72,15 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "D To Right Coral"
+                  "name": "Intake"
                 }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
+              },
               {
-                "type": "path",
+                "type": "wait",
                 "data": {
-                  "pathName": "Right Coral To C"
+                  "waitTime": 2.0
                 }
               }
             ]
@@ -73,6 +90,6 @@
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "1 Coral",
   "choreoAuto": false
 }
