@@ -24,7 +24,7 @@ public final class Constants {
     public static final double kWristSpeedMax = 0.45;
 
     // ** Rate Limiters **
-    public static final double kMoveSlewRateLimiter = 14;
+    public static final double kMoveSlewRateLimiter = 12;
     public static final double kRotateSlewRateLimiter = 40;
 
     // ** Close Looped Controllers **
@@ -88,10 +88,10 @@ public final class Constants {
         public static final double kWristKP = 0.015;
         public static final double kWristKD = 0;
         public static final double kWristTolerance = 0;
-        public static final double kWristIntake = 289.8;
+        public static final double kWristIntake = 292.2;
         public static final double kWristBarge = 146.1;
         public static final double kWristProcessor = 93.7;
-        public static final double kWristHome = 287;
+        public static final double kWristHome = 292.2;
         public static final double kWristClimb = 0;
         public static final double kWristGround = 54;
         public static final double kWristL1 = 0;
