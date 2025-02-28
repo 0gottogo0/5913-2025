@@ -13,8 +13,6 @@ import com.ctre.phoenix.led.CANdleConfiguration;
 import com.ctre.phoenix.led.FireAnimation;
 import com.ctre.phoenix.led.RainbowAnimation;
 import com.ctre.phoenix.led.SingleFadeAnimation;
-import com.ctre.phoenix.led.TwinkleAnimation;
-import com.ctre.phoenix.led.TwinkleAnimation.TwinklePercent;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -160,5 +158,5 @@ public void decrementAnimation() {
     }
 
     SmartDashboard.putString("Current Animation", m_currentAnimation.toString());
-}
+    }
 }
