@@ -4,10 +4,6 @@
 
 package frc.robot;
 
-import static edu.wpi.first.units.Units.*;
-
-import edu.wpi.first.units.measure.Angle;
-
 public final class Constants {
 
     // ** Controllers **
@@ -29,12 +25,12 @@ public final class Constants {
     public static final double kMoveSlewRateLimiter = 8.00;
     public static final double kRotateSlewRateLimiter = 40.00;
     public static final double kRotateMagnitude = 0.90;
+    public static final double kStickDeadzone = 0.02;
 
     // ** Close Loop Controllers **
 
         // Elevator
         public static final double kElevatorKP = 0.05;
-        public static final double kElevatorKD = 0.00;
         public static final double kElevatorIntake = 0.00;
         public static final double kElevatorBarge = -74.30;
         public static final double kElevatorProcessor = 0.00;
@@ -48,7 +44,6 @@ public final class Constants {
     
         // Pivot
         public static final double kPivotKP = 0.15;
-        public static final double kPivotKD = 0.00;
         public static final double kPivotL2 = 128.00;
         public static final double kPivotL3 = 135.00;
         public static final double kPivotL4 = 141.60;
@@ -62,29 +57,21 @@ public final class Constants {
     
         // Track
         public static final double kTrackXKP = 5.00;
-        public static final double kTrackXKD = 0.00;
         public static final double kTrackYKP = 5.00;
-        public static final double kTrackYKD = 0.00;
         public static final double kTrackRotKP = 0.04;
-        public static final double kTrackRotKD = 0.00;
         public static final double kTrackXOffsetLeft = -0.203;
         public static final double kTrackYOffsetLeft = -0.464;
-        public static final Angle kTrackRotOffsetLeft = Degrees.of(0);
         public static final double kTrackXOffsetCenter = -0.050;
         public static final double kTrackYOffsetCenter = -0.590;
-        public static final Angle kTrackRotOffsetCenter = Degrees.of(0);
         public static final double kTrackXOffsetRight = 0.163;
         public static final double kTrackYOffsetRight = -0.464;
-        public static final Angle kTrackRotOffsetRight = Degrees.of(0);
     
         // Wrist
         public static final double kWristKP = 0.02;
-        public static final double kWristKD = 0.00;
         public static final double kWristIntake = 273.00;
         public static final double kWristBarge = 128.10;
         public static final double kWristProcessor = 75.70;
         public static final double kWristHome = 273.00;
-        public static final double kWristClimb = 0.00;
         public static final double kWristL2 = 269.00;
         public static final double kWristL3 = 269.00;
         public static final double kWristL4 = 221.00;
@@ -128,7 +115,7 @@ public final class Constants {
     public static final int kClawOpen = 0;
     public static final int kClawClose = 1;
 
-    // ** Input **
+    // ** Input/Output **
 
         // Drivetrain
         public static final int kFrontLeftEncoder = 9;
@@ -144,4 +131,8 @@ public final class Constants {
         public static final int kWristEncoderID = 1;
         public static final double kWristEncoderOffset = 0;
         public static final String kLimeLightReef = "limelight-ll";
+
+        // Candle
+        public static final int kCANdleID = 99;
+        public static final int kTotalLightAmount = 0; 
 }

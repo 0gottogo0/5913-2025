@@ -25,7 +25,7 @@ public class Wrist extends SubsystemBase {
 
   private SparkMaxConfig cfg = new SparkMaxConfig();
 
-  private PIDController wristController = new PIDController(kWristKP, 0, kWristKD);
+  private PIDController wristController = new PIDController(kWristKP, 0, 0);
   
   private DutyCycleEncoder wristEncoder = new DutyCycleEncoder(kWristEncoderID);
   
@@ -38,7 +38,7 @@ public class Wrist extends SubsystemBase {
       .inverted(false)
       .idleMode(IdleMode.kBrake);
 
-    wristSetpoint = GetAngle().in(Degree);
+    wristSetpoint = GetAngle().in(Degree); // Set to current encoder value so elevetor doesnt "snap" when first enabled
 
     pidToggle = true;
 

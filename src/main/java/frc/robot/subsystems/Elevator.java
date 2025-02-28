@@ -21,7 +21,7 @@ public class Elevator extends SubsystemBase {
   private TalonFX elevator = new TalonFX(kElevatorMotor);
   private TalonFXConfiguration cfg = new TalonFXConfiguration();
 
-  private PIDController elevatorController = new PIDController(kElevatorKP, 0, kElevatorKD);
+  private PIDController elevatorController = new PIDController(kElevatorKP, 0, 0);
 
   private double elevatorSetpoint; 
   private boolean pidToggle;
@@ -40,6 +40,7 @@ public class Elevator extends SubsystemBase {
     pidToggle = true;
     holdAglae = false;
 
+    // Wait to set current encoder value, sometimes it takes a tinsie bit
     new Thread(() -> {
       try {
           Thread.sleep(3000);
@@ -53,21 +54,21 @@ public class Elevator extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    // Calculate pid
-    double pid = elevatorController.calculate(GetPosition(), elevatorSetpoint);
+    double pid = 0;
 
+    // Calculate pid
+    if (pidToggle) {
+      pid = elevatorController.calculate(GetPosition(), elevatorSetpoint);
+    }
+    
     // Slow elevator if we have want to go to algae position
     // This helps keep the algae stay in the robot
     if (!holdAglae) {
-      if (pidToggle) {
-        pid = MathUtil.clamp(pid, -1 * kElevatorSpeedMax, kElevatorSpeedMax);
-        elevator.set(pid);
-      }
+      pid = MathUtil.clamp(pid, -1 * kElevatorSpeedMax, kElevatorSpeedMax);
+      elevator.set(pid);
     } else {
-      if (pidToggle) {
-        pid = MathUtil.clamp(pid, -1 * kElevatorSpeedAlgae, kElevatorSpeedAlgae); // Slowed elevator
-        elevator.set(pid);
-      }
+      pid = MathUtil.clamp(pid, -1 * kElevatorSpeedAlgae, kElevatorSpeedAlgae); // Slowed elevator
+      elevator.set(pid);
     }
 
     // Debug

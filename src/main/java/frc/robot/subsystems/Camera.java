@@ -16,9 +16,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.LimelightHelpers;
 
 public class Camera extends SubsystemBase {
-  private PIDController reefXController = new PIDController(kTrackXKP, 0, kTrackXKD);
-  private PIDController reefYController = new PIDController(kTrackYKP, 0, kTrackYKD);
-  private PIDController reefRotController = new PIDController(kTrackRotKP, 0, kTrackRotKD);
+  private PIDController reefXController = new PIDController(kTrackXKP, 0, 0);
+  private PIDController reefYController = new PIDController(kTrackYKP, 0, 0);
+  private PIDController reefRotController = new PIDController(kTrackRotKP, 0, 0);
 
   private double reefX;
   private double reefY;
@@ -27,6 +27,8 @@ public class Camera extends SubsystemBase {
   private double xToTarget = 0;
   private double yToTarget = 0;
   private Angle rotToTarget = Degrees.of(0);
+  
+  private boolean isTracking = false;
 
   /** Creates a new Camera. */
   public Camera() {}
@@ -83,10 +85,16 @@ public class Camera extends SubsystemBase {
   // Set leds to off to save on power when we are not tracking
   public void SetLEDOn() {
     LimelightHelpers.setLEDMode_ForceOn(kLimeLightReef);
+    isTracking = true;
   }
 
   // Set leds to on if the venue lights are shit
   public void SetLEDOff() {
     LimelightHelpers.setLEDMode_ForceOff(kLimeLightReef);
+    isTracking = false;
+  }
+
+  public boolean IsTracking() {
+    return isTracking;
   }
 }

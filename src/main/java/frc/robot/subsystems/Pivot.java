@@ -28,7 +28,7 @@ public class Pivot extends SubsystemBase {
   private TalonFX pivotRightFollower = new TalonFX(kPivotRightMotor);
   private TalonFXConfiguration cfgRight = new TalonFXConfiguration();
 
-  private PIDController pivotController = new PIDController(kPivotKP, 0, kPivotKD);
+  private PIDController pivotController = new PIDController(kPivotKP, 0, 0);
 
   private DutyCycleEncoder pivotEncoder = new DutyCycleEncoder(kPivotEncoderID);
   
