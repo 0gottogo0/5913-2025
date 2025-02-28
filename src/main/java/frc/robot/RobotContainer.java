@@ -24,7 +24,6 @@ import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.Pivot;
 import frc.robot.subsystems.Pneumatics;
 import frc.robot.subsystems.Wrist;
@@ -49,7 +48,6 @@ public class RobotContainer {
   Camera camera = new Camera();
   Elevator elevator = new Elevator();
   Intake intake = new Intake();
-  Lights lights = new Lights(intake, camera);
   Pivot pivot = new Pivot();
   Pneumatics pneumatics = new Pneumatics();
   Wrist wrist = new Wrist();
