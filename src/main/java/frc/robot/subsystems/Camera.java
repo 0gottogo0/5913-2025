@@ -16,9 +16,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.LimelightHelpers;
 
 public class Camera extends SubsystemBase {
-  private PIDController reefXController = new PIDController(kTrackXKP, kTrackXKI, kTrackXKD);
-  private PIDController reefYController = new PIDController(kTrackYKP, kTrackYKI, kTrackYKD);
-  private PIDController reefRotController = new PIDController(kTrackRotKP, kTrackRotKI, kTrackRotKD);
+  private PIDController reefXController = new PIDController(kTrackXKP, 0, kTrackXKD);
+  private PIDController reefYController = new PIDController(kTrackYKP, 0, kTrackYKD);
+  private PIDController reefRotController = new PIDController(kTrackRotKP, 0, kTrackRotKD);
 
   private double reefX;
   private double reefY;
@@ -63,30 +63,30 @@ public class Camera extends SubsystemBase {
   public double MoveReefX(double position) {
     reefXController.setSetpoint(position);
 
-    return -MathUtil.clamp(reefX, -0.8, 0.8);
+    return -MathUtil.clamp(reefX, -1 * kTrackMoveMax, kTrackMoveMax);
   }
 
   // Set setpoint and return Y movement
   public double MoveReefY(double position) {
     reefYController.setSetpoint(position);
 
-    return MathUtil.clamp(reefY, -0.8, 0.8);
+    return MathUtil.clamp(reefY, -1 * kTrackMoveMax, kTrackMoveMax);
   }
 
   // Set setpoint and return Rotation movement
   public double MoveReefRot(Angle position) {
     reefRotController.setSetpoint(position.in(Degrees));
     
-    return MathUtil.clamp(reefRot, -0.5, 0.5);
+    return MathUtil.clamp(reefRot, -1 * kTrackRotateMax, kTrackRotateMax);
   } 
   
+  // Set leds to off to save on power when we are not tracking
+  public void SetLEDOn() {
+    LimelightHelpers.setLEDMode_ForceOn(kLimeLightReef);
+  }
+
   // Set leds to on if the venue lights are shit
   public void SetLEDOff() {
     LimelightHelpers.setLEDMode_ForceOff(kLimeLightReef);
-  }
-
-  // Set leds to off to save on power
-  public void SetLEDOn() {
-    LimelightHelpers.setLEDMode_ForceOn(kLimeLightReef);
   }
 }

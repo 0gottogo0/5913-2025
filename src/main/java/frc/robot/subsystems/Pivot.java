@@ -33,6 +33,7 @@ public class Pivot extends SubsystemBase {
   private DutyCycleEncoder pivotEncoder = new DutyCycleEncoder(kPivotEncoderID);
   
   private double pivotSetpoint;
+  private boolean pidToggle;
 
   /** Creates a new Pivot. */
   public Pivot() {
@@ -52,7 +53,7 @@ public class Pivot extends SubsystemBase {
 
     pivotSetpoint = GetAngle().in(Degrees); // Set to current encoder value so elevetor doesnt "snap" when first enabled
 
-    pivotController.setTolerance(kPivotTolerance);
+    pidToggle = true;
 
     // Wait to set current encoder value, sometimes it takes a tinsie bit
     new Thread(() -> {
@@ -71,7 +72,7 @@ public class Pivot extends SubsystemBase {
     double pid = 0;
     
     // Calculate pid
-    if (GetAngle().in(Degree) != 360) {
+    if (pidToggle) {
       pid = pivotController.calculate(GetAngle().in(Degrees), pivotSetpoint);
     }
     
@@ -95,6 +96,7 @@ public class Pivot extends SubsystemBase {
   public void ManualMovement(double input, double sensitivity, boolean rawMode) {
     if (rawMode) {
       pivotLeftMaster.set(input);
+      pidToggle = false;
     } else {
       pivotSetpoint = pivotSetpoint + input * sensitivity;
     }
@@ -103,6 +105,7 @@ public class Pivot extends SubsystemBase {
   // Stop pivot
   public void Stop() {
     pivotSetpoint = GetAngle().in(Degrees);
+    pidToggle = true;
   }
 
   // Get external encoder position

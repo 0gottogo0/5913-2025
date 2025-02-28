@@ -40,8 +40,6 @@ public class Elevator extends SubsystemBase {
     pidToggle = true;
     holdAglae = false;
 
-    elevatorController.setTolerance(kElevatorTolerance);
-
     new Thread(() -> {
       try {
           Thread.sleep(3000);

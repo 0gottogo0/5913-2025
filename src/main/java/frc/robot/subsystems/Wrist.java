@@ -30,6 +30,7 @@ public class Wrist extends SubsystemBase {
   private DutyCycleEncoder wristEncoder = new DutyCycleEncoder(kWristEncoderID);
   
   private double wristSetpoint;
+  private boolean pidToggle;
 
   /** Creates a new Wrist. */
   public Wrist() {
@@ -39,7 +40,7 @@ public class Wrist extends SubsystemBase {
 
     wristSetpoint = GetAngle().in(Degree);
 
-    wristController.setTolerance(kWristTolerance);
+    pidToggle = true;
 
     // Wait to set current encoder value, sometimes it takes a tinsie bit
     new Thread(() -> {
@@ -58,10 +59,9 @@ public class Wrist extends SubsystemBase {
     double pid = 0;
 
     // Calculate pid
-    if (GetAngle().in(Degree) != 360) {
-      if(!wristController.atSetpoint()) {
-        pid = wristController.calculate(GetAngle().in(Degree), wristSetpoint);
-      }
+
+    if (pidToggle) {
+      pid = wristController.calculate(GetAngle().in(Degree), wristSetpoint);
     }
 
     pid = MathUtil.clamp(pid, -1 * kWristSpeedMax, kWristSpeedMax);
@@ -82,12 +82,18 @@ public class Wrist extends SubsystemBase {
   // Move the wrist manually with the pid
   // Move the wrist manually without the pid if rawMode is true
   public void ManualMovement(double input, double sensitivity, boolean rawMode) {
-    wristSetpoint = wristSetpoint + input * sensitivity;
+    if (rawMode) {
+      wrist.set(input);
+      pidToggle = false;
+    } else {
+      wristSetpoint = wristSetpoint + input * sensitivity;
+    }
   }
 
   // Stop pivot
   public void Stop() {
     wristSetpoint = GetAngle().in(Degrees);
+    pidToggle = true;
   }
 
   // Get external encoder position
@@ -96,7 +102,7 @@ public class Wrist extends SubsystemBase {
   }
 
   // Get the current setpoint for the pid controller
-  // This is currently not used to my knowlage
+  // This is currently not used to my knowlage but keep it here to be safe
   public double GetSetpoint() {
     return wristController.getSetpoint();
   }

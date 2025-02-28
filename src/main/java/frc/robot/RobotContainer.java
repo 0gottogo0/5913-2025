@@ -257,18 +257,6 @@ public class RobotContainer {
       () -> intake.RunIntakeReverse(),
       () -> intake.Stop()));
 
-    /*
-    // L1
-    ManipulatorController.rightBumper().onTrue(intake.runOnce(
-      () -> intake.Open(false))
-      .alongWith(elevator.runOnce(
-      () -> elevator.Set(kElevatorL1)))
-      .alongWith(pivot.runOnce(
-      () -> pivot.Set(kPivotL1)))
-      .alongWith(wrist.runOnce(
-      () -> wrist.Set(kWristL1))));
-    */
-
     // L2
     ManipulatorController.a().onTrue(intake.runOnce(
       () -> intake.Open(false))
@@ -312,16 +300,6 @@ public class RobotContainer {
       .alongWith(wrist.runOnce(
       () -> wrist.Set(kWristHome))));
 
-    // Alage Home
-    ManipulatorController.button(7).onTrue(intake.runOnce(
-      () -> intake.Open(false))
-      .alongWith(elevator.runOnce(
-      () -> elevator.Set(kElevatorHome)))
-      .alongWith(pivot.runOnce(
-      () -> pivot.Set(kPivotAlgaeHome)))
-      .alongWith(wrist.runOnce(
-      () -> wrist.Set(kWristAlgaeHome))));
-
     // Intake
     ManipulatorController.b().onTrue(intake.runOnce(
       () -> intake.Open(false))
@@ -363,18 +341,6 @@ public class RobotContainer {
       () -> pivot.Set(kPivotProcessor)))
       .alongWith(wrist.runOnce(
       () -> wrist.Set(kWristProcessor))));
-      
-    /*
-    // Ground Algae
-    ManipulatorController.povRight().onTrue(intake.runOnce(
-      () -> intake.Open(true))
-      .alongWith(elevator.runOnce(
-      () -> elevator.Set(kElevatorGround)))
-      .alongWith(pivot.runOnce(
-      () -> pivot.Set(kPivotGround)))
-      .alongWith(wrist.runOnce(
-      () -> wrist.Set(kWristGround))));
-    */
 
     // Bottom Algae
     ManipulatorController.povDown().onTrue(intake.runOnce(
@@ -396,17 +362,29 @@ public class RobotContainer {
       .alongWith(wrist.runOnce(
       () -> wrist.Set(kWristTopAlgae))));
 
+    // Home Algae
+    ManipulatorController.button(7).onTrue(intake.runOnce(
+      () -> intake.Open(true))
+      .alongWith(new WaitCommand(0.6)
+        .andThen(elevator.runOnce(
+        () -> elevator.Set(kElevatorIntake))))
+      .alongWith(pivot.runOnce(
+      () -> pivot.Set(kPivotIntake)))
+      .alongWith(new WaitCommand(0.6)
+        .andThen(wrist.runOnce(
+        () -> wrist.Set(kWristHomeAlgae)))));
+
     // Manual Control
     ManipulatorController.button(8).whileTrue(intake.run(
       () -> intake.Open(ManipulatorController.rightBumper().getAsBoolean()))
       .alongWith(elevator.runEnd(
-      () -> elevator.ManualMovement(MathUtil.applyDeadband(ManipulatorController.getLeftY(), 0.2), 1, false),
+      () -> elevator.ManualMovement(MathUtil.applyDeadband(ManipulatorController.getLeftY(), 0.05), 0.75, false),
       () -> elevator.Stop())
       .alongWith(pivot.runEnd(
-      () -> pivot.ManualMovement(MathUtil.applyDeadband(ManipulatorController.getLeftX(), 0.2), 1, false),
+      () -> pivot.ManualMovement(MathUtil.applyDeadband(ManipulatorController.getLeftX(), 0.05), 1, false),
       () -> pivot.Stop())
       .alongWith(wrist.runEnd(
-      () -> wrist.ManualMovement(MathUtil.applyDeadband(ManipulatorController.getRightX() * 0.4, 0.2), 3, false),
+      () -> wrist.ManualMovement(MathUtil.applyDeadband(ManipulatorController.getRightX(), 0.05), 1.5, false),
       () -> wrist.Stop())))));
   }
 

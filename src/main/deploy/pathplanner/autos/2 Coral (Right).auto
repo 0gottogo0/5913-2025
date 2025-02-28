@@ -9,15 +9,9 @@
           "data": {
             "commands": [
               {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.75
-                }
-              },
-              {
                 "type": "path",
                 "data": {
-                  "pathName": "Start Left To K"
+                  "pathName": "Left Start to KL"
                 }
               },
               {
@@ -30,13 +24,32 @@
           }
         },
         {
-          "type": "race",
+          "type": "deadline",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "wait",
                 "data": {
-                  "name": "Track Left"
+                  "waitTime": 0.0
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "KL to K"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.75
                 }
               },
               {
@@ -46,72 +59,9 @@
                 }
               },
               {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.5
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
                 "type": "named",
                 "data": {
-                  "name": "Run Intake"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.65
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake"
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "K To Left Coral"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Run Intake With Beam Break"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Run Intake With Beam Break"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.3
+                  "name": "Track Left"
                 }
               }
             ]
@@ -128,81 +78,50 @@
                 }
               },
               {
-                "type": "path",
-                "data": {
-                  "pathName": "Left Coral To L"
-                }
-              },
-              {
                 "type": "named",
                 "data": {
-                  "name": "L4 With Delay"
-                }
-              },
-              {
-                "type": "deadline",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Run Intake With Beam Break"
-                      }
-                    }
-                  ]
+                  "name": "Run Intake"
                 }
               }
             ]
           }
         },
         {
-          "type": "race",
+          "type": "deadline",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "Track Right"
+                  "pathName": "K to Left Coral"
                 }
               },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.35
+                  "waitTime": 1.0
                 }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
+              },
               {
                 "type": "named",
                 "data": {
                   "name": "Run Intake"
                 }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.65
-                }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake"
           }
         },
         {
@@ -212,32 +131,13 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "OTHER L To Left Coral"
+                  "pathName": "Left Coral to KL"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Run Intake With Beam Break"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Run Intake With Beam Break"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.3
+                  "name": "Run Intake"
                 }
               }
             ]
@@ -250,13 +150,57 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.25
+                  "waitTime": 0.0
                 }
               },
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Half Left Coral"
+                  "pathName": "KL to L"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.75
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "L4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Track Right"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Run Intake"
                 }
               }
             ]

@@ -6,7 +6,6 @@ package frc.robot;
 
 import static frc.robot.Constants.*;
 
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -24,6 +23,7 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
 
+    /*
     // MetaTag2
     if (true) {
       var driveState = m_robotContainer.drivetrain.getState();
@@ -36,10 +36,12 @@ public class Robot extends TimedRobot {
         m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement.pose, llMeasurement.timestampSeconds);
       }
     }
+    */
 
     // Dont ignore the beambreak if we are intaking
     m_robotContainer.intake.ignoreBeamBreak = m_robotContainer.pivot.GetSetpoint() != kPivotIntake;
 
+    // Slow the elevator if we are holding algae
     m_robotContainer.elevator.holdAglae = m_robotContainer.intake.holdAlgae == true;
   }
 
