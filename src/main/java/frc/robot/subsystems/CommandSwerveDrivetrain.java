@@ -133,7 +133,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private void configureAutoBuilder() {
         try {
             // RobotConfig config = RobotConfig.fromGUISettings();
-            RobotConfig config = new RobotConfig(Pounds.of(106), KilogramSquareMeters.of(4.0), 
+            RobotConfig config = new RobotConfig(Pounds.of(113), KilogramSquareMeters.of(5.0), 
             new ModuleConfig(Inches.of(Constants.kDrivetrainWheelDiameter), TunerConstants.kSpeedAt12Volts, 0.7, DCMotor.getKrakenX60(1).withReduction(Constants.kDrivetrainGearRatio), Amps.of(20), 1), getModuleLocations());
             
             AutoBuilder.configure(
@@ -148,9 +148,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 ),
                 new PPHolonomicDriveController(
                     // PID constants for translation
-                    new PIDConstants(3, 0, 0),
+                    new PIDConstants(0.5, 0, 0),
                     // PID constants for rotation
-                    new PIDConstants(3, 0, 0)
+                    new PIDConstants(0.5, 0, 0)
                 ),
                 config,
                 // Assume the path needs to be flipped for Red vs Blue, this is normally the case
@@ -252,5 +252,16 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         Matrix<N3, N1> visionMeasurementStdDevs
     ) {
         super.addVisionMeasurement(visionRobotPoseMeters, Utils.fpgaToCurrentTime(timestampSeconds), visionMeasurementStdDevs);
+    }
+
+    // Slow down robot so we dont break climber
+    public double SlowSwerve(boolean slow) {
+        double speed;
+        if (slow) {
+            speed = 0.25;
+        } else {
+            speed = 1;
+        }
+        return speed;
     }
 }

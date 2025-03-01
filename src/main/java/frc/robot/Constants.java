@@ -50,7 +50,7 @@ public final class Constants {
         public static final double kPivotIntake = 149.90;
         public static final double kPivotProcessor = 113.80;
         public static final double kPivotHome = 135.00;
-        public static final double kPivotClimb = 117.00;
+        public static final double kPivotClimb = 122.50;
         public static final double kPivotClimbEnd = 96.50;
         public static final double kPivotBottomAlgae = 127.10;
         public static final double kPivotTopAlgae = 131.70;
@@ -59,11 +59,11 @@ public final class Constants {
         public static final double kTrackXKP = 5.00;
         public static final double kTrackYKP = 5.00;
         public static final double kTrackRotKP = 0.04;
-        public static final double kTrackXOffsetLeft = -0.203;
+        public static final double kTrackXOffsetLeft = -0.183;
         public static final double kTrackYOffsetLeft = -0.464;
         public static final double kTrackXOffsetCenter = -0.050;
         public static final double kTrackYOffsetCenter = -0.590;
-        public static final double kTrackXOffsetRight = 0.163;
+        public static final double kTrackXOffsetRight = 0.183;
         public static final double kTrackYOffsetRight = -0.464;
     
         // Wrist

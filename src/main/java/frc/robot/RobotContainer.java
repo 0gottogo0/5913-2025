@@ -71,17 +71,17 @@ public class RobotContainer {
   public RobotContainer() {
 
     NamedCommands.registerCommand("Track Left", drivetrain.applyRequest(
-      () -> driveTrack.withVelocityX(camera.MoveReefY(kTrackYOffsetLeft) * MaxSpeed) // Drive forward with negative Y (forward)
-                      .withVelocityY(camera.MoveReefX(kTrackXOffsetLeft) * MaxSpeed) // Drive left with negative X (left)
-                      .withRotationalRate(-camera.MoveReefRot(Degrees.of(0)) * MaxAngularRate))
+      () -> driveTrack.withVelocityX((camera.MoveReefY(kTrackYOffsetLeft) * MaxSpeed) / 3) // Drive forward with negative Y (forward)
+                      .withVelocityY((camera.MoveReefX(kTrackXOffsetLeft) * MaxSpeed) / 3) // Drive left with negative X (left)
+                      .withRotationalRate((-camera.MoveReefRot(Degrees.of(0)) * MaxAngularRate) / 3))
       .alongWith(camera.runEnd(
       () -> camera.SetLEDOn(),
       () -> camera.SetLEDOff())));
 
     NamedCommands.registerCommand("Track Right", drivetrain.applyRequest(
-      () -> driveTrack.withVelocityX(camera.MoveReefY(kTrackYOffsetRight) * MaxSpeed) // Drive forward with negative Y (forward)
-                      .withVelocityY(camera.MoveReefX(kTrackXOffsetRight) * MaxSpeed) // Drive left with negative X (left)
-                      .withRotationalRate(-camera.MoveReefRot(Degrees.of(0)) * MaxAngularRate))
+      () -> driveTrack.withVelocityX((camera.MoveReefY(kTrackYOffsetRight) * MaxSpeed) / 3) // Drive forward with negative Y (forward)
+                      .withVelocityY((camera.MoveReefX(kTrackXOffsetRight) * MaxSpeed) / 3) // Drive left with negative X (left)
+                      .withRotationalRate((-camera.MoveReefRot(Degrees.of(0)) * MaxAngularRate) / 3))
       .alongWith(camera.runEnd(
       () -> camera.SetLEDOn(),
       () -> camera.SetLEDOff())));
@@ -129,9 +129,9 @@ public class RobotContainer {
     // Drivetrain will execute this command periodically
     drivetrain.setDefaultCommand(
       drivetrain.applyRequest(
-        () -> drive.withVelocityX(xLimiter.calculate(MathUtil.applyDeadband(-DriverController.getLeftY(), kStickDeadzone) * MaxSpeed)) // Drive forward with negative Y (forward)
-                   .withVelocityY(yLimiter.calculate(MathUtil.applyDeadband(-DriverController.getLeftX(), kStickDeadzone) * MaxSpeed)) // Drive left with negative X (left)
-                   .withRotationalRate(rotLimiter.calculate(MathUtil.applyDeadband(-DriverController.getRightX(), kStickDeadzone) * MaxAngularRate)) // Drive counterclockwise with negative X (left)
+        () -> drive.withVelocityX(xLimiter.calculate(MathUtil.applyDeadband(-DriverController.getLeftY(), kStickDeadzone) * MaxSpeed * drivetrain.SlowSwerve(DriverController.x().getAsBoolean()))) // Drive forward with negative Y (forward)
+                   .withVelocityY(yLimiter.calculate(MathUtil.applyDeadband(-DriverController.getLeftX(), kStickDeadzone) * MaxSpeed * drivetrain.SlowSwerve(DriverController.x().getAsBoolean()))) // Drive left with negative X (left)
+                   .withRotationalRate(rotLimiter.calculate(MathUtil.applyDeadband(-DriverController.getRightX(), kStickDeadzone) * MaxAngularRate * drivetrain.SlowSwerve(DriverController.x().getAsBoolean()))) // Drive counterclockwise with negative X (left)
       ));
 
     // ** Driver Control **

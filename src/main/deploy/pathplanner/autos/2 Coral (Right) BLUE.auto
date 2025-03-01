@@ -11,7 +11,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Left Start to KL"
+                  "pathName": "Right Start to CD"
                 }
               },
               {
@@ -36,7 +36,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "KL to K"
+                  "pathName": "CD to D"
                 }
               }
             ]
@@ -49,7 +49,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.75
+                  "waitTime": 2.5
                 }
               },
               {
@@ -93,7 +93,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "K to Left Coral"
+                  "pathName": "D to Right Coral BLUE"
                 }
               },
               {
@@ -118,7 +118,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Run Intake"
+                  "name": "Run Intake With Beam Break"
                 }
               }
             ]
@@ -131,13 +131,13 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Left Coral to KL"
+                  "pathName": "Right Coral to CD BLUE"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Run Intake"
+                  "name": "Run Intake With Beam Break"
                 }
               }
             ]
@@ -156,7 +156,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "KL to L"
+                  "pathName": "CD to C"
                 }
               }
             ]

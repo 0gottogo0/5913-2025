@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 1.6662909836065571,
-        "y": 1.0700307377049172
+        "x": 0.9350409836065574,
+        "y": 0.6744364754098353
       },
       "prevControl": {
-        "x": 2.4402482828098777,
-        "y": 1.7032685279621802
+        "x": 1.7089982828098775,
+        "y": 1.3076742656670985
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Right Coral"
+      "linkedName": "Right Coral BLUE"
     }
   ],
   "rotationTargets": [],
