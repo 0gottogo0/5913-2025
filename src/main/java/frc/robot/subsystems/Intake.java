@@ -16,17 +16,18 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.Speeds;
 
 public class Intake extends SubsystemBase {
 
-  private SparkMax intake = new SparkMax(kIntakeMotor, MotorType.kBrushless);
+  private SparkMax intake = new SparkMax(MotorIDs.Misc.kIntakeMotor, MotorType.kBrushless);
   private SparkMaxConfig cfg = new SparkMaxConfig();
   
-  private PneumaticHub PH = new PneumaticHub(kPHID);
+  private PneumaticHub PH = new PneumaticHub(PneumaticsIDs.kPHID);
   
-  private DoubleSolenoid clawSolenoid = PH.makeDoubleSolenoid(kClawClose, kClawOpen);
+  private DoubleSolenoid clawSolenoid = PH.makeDoubleSolenoid(PneumaticsIDs.kClawClose, PneumaticsIDs.kClawOpen);
   
-  private DigitalInput beamBreak = new DigitalInput(kBeamBreak);
+  private DigitalInput beamBreak = new DigitalInput(IO.Misc.kBeamBreak);
 
   public boolean ignoreBeamBreak = false;
   public boolean holdAlgae = false; // Turn this varable true if we are in an algae spot
@@ -50,12 +51,12 @@ public class Intake extends SubsystemBase {
 
   // Run the intake without the beambreak
   public void RunIntake() {
-    intake.set(-kIntakeSpeed);
+    intake.set(-Speeds.kIntakeSpeed);
   }
 
   // Run the intake backwards
   public void RunIntakeReverse() {
-    intake.set(kIntakeSpeed);
+    intake.set(Speeds.kIntakeSpeed);
   }
 
   // Run the intake with the beambreak
@@ -63,7 +64,7 @@ public class Intake extends SubsystemBase {
   public void RunIntakeWithBeam() {
     if (!ignoreBeamBreak) {
       if (!GetBeamBreak()) {
-        intake.set(-kIntakeSpeed);
+        intake.set(-Speeds.kIntakeSpeed);
       } else {
         Stop();
       }
@@ -75,7 +76,7 @@ public class Intake extends SubsystemBase {
   // Eject the Algae by closing the claw and outtake
   public void EjectAlgae() {
     clawSolenoid.set(DoubleSolenoid.Value.kForward);
-    intake.set(kIntakeSpeedMax);
+    intake.set(Speeds.kIntakeSpeedMax);
     holdAlgae = false;
   }
 
@@ -102,7 +103,7 @@ public class Intake extends SubsystemBase {
   // Keeps intaking slightly if we are in an algae spot
   public void Stop() {
     if (holdAlgae) {
-      intake.set(kIntakeSpeedHoldAlgae);
+      intake.set(Speeds.kIntakeSpeedHoldAlgae);
     } else if (!holdAlgae) {
       intake.set(0);
     }

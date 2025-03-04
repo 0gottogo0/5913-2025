@@ -13,12 +13,13 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.Speeds;
 import frc.robot.LimelightHelpers;
 
 public class Camera extends SubsystemBase {
-  private PIDController reefXController = new PIDController(kTrackXKP, 0, 0);
-  private PIDController reefYController = new PIDController(kTrackYKP, 0, 0);
-  private PIDController reefRotController = new PIDController(kTrackRotKP, 0, 0);
+  private PIDController reefXController = new PIDController(PID.Track.kTrackXKP, 0, 0);
+  private PIDController reefYController = new PIDController(PID.Track.kTrackYKP, 0, 0);
+  private PIDController reefRotController = new PIDController(PID.Track.kTrackRotKP, 0, 0);
 
   private double reefX;
   private double reefY;
@@ -54,7 +55,7 @@ public class Camera extends SubsystemBase {
     SmartDashboard.putNumber("Reef PID X", reefX);
     SmartDashboard.putNumber("Reef PID Y", reefY);
     SmartDashboard.putNumber("Reef PID Rot", reefRot);
-    SmartDashboard.putNumber("Reef ID", LimelightHelpers.getFiducialID(kLimeLightReef));
+    SmartDashboard.putNumber("Reef ID", LimelightHelpers.getFiducialID(IO.Misc.kLimeLightReef));
 
     SmartDashboard.putNumber("X to Target", xToTarget);
     SmartDashboard.putNumber("Y to Target", yToTarget);
@@ -65,32 +66,32 @@ public class Camera extends SubsystemBase {
   public double MoveReefX(double position) {
     reefXController.setSetpoint(position);
 
-    return -MathUtil.clamp(reefX, -1 * kTrackMoveMax, kTrackMoveMax);
+    return -MathUtil.clamp(reefX, -1 * Speeds.kTrackMoveMax, Speeds.kTrackMoveMax);
   }
 
   // Set setpoint and return Y movement
   public double MoveReefY(double position) {
     reefYController.setSetpoint(position);
 
-    return MathUtil.clamp(reefY, -1 * kTrackMoveMax, kTrackMoveMax);
+    return MathUtil.clamp(reefY, -1 * Speeds.kTrackMoveMax, Speeds.kTrackMoveMax);
   }
 
   // Set setpoint and return Rotation movement
   public double MoveReefRot(Angle position) {
     reefRotController.setSetpoint(position.in(Degrees));
     
-    return MathUtil.clamp(reefRot, -1 * kTrackRotateMax, kTrackRotateMax);
+    return MathUtil.clamp(reefRot, -1 * Speeds.kTrackRotateMax, Speeds.kTrackRotateMax);
   } 
   
   // Set leds to off to save on power when we are not tracking
   public void SetLEDOn() {
-    LimelightHelpers.setLEDMode_ForceOn(kLimeLightReef);
+    LimelightHelpers.setLEDMode_ForceOn(IO.Misc.kLimeLightReef);
     isTracking = true;
   }
 
-  // Set leds to on if the venue lights are shit
+  // Set leds to on if the venue lights are shit and to indicate tracking
   public void SetLEDOff() {
-    LimelightHelpers.setLEDMode_ForceOff(kLimeLightReef);
+    LimelightHelpers.setLEDMode_ForceOff(IO.Misc.kLimeLightReef);
     isTracking = false;
   }
 

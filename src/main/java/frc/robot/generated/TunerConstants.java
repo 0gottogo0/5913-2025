@@ -91,21 +91,21 @@ public class TunerConstants {
 
     // Theoretical free speed (m/s) at 12v applied output;
     // This needs to be tuned to your individual robot
-    public static final LinearVelocity kSpeedAt12Volts = FeetPerSecond.of(Constants.kDrivetrainMaxSpeed);
+    public static final LinearVelocity kSpeedAt12Volts = FeetPerSecond.of(Constants.Drivetrain.kDrivetrainMaxSpeed);
 
     // Every 1 rotation of the azimuth results in kCoupleRatio drive motor turns;
     // This may need to be tuned to your individual robot
     private static final double kCoupleRatio = 3.57142;
 
-    private static final double kDriveGearRatio = Constants.kDrivetrainGearRatio;
-    private static final double kSteerGearRatio = Constants.kDrivetrainSteerRatio;
+    private static final double kDriveGearRatio = Constants.Drivetrain.kDrivetrainGearRatio;
+    private static final double kSteerGearRatio = Constants.Drivetrain.kDrivetrainSteerRatio;
 
-    private static final Distance kWheelRadius = Inches.of(Constants.kDrivetrainWheelDiameter / 2);
+    private static final Distance kWheelRadius = Inches.of(Constants.Drivetrain.kDrivetrainWheelDiameter / 2);
 
     private static final boolean kInvertLeftSide = false;
     private static final boolean kInvertRightSide = true;
 
-    private static final int kPigeonId = Constants.kPigeon;
+    private static final int kPigeonId = Constants.IO.Drivetrain.kPigeon;
 
     // These are only used for simulation
     private static final MomentOfInertia kSteerInertia = KilogramSquareMeters.of(0.01);
@@ -143,48 +143,48 @@ public class TunerConstants {
             .withDriveFrictionVoltage(kDriveFrictionVoltage);
 
     // Front Left
-    private static final int kFrontLeftDriveMotorId = Constants.kFrontLeftDrive;
-    private static final int kFrontLeftSteerMotorId = Constants.kFrontLeftSteer;
-    private static final int kFrontLeftEncoderId = Constants.kFrontLeftEncoder;
+    private static final int kFrontLeftDriveMotorId = Constants.MotorIDs.Drivetrain.kFrontLeftDrive;
+    private static final int kFrontLeftSteerMotorId = Constants.MotorIDs.Drivetrain.kFrontLeftSteer;
+    private static final int kFrontLeftEncoderId = Constants.IO.Drivetrain.kFrontLeftEncoder;
     private static final Angle kFrontLeftEncoderOffset = Rotations.of(0.198426);
     private static final boolean kFrontLeftSteerInvert = false;
     private static final boolean kFrontLeftCANcoderInverted = false;
 
-    private static final Distance kFrontLeftXPos = Inches.of(Constants.kTrackWidthX / 2);
-    private static final Distance kFrontLeftYPos = Inches.of(Constants.kTrackWidthY / 2);
+    private static final Distance kFrontLeftXPos = Inches.of(Constants.Drivetrain.kTrackWidthX / 2);
+    private static final Distance kFrontLeftYPos = Inches.of(Constants.Drivetrain.kTrackWidthY / 2);
 
     // Front Right
-    private static final int kFrontRightDriveMotorId = Constants.kFrontRightDrive;
-    private static final int kFrontRightSteerMotorId = Constants.kFrontRightSteer;
-    private static final int kFrontRightEncoderId = Constants.kFrontRightEncoder;
+    private static final int kFrontRightDriveMotorId = Constants.MotorIDs.Drivetrain.kFrontRightDrive;
+    private static final int kFrontRightSteerMotorId = Constants.MotorIDs.Drivetrain.kFrontRightSteer;
+    private static final int kFrontRightEncoderId = Constants.IO.Drivetrain.kFrontRightEncoder;
     private static final Angle kFrontRightEncoderOffset = Rotations.of(0.213845);
     private static final boolean kFrontRightSteerInvert = false;
     private static final boolean kFrontRightCANcoderInverted = false;
 
-    private static final Distance kFrontRightXPos = Inches.of(Constants.kTrackWidthX / 2);
-    private static final Distance kFrontRightYPos = Inches.of(Constants.kTrackWidthY / -2);
+    private static final Distance kFrontRightXPos = Inches.of(Constants.Drivetrain.kTrackWidthX / 2);
+    private static final Distance kFrontRightYPos = Inches.of(Constants.Drivetrain.kTrackWidthY / -2);
 
     // Back Left
-    private static final int kBackLeftDriveMotorId = Constants.kBackLeftDrive;
-    private static final int kBackLeftSteerMotorId = Constants.kBackLeftSteer;
-    private static final int kBackLeftEncoderId = Constants.kBackLeftEncoder;
+    private static final int kBackLeftDriveMotorId = Constants.MotorIDs.Drivetrain.kBackLeftDrive;
+    private static final int kBackLeftSteerMotorId = Constants.MotorIDs.Drivetrain.kBackLeftSteer;
+    private static final int kBackLeftEncoderId = Constants.IO.Drivetrain.kBackLeftEncoder;
     private static final Angle kBackLeftEncoderOffset = Rotations.of(-0.165598);
     private static final boolean kBackLeftSteerInvert = false;
     private static final boolean kBackLeftCANcoderInverted = false;
 
-    private static final Distance kBackLeftXPos = Inches.of(Constants.kTrackWidthX / -2);
-    private static final Distance kBackLeftYPos = Inches.of(Constants.kTrackWidthY / 2);
+    private static final Distance kBackLeftXPos = Inches.of(Constants.Drivetrain.kTrackWidthX / -2);
+    private static final Distance kBackLeftYPos = Inches.of(Constants.Drivetrain.kTrackWidthY / 2);
 
     // Back Right
-    private static final int kBackRightDriveMotorId = Constants.kBackRightDrive;
-    private static final int kBackRightSteerMotorId = Constants.kBackRightSteer;
-    private static final int kBackRightEncoderId = Constants.kBackRightEncoder;
+    private static final int kBackRightDriveMotorId = Constants.MotorIDs.Drivetrain.kBackRightDrive;
+    private static final int kBackRightSteerMotorId = Constants.MotorIDs.Drivetrain.kBackRightSteer;
+    private static final int kBackRightEncoderId = Constants.IO.Drivetrain.kBackRightEncoder;
     private static final Angle kBackRightEncoderOffset = Rotations.of(0.783412);
     private static final boolean kBackRightSteerInvert = false;
     private static final boolean kBackRightCANcoderInverted = false;
 
-    private static final Distance kBackRightXPos = Inches.of(Constants.kTrackWidthX / -2);
-    private static final Distance kBackRightYPos = Inches.of(Constants.kTrackWidthY / -2);
+    private static final Distance kBackRightXPos = Inches.of(Constants.Drivetrain.kTrackWidthX / -2);
+    private static final Distance kBackRightYPos = Inches.of(Constants.Drivetrain.kTrackWidthY / -2);
 
 
     public static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> FrontLeft =

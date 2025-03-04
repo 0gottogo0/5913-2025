@@ -10,6 +10,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.PID;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -30,8 +31,8 @@ public class Robot extends TimedRobot {
       double headingDeg = driveState.Pose.getRotation().getDegrees();
       double omegaRps = Units.radiansToRotations(driveState.Speeds.omegaRadiansPerSecond);
 
-      LimelightHelpers.SetRobotOrientation(kLimeLightReef, headingDeg, 0, 0, 0, 0, 0);
-      var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(kLimeLightReef);
+      LimelightHelpers.SetRobotOrientation(IO.Misc.kLimeLightReef, headingDeg, 0, 0, 0, 0, 0);
+      var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(IO.Misc.kLimeLightReef);
       
       if (llMeasurement != null && llMeasurement.tagCount > 0 && Math.abs(omegaRps) < 2.0) {
         m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement.pose, llMeasurement.timestampSeconds);
@@ -39,7 +40,7 @@ public class Robot extends TimedRobot {
     }
 
     // Dont ignore the beambreak if we are intaking
-    m_robotContainer.intake.ignoreBeamBreak = m_robotContainer.pivot.GetSetpoint() != kPivotIntake;
+    m_robotContainer.intake.ignoreBeamBreak = m_robotContainer.pivot.GetSetpoint() != PID.Pivot.kPivotIntake;
 
     // Slow the elevator if we are holding algae
     m_robotContainer.elevator.holdAglae = m_robotContainer.intake.holdAlgae == true;

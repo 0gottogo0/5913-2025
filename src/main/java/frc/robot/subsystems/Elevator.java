@@ -15,13 +15,14 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.Speeds;
 
 public class Elevator extends SubsystemBase {
 
-  private TalonFX elevator = new TalonFX(kElevatorMotor);
+  private TalonFX elevator = new TalonFX(MotorIDs.Misc.kElevatorMotor);
   private TalonFXConfiguration cfg = new TalonFXConfiguration();
 
-  private PIDController elevatorController = new PIDController(kElevatorKP, 0, 0);
+  private PIDController elevatorController = new PIDController(PID.Elevator.kElevatorKP, 0, 0);
 
   private double elevatorSetpoint; 
   private boolean pidToggle;
@@ -64,10 +65,10 @@ public class Elevator extends SubsystemBase {
     // Slow elevator if we have want to go to algae position
     // This helps keep the algae stay in the robot
     if (!holdAglae) {
-      pid = MathUtil.clamp(pid, -1 * kElevatorSpeedMax, kElevatorSpeedMax);
+      pid = MathUtil.clamp(pid, -1 * Speeds.kElevatorSpeedMax, Speeds.kElevatorSpeedMax);
       elevator.set(pid);
     } else {
-      pid = MathUtil.clamp(pid, -1 * kElevatorSpeedAlgae, kElevatorSpeedAlgae); // Slowed elevator
+      pid = MathUtil.clamp(pid, -1 * Speeds.kElevatorSpeedAlgae, Speeds.kElevatorSpeedAlgae); // Slowed elevator
       elevator.set(pid);
     }
 

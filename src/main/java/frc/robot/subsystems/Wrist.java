@@ -21,13 +21,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Wrist extends SubsystemBase {
 
-  private SparkMax wrist = new SparkMax(kWristMotor, MotorType.kBrushless);
+  private SparkMax wrist = new SparkMax(MotorIDs.Misc.kWristMotor, MotorType.kBrushless);
 
   private SparkMaxConfig cfg = new SparkMaxConfig();
 
-  private PIDController wristController = new PIDController(kWristKP, 0, 0);
+  private PIDController wristController = new PIDController(PID.Wrist.kWristKP, 0, 0);
   
-  private DutyCycleEncoder wristEncoder = new DutyCycleEncoder(kWristEncoderID);
+  private DutyCycleEncoder wristEncoder = new DutyCycleEncoder(IO.Misc.kWristEncoderID);
   
   private double wristSetpoint;
   private boolean pidToggle;
@@ -64,7 +64,7 @@ public class Wrist extends SubsystemBase {
       pid = wristController.calculate(GetAngle().in(Degree), wristSetpoint);
     }
 
-    pid = MathUtil.clamp(pid, -1 * kWristSpeedMax, kWristSpeedMax);
+    pid = MathUtil.clamp(pid, -1 * Speeds.kWristSpeedMax, Speeds.kWristSpeedMax);
     wrist.set(-1 * pid);
     
     // Debug
@@ -98,7 +98,7 @@ public class Wrist extends SubsystemBase {
 
   // Get external encoder position
   public Angle GetAngle() {
-    return Rotations.of(wristEncoder.get()).minus(Degrees.of(kWristEncoderOffset));
+    return Rotations.of(wristEncoder.get()).minus(Degrees.of(IO.Misc.kWristEncoderOffset));
   }
 
   // Get the current setpoint for the pid controller

@@ -134,7 +134,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         try {
             // RobotConfig config = RobotConfig.fromGUISettings();
             RobotConfig config = new RobotConfig(Pounds.of(113), KilogramSquareMeters.of(5.0), 
-            new ModuleConfig(Inches.of(Constants.kDrivetrainWheelDiameter), TunerConstants.kSpeedAt12Volts, 0.7, DCMotor.getKrakenX60(1).withReduction(Constants.kDrivetrainGearRatio), Amps.of(20), 1), getModuleLocations());
+            new ModuleConfig(Inches.of(Constants.Drivetrain.kDrivetrainWheelDiameter), TunerConstants.kSpeedAt12Volts, 0.7, DCMotor.getKrakenX60(1).withReduction(Constants.Drivetrain.kDrivetrainGearRatio), Amps.of(20), 1), getModuleLocations());
             
             AutoBuilder.configure(
                 () -> getState().Pose,   // Supplier of current robot pose

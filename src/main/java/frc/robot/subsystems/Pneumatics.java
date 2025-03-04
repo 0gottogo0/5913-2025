@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Pneumatics extends SubsystemBase {
 
-  PneumaticHub PH = new PneumaticHub(kPHID);
+  PneumaticHub PH = new PneumaticHub(PneumaticsIDs.kPHID);
 
   /** Creates a new Pneumatics. */
   public Pneumatics() {}
@@ -25,6 +25,6 @@ public class Pneumatics extends SubsystemBase {
     SmartDashboard.putNumber("Pressure", PH.getPressure(0));
 
     // Enable the compressor whenever we are below the min pressure until we hit the max pressure
-    PH.enableCompressorAnalog(kMinPressure, kMaxPressure);
+    PH.enableCompressorAnalog(PneumaticsIDs.kMinPressure, PneumaticsIDs.kMaxPressure);
   }
 }

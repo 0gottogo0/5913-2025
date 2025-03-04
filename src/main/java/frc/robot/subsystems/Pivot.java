@@ -19,18 +19,19 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.Speeds;
 
 public class Pivot extends SubsystemBase {
 
-  private TalonFX pivotLeftMaster = new TalonFX(kPivotLeftMotor);
+  private TalonFX pivotLeftMaster = new TalonFX(MotorIDs.Misc.kPivotLeftMotor);
   private TalonFXConfiguration cfgLeft = new TalonFXConfiguration();
 
-  private TalonFX pivotRightFollower = new TalonFX(kPivotRightMotor);
+  private TalonFX pivotRightFollower = new TalonFX(MotorIDs.Misc.kPivotRightMotor);
   private TalonFXConfiguration cfgRight = new TalonFXConfiguration();
 
-  private PIDController pivotController = new PIDController(kPivotKP, 0, 0);
+  private PIDController pivotController = new PIDController(PID.Pivot.kPivotKP, 0, 0);
 
-  private DutyCycleEncoder pivotEncoder = new DutyCycleEncoder(kPivotEncoderID);
+  private DutyCycleEncoder pivotEncoder = new DutyCycleEncoder(IO.Misc.kPivotEncoderID);
   
   private double pivotSetpoint;
   private boolean pidToggle;
@@ -76,7 +77,7 @@ public class Pivot extends SubsystemBase {
       pid = pivotController.calculate(GetAngle().in(Degrees), pivotSetpoint);
     }
     
-    pid = MathUtil.clamp(pid, -1 * kPivotSpeedMax, kPivotSpeedMax);
+    pid = MathUtil.clamp(pid, -1 * Speeds.kPivotSpeedMax, Speeds.kPivotSpeedMax);
     pivotLeftMaster.set(-1 * pid);
 
     // Debug
@@ -110,7 +111,7 @@ public class Pivot extends SubsystemBase {
 
   // Get external encoder position
   public Angle GetAngle() {
-    return Rotations.of(pivotEncoder.get()).minus(Degrees.of(kPivotEncoderOffset));
+    return Rotations.of(pivotEncoder.get()).minus(Degrees.of(IO.Misc.kPivotEncoderOffset));
   }
 
   // Get the current setpoint for the pid controller
