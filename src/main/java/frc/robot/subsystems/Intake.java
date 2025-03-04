@@ -51,12 +51,12 @@ public class Intake extends SubsystemBase {
 
   // Run the intake without the beambreak
   public void RunIntake() {
-    intake.set(-Speeds.kIntakeSpeed);
+    intake.set(-Speeds.kIntakeSpeedMax);
   }
 
   // Run the intake backwards
   public void RunIntakeReverse() {
-    intake.set(Speeds.kIntakeSpeed);
+    intake.set(Speeds.kIntakeSpeedMax);
   }
 
   // Run the intake with the beambreak

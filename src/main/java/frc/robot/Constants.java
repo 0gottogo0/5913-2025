@@ -82,16 +82,16 @@ public final class Constants {
         
         public static final class Wrist {
             public static final double kWristKP = 0.02;
-            public static final double kWristIntake = 303.00;
-            public static final double kWristBarge = 238.3;
-            public static final double kWristProcessor = 105.70;
-            public static final double kWristHome = 303.00;
-            public static final double kWristL2 = 299.00;
-            public static final double kWristL3 = 299.00;
-            public static final double kWristL4 = 257.00;
-            public static final double kWristBottomAlgae = 102.50;
-            public static final double kWristTopAlgae = 108.10;
-            public static final double kWristHomeAlgae = 102.50;
+            public static final double kWristIntake = 313.00;
+            public static final double kWristBarge = 248.3;
+            public static final double kWristProcessor = 115.70;
+            public static final double kWristHome = 313.00;
+            public static final double kWristL2 = 309.00;
+            public static final double kWristL3 = 309.00;
+            public static final double kWristL4 = 267.00;
+            public static final double kWristBottomAlgae = 112.50;
+            public static final double kWristTopAlgae = 118.10;
+            public static final double kWristHomeAlgae = 112.50;
         }
     }
         
@@ -141,7 +141,8 @@ public final class Constants {
             public static final double kPivotEncoderOffset = 0;
             public static final int kWristEncoderID = 1;
             public static final double kWristEncoderOffset = 0;
-            public static final String kLimeLightReef = "limelight-ll";
+            public static final String kLimeLightReef = "limelight-reef";
+            public static final String KLimeLightCoral = "limelight-coral";
         }
 
         public static final class CANdle {
