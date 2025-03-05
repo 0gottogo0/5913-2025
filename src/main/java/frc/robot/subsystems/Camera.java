@@ -43,8 +43,8 @@ public class Camera extends SubsystemBase {
     // This method will be called once per scheduler run
 
     // Get the metatag2 results of where our robot is relative to the tag
-    double[] resultsReef = NetworkTableInstance.getDefault().getTable(IO.Misc.kLimeLightReef).getEntry("botpose_targetspace").getDoubleArray(new double[6]);
-    double[] resultsCoral = NetworkTableInstance.getDefault().getTable(IO.Misc.KLimeLightCoral).getEntry("botpose_targetspace").getDoubleArray(new double[6]);
+    double[] resultsReef = NetworkTableInstance.getDefault().getTable(IO.Camera.kLimeLightReef).getEntry("botpose_targetspace").getDoubleArray(new double[6]);
+    double[] resultsCoral = NetworkTableInstance.getDefault().getTable(IO.Camera.KLimeLightCoral).getEntry("botpose_targetspace").getDoubleArray(new double[6]);
 
     // Get the X, Y, and Rotation from said results
     xToTargetReef = resultsReef[0];
@@ -106,13 +106,13 @@ public class Camera extends SubsystemBase {
   
   // Set leds to off to save on power when we are not tracking
   public void SetLEDOn() {
-    LimelightHelpers.setLEDMode_ForceOn(IO.Misc.kLimeLightReef);
+    LimelightHelpers.setLEDMode_ForceOn(IO.Camera.kLimeLightReef);
     isTracking = true;
   }
 
   // Set leds to on if the venue lights are shit and to indicate tracking
   public void SetLEDOff() {
-    LimelightHelpers.setLEDMode_ForceOff(IO.Misc.kLimeLightReef);
+    LimelightHelpers.setLEDMode_ForceOff(IO.Camera.kLimeLightReef);
     isTracking = false;
   }
 

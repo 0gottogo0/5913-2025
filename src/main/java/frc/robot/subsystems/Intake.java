@@ -94,7 +94,7 @@ public class Intake extends SubsystemBase {
   }
 
   // Get the status of the beambreak
-  // Whenever GetBeamBreak is true, there is a coral (or algae) in the claw and the beam is broken
+  // Whenever GetBeamBreak is true, there is a coral in the claw and the beam is broken
   public boolean GetBeamBreak() {
     return !beamBreak.get();
   }

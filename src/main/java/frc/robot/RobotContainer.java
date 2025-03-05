@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Pivot;
@@ -48,6 +49,7 @@ public class RobotContainer {
   Camera camera = new Camera();
   Elevator elevator = new Elevator();
   Intake intake = new Intake();
+  Lights lights = new Lights(camera, intake);
   Pivot pivot = new Pivot();
   Pneumatics pneumatics = new Pneumatics();
   Wrist wrist = new Wrist();
