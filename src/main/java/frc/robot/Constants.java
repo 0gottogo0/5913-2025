@@ -82,16 +82,16 @@ public final class Constants {
         
         public static final class Wrist {
             public static final double kWristKP = 0.02;
-            public static final double kWristIntake = 313.00;
-            public static final double kWristBarge = 248.3;
-            public static final double kWristProcessor = 115.70;
-            public static final double kWristHome = 313.00;
-            public static final double kWristL2 = 309.00;
-            public static final double kWristL3 = 309.00;
-            public static final double kWristL4 = 267.00;
-            public static final double kWristBottomAlgae = 112.50;
-            public static final double kWristTopAlgae = 118.10;
-            public static final double kWristHomeAlgae = 112.50;
+            public static final double kWristIntake = 283.00;
+            public static final double kWristBarge = 218.3;
+            public static final double kWristProcessor = 85.70;
+            public static final double kWristHome = 283.00;
+            public static final double kWristL2 = 279.00;
+            public static final double kWristL3 = 279.00;
+            public static final double kWristL4 = 237.00;
+            public static final double kWristBottomAlgae = 82.50;
+            public static final double kWristTopAlgae = 88.10;
+            public static final double kWristHomeAlgae = 82.50;
         }
     }
         
