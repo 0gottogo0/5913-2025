@@ -50,8 +50,9 @@ public final class Constants {
         public static final double kElevatorL2 = -13.20;
         public static final double kElevatorL3 = -34.70;
         public static final double kElevatorL4 = -75.30;
-        public static final double kElevatorBottomAlge = -22.40;
-        public static final double kElevatorTopAlge = -40.20;
+        public static final double kElevatorBottomAlgae = -22.40;
+        public static final double kElevatorTopAlgae = -40.20;
+        public static final double kElevatorGroundAlgae = -8.7;
         }
 
         public static final class Pivot {
@@ -66,6 +67,7 @@ public final class Constants {
             public static final double kPivotClimbEnd = 96.50;
             public static final double kPivotBottomAlgae = 127.10;
             public static final double kPivotTopAlgae = 131.70;
+            public static final double kPivotGroundAlgae = 99.7;
         }
 
         public static final class Track {
@@ -92,6 +94,7 @@ public final class Constants {
             public static final double kWristBottomAlgae = 82.50;
             public static final double kWristTopAlgae = 88.10;
             public static final double kWristHomeAlgae = 82.50;
+            public static final double kWristGroundALgae = 51.20;
         }
     }
         
