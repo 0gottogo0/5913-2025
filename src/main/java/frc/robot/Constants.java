@@ -141,6 +141,9 @@ public final class Constants {
             public static final double kPivotEncoderOffset = 0;
             public static final int kWristEncoderID = 1;
             public static final double kWristEncoderOffset = 0;
+        }
+
+        public static final class Camera {
             public static final String kLimeLightReef = "limelight-reef";
             public static final String KLimeLightCoral = "limelight-coral";
         }
