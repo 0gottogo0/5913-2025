@@ -109,12 +109,12 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("Intake", intake.runOnce(
         () -> intake.Open(false))
-      .alongWith(new WaitCommand(0.6)
+      .alongWith(new WaitCommand(0.3)
         .andThen(elevator.runOnce(
         () -> elevator.Set(PID.Elevator.kElevatorIntake))))
       .alongWith(pivot.runOnce(
       () -> pivot.Set(PID.Pivot.kPivotIntake)))
-      .alongWith(new WaitCommand(0.6)
+      .alongWith(new WaitCommand(0.3)
         .andThen(wrist.runOnce(
         () -> wrist.Set(PID.Wrist.kWristIntake)))));
 
@@ -251,12 +251,12 @@ public class RobotContainer {
     // Intake
     ManipulatorController.b().onTrue(intake.runOnce(
       () -> intake.Open(false))
-      .alongWith(new WaitCommand(0.6)
+      .alongWith(new WaitCommand(0.3)
         .andThen(elevator.runOnce(
         () -> elevator.Set(PID.Elevator.kElevatorIntake))))
       .alongWith(pivot.runOnce(
       () -> pivot.Set(PID.Pivot.kPivotIntake)))
-      .alongWith(new WaitCommand(0.6)
+      .alongWith(new WaitCommand(0.3)
         .andThen(wrist.runOnce(
         () -> wrist.Set(PID.Wrist.kWristIntake)))));
 
