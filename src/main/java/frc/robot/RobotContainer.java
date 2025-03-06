@@ -101,7 +101,7 @@ public class RobotContainer {
       () -> intake.Open(false))
       .alongWith(elevator.run(
       () -> elevator.Set(PID.Elevator.kElevatorL4)))
-      .alongWith(new WaitCommand(0.25)
+      .alongWith(new WaitCommand(0.6)
         .andThen(pivot.run(
         () -> pivot.Set(PID.Pivot.kPivotL4))))
       .alongWith(wrist.run(
@@ -232,7 +232,7 @@ public class RobotContainer {
       () -> intake.Open(false))
       .alongWith(elevator.runOnce(
       () -> elevator.Set(PID.Elevator.kElevatorL4)))
-      .alongWith(new WaitCommand(0.25)
+      .alongWith(new WaitCommand(0.6)
         .andThen(pivot.runOnce(
         () -> pivot.Set(PID.Pivot.kPivotL4))))
       .alongWith(wrist.runOnce(
