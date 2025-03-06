@@ -77,7 +77,7 @@ public class Pivot extends SubsystemBase {
       pid = pivotController.calculate(GetAngle().in(Degrees), pivotSetpoint);
     }
     
-    pid = MathUtil.clamp(pid, -1 * Speeds.kPivotSpeedMax, Speeds.kPivotSpeedMax);
+    pid = MathUtil.applyDeadband(MathUtil.clamp(pid, -1 * Speeds.kPivotSpeedMax, Speeds.kPivotSpeedMax), PID.Pivot.kPivotDeadzone);
     pivotLeftMaster.set(-1 * pid);
 
     // Debug

@@ -68,6 +68,7 @@ public final class Constants {
             public static final double kPivotBottomAlgae = 127.10;
             public static final double kPivotTopAlgae = 131.70;
             public static final double kPivotGroundAlgae = 99.7;
+            public static final double kPivotDeadzone = 0.1;
         }
 
         public static final class Track {

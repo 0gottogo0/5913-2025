@@ -326,7 +326,6 @@ public class RobotContainer {
     ManipulatorController.rightBumper().onTrue(intake.runOnce(
       () -> intake.Open(true))
       .alongWith(elevator.runOnce(
-         
       () -> elevator.Set(PID.Elevator.kElevatorGroundAlgae)))
       .alongWith(pivot.runOnce(
       () -> pivot.Set(PID.Pivot.kPivotGroundAlgae)))
