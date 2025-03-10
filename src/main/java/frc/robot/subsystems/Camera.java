@@ -29,11 +29,13 @@ public class Camera extends SubsystemBase {
   private double yToTargetReef = 0;
   private Angle rotToTargetReef = Degrees.of(0);
 
+  // Coral Station abreviated to "Coral"
   private double xToTargetCoral = 0;
   private double yToTargetCoral = 0;
   private Angle rotToTargetCoral = Degrees.of(0);
   
   private boolean isTracking = false;
+  private boolean isReefTracking = true;
 
   /** Creates a new Camera. */
   public Camera() {}
@@ -56,10 +58,8 @@ public class Camera extends SubsystemBase {
     rotToTargetCoral = Degrees.of(resultsCoral[4]);
 
     // Calculate X, Y, and Rotation movements
-    // If the reef LEDs are on then we are tracking the reef
-    // If those LEDs are off then its safe to say we are tracking the coral station
-    // We do this because who wants to blind the human player and I'm not doing all that
-    if (isTracking) {
+    // Also check if we are going to track the reef or coral station
+    if (isReefTracking) {
       moveX = XController.calculate(xToTargetReef);
       moveY = YController.calculate(yToTargetReef);
       moveRot = RotController.calculate(rotToTargetReef.in(Degrees));
@@ -84,8 +84,10 @@ public class Camera extends SubsystemBase {
   }
 
   // Set setpoint and return X movement
-  public double MoveX(double position) {
+  public double MoveX(double position, boolean coral) {
     XController.setSetpoint(position);
+
+    isReefTracking = !coral;
 
     return -MathUtil.clamp(moveX, -1 * Speeds.kTrackMoveMax, Speeds.kTrackMoveMax);
   }

@@ -95,7 +95,7 @@ public class Lights extends SubsystemBase {
           m_toAnimate = new ColorFlowAnimation(255, 255, 255);
           break;
         case DISABLED:
-          m_toAnimate = new RainbowAnimation();
+          m_toAnimate = new RainbowAnimation(1, 0.4, IO.CANdle.kTotalLightAmount);
           break;
         case AUTONOMOUS:
           m_toAnimate = new FireAnimation();
