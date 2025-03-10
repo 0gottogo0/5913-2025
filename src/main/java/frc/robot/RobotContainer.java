@@ -88,6 +88,14 @@ public class RobotContainer {
       () -> camera.SetLEDOn(),
       () -> camera.SetLEDOff())));
 
+    NamedCommands.registerCommand("Track Coral", drivetrain.applyRequest(
+    () -> driveTrack.withVelocityX((camera.MoveY(PID.Track.kTrackYOffsetRight) * MaxSpeed) / 3)              // Drive forward with negative Y (forward)
+                    .withVelocityY((camera.MoveX(PID.Track.kTrackXOffsetRight, true) * MaxSpeed) / 3)  // Drive left with negative X (left)
+                    .withRotationalRate((-camera.MoveRot(Degrees.of(0)) * MaxAngularRate) / 3))
+    .alongWith(camera.runEnd(
+    () -> camera.SetLEDOn(),
+    () -> camera.SetLEDOff())));
+
 
     NamedCommands.registerCommand("Run Intake With Beam Break", intake.runEnd(
       () -> intake.RunIntakeWithBeam(),
