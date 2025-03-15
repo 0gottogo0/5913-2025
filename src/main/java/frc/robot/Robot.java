@@ -31,6 +31,7 @@ public class Robot extends TimedRobot {
       double headingDeg = driveState.Pose.getRotation().getDegrees();
       double omegaRps = Units.radiansToRotations(driveState.Speeds.omegaRadiansPerSecond);
 
+      LimelightHelpers.SetRobotOrientation(IO.Camera.kLimeLightCoral, headingDeg, 0, 0, 0, 0, 0);
       LimelightHelpers.SetRobotOrientation(IO.Camera.kLimeLightReef, headingDeg, 0, 0, 0, 0, 0);
       var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(IO.Camera.kLimeLightReef);
       
@@ -41,6 +42,8 @@ public class Robot extends TimedRobot {
 
     // Dont ignore the beambreak if we are intaking
     m_robotContainer.intake.ignoreBeamBreak = m_robotContainer.pivot.GetSetpoint() != PID.Pivot.kPivotIntake;
+
+    //m_robotContainer.camera.driveSlow = m_robotContainer.pivot.GetSetpoint() == PID.Pivot.kPivotL4;
 
     // Slow the elevator if we are holding algae
     m_robotContainer.elevator.holdAglae = m_robotContainer.intake.holdAlgae == true;

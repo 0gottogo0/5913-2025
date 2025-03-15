@@ -73,25 +73,33 @@ public class RobotContainer {
   public RobotContainer() {
 
     NamedCommands.registerCommand("Track Left", drivetrain.applyRequest(
-      () -> driveTrack.withVelocityX((camera.MoveY(PID.Track.kTrackYOffsetLeft) * MaxSpeed) / 3)              // Drive forward with negative Y (forward)
-                      .withVelocityY((camera.MoveX(PID.Track.kTrackXOffsetLeft, false) * MaxSpeed) / 3) // Drive left with negative X (left)
-                      .withRotationalRate((-camera.MoveRot(Degrees.of(0)) * MaxAngularRate) / 3))
+      () -> driveTrack.withVelocityX(camera.MoveY(PID.Track.kTrackYOffsetLeft) * MaxSpeed)              // Drive forward with negative Y (forward)
+                      .withVelocityY(camera.MoveX(PID.Track.kTrackXOffsetLeft, false) * MaxSpeed) // Drive left with negative X (left)
+                      .withRotationalRate(-camera.MoveRot(Degrees.of(0)) * MaxAngularRate))
       .alongWith(camera.runEnd(
       () -> camera.SetLEDOn(),
       () -> camera.SetLEDOff())));
 
     NamedCommands.registerCommand("Track Right", drivetrain.applyRequest(
-      () -> driveTrack.withVelocityX((camera.MoveY(PID.Track.kTrackYOffsetRight) * MaxSpeed) / 3)              // Drive forward with negative Y (forward)
-                      .withVelocityY((camera.MoveX(PID.Track.kTrackXOffsetRight, false) * MaxSpeed) / 3) // Drive left with negative X (left)
-                      .withRotationalRate((-camera.MoveRot(Degrees.of(0)) * MaxAngularRate) / 3))
+      () -> driveTrack.withVelocityX(camera.MoveY(PID.Track.kTrackYOffsetRight) * MaxSpeed)              // Drive forward with negative Y (forward)
+                      .withVelocityY(camera.MoveX(PID.Track.kTrackXOffsetRight, false) * MaxSpeed) // Drive left with negative X (left)
+                      .withRotationalRate(-camera.MoveRot(Degrees.of(0)) * MaxAngularRate))
+      .alongWith(camera.runEnd(
+      () -> camera.SetLEDOn(),
+      () -> camera.SetLEDOff())));
+
+    NamedCommands.registerCommand("Track Ball", drivetrain.applyRequest(
+      () -> driveTrack.withVelocityX(camera.MoveY(PID.Track.kTrackYOffsetCenter) * MaxSpeed)              // Drive forward with negative Y (forward)
+                      .withVelocityY(camera.MoveX(PID.Track.kTrackXOffsetCenter, false) * MaxSpeed) // Drive left with negative X (left)
+                      .withRotationalRate(-camera.MoveRot(Degrees.of(0)) * MaxAngularRate))
       .alongWith(camera.runEnd(
       () -> camera.SetLEDOn(),
       () -> camera.SetLEDOff())));
 
     NamedCommands.registerCommand("Track Coral", drivetrain.applyRequest(
-    () -> driveTrack.withVelocityX((camera.MoveY(PID.Track.kTrackYOffsetRight) * MaxSpeed) / 3)              // Drive forward with negative Y (forward)
-                    .withVelocityY((camera.MoveX(PID.Track.kTrackXOffsetRight, true) * MaxSpeed) / 3)  // Drive left with negative X (left)
-                    .withRotationalRate((-camera.MoveRot(Degrees.of(0)) * MaxAngularRate) / 3))
+    () -> driveTrack.withVelocityX(-camera.MoveY(PID.Track.kTrackYOffsetCoral) * MaxSpeed * 1.5)              // Drive forward with negative Y (forward)
+                    .withVelocityY(-camera.MoveX(PID.Track.kTrackXOffsetCoral, true) * MaxSpeed * 1.5)  // Drive left with negative X (left)
+                    .withRotationalRate(camera.MoveRot(Degrees.of(0)) * MaxAngularRate * 1.5))
     .alongWith(camera.runEnd(
     () -> camera.SetLEDOn(),
     () -> camera.SetLEDOff())));
@@ -115,6 +123,16 @@ public class RobotContainer {
       .alongWith(wrist.run(
       () -> wrist.Set(PID.Wrist.kWristL4))));
 
+    //only use in auto if the L4 command will run out of time to move the pivot when that block ends
+    NamedCommands.registerCommand("L4 No Wait Pivot", intake.run( 
+      () -> intake.Open(false))
+      .alongWith(elevator.run(
+      () -> elevator.Set(PID.Elevator.kElevatorL4)))
+      .alongWith(pivot.run(
+        () -> pivot.Set(PID.Pivot.kPivotL4)))
+      .alongWith(wrist.run(
+      () -> wrist.Set(PID.Wrist.kWristL4))));
+
     NamedCommands.registerCommand("Intake", intake.runOnce(
         () -> intake.Open(false))
       .alongWith(new WaitCommand(0.3)
@@ -125,6 +143,56 @@ public class RobotContainer {
       .alongWith(new WaitCommand(0.3)
         .andThen(wrist.runOnce(
         () -> wrist.Set(PID.Wrist.kWristIntake)))));
+
+    NamedCommands.registerCommand("Bottom Algae", intake.runOnce(
+      () -> intake.Open(true))
+      .alongWith(elevator.runOnce(
+      () -> elevator.Set(PID.Elevator.kElevatorBottomAlgae)))
+      .alongWith(pivot.runOnce(
+      () -> pivot.Set(PID.Pivot.kPivotL2)))
+      .alongWith(wrist.runOnce(
+      () -> wrist.Set(PID.Wrist.kWristBottomAlgae)))
+      );
+
+
+    NamedCommands.registerCommand("Top Algae", intake.runOnce(
+      () -> intake.Open(true))
+      .alongWith(elevator.runOnce(
+      () -> elevator.Set(PID.Elevator.kElevatorTopAlgae)))
+      .alongWith(pivot.runOnce(
+      () -> pivot.Set(PID.Pivot.kPivotL3)))
+      .alongWith(wrist.runOnce(
+      () -> wrist.Set(PID.Wrist.kWristTopAlgae)))
+      );
+
+    NamedCommands.registerCommand("Algae Barge", intake.runOnce(
+      () -> intake.Open(true))
+      .alongWith(elevator.runOnce(
+      () -> elevator.Set(PID.Elevator.kElevatorBarge)))
+      .alongWith(pivot.runOnce(
+      () -> pivot.Set(PID.Pivot.kPivotIntake)))
+      .alongWith(wrist.runOnce(
+      () -> wrist.Set(PID.Wrist.kWristBarge)))
+      );
+
+    NamedCommands.registerCommand("Algae Home", intake.runOnce(
+      () -> intake.Open(true))
+      .alongWith(new WaitCommand(0.6)
+        .andThen(elevator.runOnce(
+        () -> elevator.Set(PID.Elevator.kElevatorIntake))))
+      .alongWith(pivot.runOnce(
+      () -> pivot.Set(PID.Pivot.kPivotIntake)))
+      .alongWith(new WaitCommand(0.6)
+        .andThen(wrist.runOnce(
+        () -> wrist.Set(PID.Wrist.kWristHomeAlgae))))
+      );
+
+    NamedCommands.registerCommand("Eject Algae", intake.runEnd(
+      () -> intake.EjectAlgae(),
+      () -> intake.Stop())
+      );
+
+      
 
     // For Auto
     autoChooser = AutoBuilder.buildAutoChooser("None");
@@ -148,27 +216,37 @@ public class RobotContainer {
 
     // Track Left
     DriverController.leftBumper().whileTrue(drivetrain.applyRequest(
-      () -> driveTrack.withVelocityX(camera.MoveY(PID.Track.kTrackYOffsetLeft) + xLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftY(), Drivetrain.kStickDeadzone) * MaxSpeed)) // Drive forward with negative Y (forward)
-                      .withVelocityY(camera.MoveX(PID.Track.kTrackXOffsetLeft, false) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), Drivetrain.kStickDeadzone) * MaxSpeed)) // Drive left with negative X (left)
-                      .withRotationalRate(-camera.MoveRot(Degrees.of(0)) + rotLimiter.calculate(-MathUtil.applyDeadband(DriverController.getRightX(), Drivetrain.kStickDeadzone) * MaxAngularRate)))
+      () -> driveTrack.withVelocityX((camera.MoveY(PID.Track.kTrackYOffsetLeft) + xLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftY(), Drivetrain.kStickDeadzone))) * MaxSpeed) // Drive forward with negative Y (forward)
+                      .withVelocityY((camera.MoveX(PID.Track.kTrackXOffsetLeft, false) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), Drivetrain.kStickDeadzone))) * MaxSpeed) // Drive left with negative X (left)
+                      .withRotationalRate((-camera.MoveRot(Degrees.of(0)) + rotLimiter.calculate(-MathUtil.applyDeadband(DriverController.getRightX(), Drivetrain.kStickDeadzone))) * MaxAngularRate))
       .alongWith(camera.runEnd(
       () -> camera.SetLEDOn(),
       () -> camera.SetLEDOff())));
 
     // Track Center
     DriverController.leftTrigger().whileTrue(drivetrain.applyRequest(
-      () -> driveTrack.withVelocityX(camera.MoveY(PID.Track.kTrackYOffsetCenter) + xLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftY(), Drivetrain.kStickDeadzone) * MaxSpeed)) // Drive forward with negative Y (forward)
-                      .withVelocityY(camera.MoveX(PID.Track.kTrackXOffsetCenter, false) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), Drivetrain.kStickDeadzone) * MaxSpeed)) // Drive left with negative X (left)
-                      .withRotationalRate(-camera.MoveRot(Degrees.of(0)) + rotLimiter.calculate(-MathUtil.applyDeadband(DriverController.getRightX(), Drivetrain.kStickDeadzone) * MaxAngularRate)))
+      () -> driveTrack.withVelocityX((camera.MoveY(PID.Track.kTrackYOffsetCenter) + xLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftY(), Drivetrain.kStickDeadzone))) * MaxSpeed) // Drive forward with negative Y (forward)
+                      .withVelocityY((camera.MoveX(PID.Track.kTrackXOffsetCenter, false) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), Drivetrain.kStickDeadzone))) * MaxSpeed) // Drive left with negative X (left)
+                      .withRotationalRate((-camera.MoveRot(Degrees.of(0)) + rotLimiter.calculate(-MathUtil.applyDeadband(DriverController.getRightX(), Drivetrain.kStickDeadzone))) * MaxAngularRate))
       .alongWith(camera.runEnd(
       () -> camera.SetLEDOn(),
       () -> camera.SetLEDOff())));
 
     // Track Right
     DriverController.rightBumper().whileTrue(drivetrain.applyRequest(
-      () -> driveTrack.withVelocityX(camera.MoveY(PID.Track.kTrackYOffsetRight) + xLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftY(), Drivetrain.kStickDeadzone) * MaxSpeed)) // Drive forward with negative Y (forward)
-                      .withVelocityY(camera.MoveX(PID.Track.kTrackXOffsetRight, false) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), Drivetrain.kStickDeadzone) * MaxSpeed)) // Drive left with negative X (left)
-                      .withRotationalRate(-camera.MoveRot(Degrees.of(0)) + rotLimiter.calculate(-MathUtil.applyDeadband(DriverController.getRightX(), Drivetrain.kStickDeadzone) * MaxAngularRate)))
+      () -> driveTrack.withVelocityX((camera.MoveY(PID.Track.kTrackYOffsetRight) + xLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftY(), Drivetrain.kStickDeadzone))) * MaxSpeed) // Drive forward with negative Y (forward)
+                      .withVelocityY((camera.MoveX(PID.Track.kTrackXOffsetRight, false) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), Drivetrain.kStickDeadzone))) * MaxSpeed) // Drive left with negative X (left)
+                      .withRotationalRate((-camera.MoveRot(Degrees.of(0)) + rotLimiter.calculate(-MathUtil.applyDeadband(DriverController.getRightX(), Drivetrain.kStickDeadzone))) * MaxAngularRate))
+      .alongWith(camera.runEnd(
+      () -> camera.SetLEDOn(),
+      () -> camera.SetLEDOff())));
+
+    //Track Coral
+    DriverController.a().whileTrue(drivetrain.applyRequest(
+      () -> driveTrack.withVelocityX((-camera.MoveY(PID.Track.kTrackYOffsetCoral) + xLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftY(), Drivetrain.kStickDeadzone))) * MaxSpeed) // Drive forward with negative Y (forward)
+                      .withVelocityY((-camera.MoveX(PID.Track.kTrackXOffsetCoral, true) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), Drivetrain.kStickDeadzone))) * MaxSpeed) // Drive left with negative X (left)
+                      .withRotationalRate((camera.MoveRot(Degrees.of(0)) + rotLimiter.calculate(-MathUtil.applyDeadband(DriverController.getRightX(), Drivetrain.kStickDeadzone))) * MaxAngularRate)
+                      )
       .alongWith(camera.runEnd(
       () -> camera.SetLEDOn(),
       () -> camera.SetLEDOff())));

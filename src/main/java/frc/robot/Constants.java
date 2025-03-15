@@ -17,8 +17,8 @@ public final class Constants {
         public static final double kIntakeSpeed = 0.5;
         public static final double kIntakeSpeedHoldAlgae = -0.15;
         public static final double kPivotSpeedMax = 1;
-        public static final double kTrackMoveMax = 0.6;
-        public static final double kTrackRotateMax = 0.4;
+        public static final double kTrackMoveMax = .2;
+        public static final double kTrackRotateMax = 0.1;
         public static final double kWristSpeedMax = 0.7;
     }
 
@@ -56,7 +56,7 @@ public final class Constants {
         }
 
         public static final class Pivot {
-            public static final double kPivotKP = 0.15;
+            public static final double kPivotKP = 0.09;
             public static final double kPivotL2 = 128.00;
             public static final double kPivotL3 = 135.00;
             public static final double kPivotL4 = 140.70;
@@ -72,19 +72,24 @@ public final class Constants {
         }
 
         public static final class Track {
-            public static final double kTrackXKP = 5.00;
-            public static final double kTrackYKP = 5.00;
-            public static final double kTrackRotKP = 0.50;
+            public static final double kReefTrackXKP = .5;
+            public static final double kReefTrackYKP = .75;
+            public static final double kReefTrackRotKP = 0.05;
+            public static final double kCoralTrackXKP = 1.00;
+            public static final double kCoralTrackYKP = .75;
+            public static final double kCoralTrackRotKP = 0.05;
             public static final double kTrackXOffsetLeft = -0.193;
             public static final double kTrackYOffsetLeft = -0.464;
             public static final double kTrackXOffsetCenter = -0.050;
             public static final double kTrackYOffsetCenter = -0.590;
             public static final double kTrackXOffsetRight = 0.153;
             public static final double kTrackYOffsetRight = -0.464;
+            public static final double kTrackXOffsetCoral = 0.27;  
+            public static final double kTrackYOffsetCoral = -0.50;
         }
         
         public static final class Wrist {
-            public static final double kWristKP = 0.02;
+            public static final double kWristKP = 0.015;
             public static final double kWristIntake = 293.40;
             public static final double kWristBarge = 218.3;
             public static final double kWristProcessor = 85.70;
@@ -144,12 +149,12 @@ public final class Constants {
             public static final int kPivotEncoderID = 2;
             public static final double kPivotEncoderOffset = 0;
             public static final int kWristEncoderID = 1;
-            public static final double kWristEncoderOffset = 0;
+            public static final double kWristEncoderOffset = 36.3;
         }
 
         public static final class Camera {
             public static final String kLimeLightReef = "limelight-reef";
-            public static final String KLimeLightCoral = "limelight-coral";
+            public static final String kLimeLightCoral = "limelight-coral";
         }
 
         public static final class CANdle {

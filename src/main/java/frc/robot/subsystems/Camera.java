@@ -17,9 +17,13 @@ import frc.robot.Constants.Speeds;
 import frc.robot.LimelightHelpers;
 
 public class Camera extends SubsystemBase {
-  private PIDController XController = new PIDController(PID.Track.kTrackXKP, 0, 0);
-  private PIDController YController = new PIDController(PID.Track.kTrackYKP, 0, 0);
-  private PIDController RotController = new PIDController(PID.Track.kTrackRotKP, 0, 0);
+  private PIDController XReefController = new PIDController(PID.Track.kReefTrackXKP, 0, 0);
+  private PIDController YReefController = new PIDController(PID.Track.kReefTrackYKP, 0, 0);
+  private PIDController RotReefController = new PIDController(PID.Track.kReefTrackRotKP, 0, 0);
+
+  private PIDController XCoralController = new PIDController(PID.Track.kCoralTrackXKP, 0, 0);
+  private PIDController YCoralController = new PIDController(PID.Track.kCoralTrackYKP, 0, 0);
+  private PIDController RotCoralController = new PIDController(PID.Track.kCoralTrackRotKP, 0, 0);
 
   private double moveX;
   private double moveY;
@@ -37,6 +41,8 @@ public class Camera extends SubsystemBase {
   private boolean isTracking = false;
   private boolean isReefTracking = true;
 
+  public boolean driveSlow = false;
+
   /** Creates a new Camera. */
   public Camera() {}
 
@@ -46,7 +52,7 @@ public class Camera extends SubsystemBase {
 
     // Get the metatag2 results of where our robot is relative to the tag
     double[] resultsReef = NetworkTableInstance.getDefault().getTable(IO.Camera.kLimeLightReef).getEntry("botpose_targetspace").getDoubleArray(new double[6]);
-    double[] resultsCoral = NetworkTableInstance.getDefault().getTable(IO.Camera.KLimeLightCoral).getEntry("botpose_targetspace").getDoubleArray(new double[6]);
+    double[] resultsCoral = NetworkTableInstance.getDefault().getTable(IO.Camera.kLimeLightCoral).getEntry("botpose_targetspace").getDoubleArray(new double[6]);
 
     // Get the X, Y, and Rotation from said results
     xToTargetReef = resultsReef[0];
@@ -60,13 +66,13 @@ public class Camera extends SubsystemBase {
     // Calculate X, Y, and Rotation movements
     // Also check if we are going to track the reef or coral station
     if (isReefTracking) {
-      moveX = XController.calculate(xToTargetReef);
-      moveY = YController.calculate(yToTargetReef);
-      moveRot = RotController.calculate(rotToTargetReef.in(Degrees));
+      moveX = XReefController.calculate(xToTargetReef);
+      moveY = YReefController.calculate(yToTargetReef);
+      moveRot = RotReefController.calculate(rotToTargetReef.in(Degrees));
     } else {
-      moveX = XController.calculate(xToTargetCoral);
-      moveY = YController.calculate(yToTargetCoral);
-      moveRot = RotController.calculate(rotToTargetCoral.in(Degrees));
+      moveX = XCoralController.calculate(xToTargetCoral); //+ Math.abs(moveY)/4; // please find a way to get rid of this
+      moveY = YCoralController.calculate(yToTargetCoral) +0.05;
+      moveRot = RotCoralController.calculate(rotToTargetCoral.in(Degrees));
     }
 
     // Debug
@@ -78,43 +84,63 @@ public class Camera extends SubsystemBase {
     SmartDashboard.putNumber("Reef Y to Target", yToTargetReef);
     SmartDashboard.putNumber("Reef Rot to Target", rotToTargetReef.in(Degrees));
 
-    SmartDashboard.putNumber("Coral X to Target", xToTargetReef);
-    SmartDashboard.putNumber("Coral Y to Target", yToTargetReef);
-    SmartDashboard.putNumber("Coral Rot to Target", rotToTargetReef.in(Degrees));
+    SmartDashboard.putNumber("Coral X to Target", xToTargetCoral);
+    SmartDashboard.putNumber("Coral Y to Target", yToTargetCoral);
+    SmartDashboard.putNumber("Coral Rot to Target", rotToTargetCoral.in(Degrees));
   }
 
-  // Set setpoint and return X movement
+  
+  /**
+   * Set setpoint and return X movement
+   * @param position
+   * @param coral false = reef
+   * @return pid output
+   */
   public double MoveX(double position, boolean coral) {
-    XController.setSetpoint(position);
+    XReefController.setSetpoint(position);
 
     isReefTracking = !coral;
 
-    return -MathUtil.clamp(moveX, -1 * Speeds.kTrackMoveMax, Speeds.kTrackMoveMax);
+    return -MathUtil.clamp(moveX, -Speeds.kTrackMoveMax, Speeds.kTrackMoveMax);
+
   }
 
-  // Set setpoint and return Y movement
+  
+  /**
+   * Set setpoint and return Y movement
+   * @param position
+   * coral or reef controlled by moveX
+   * @return pid output 
+   */
   public double MoveY(double position) {
-    YController.setSetpoint(position);
+    YReefController.setSetpoint(position);
 
-    return MathUtil.clamp(moveY, -1 * Speeds.kTrackMoveMax, Speeds.kTrackMoveMax);
+    return MathUtil.clamp(moveY, -Speeds.kTrackMoveMax, Speeds.kTrackMoveMax);
+
   }
 
-  // Set setpoint and return Rotation movement
+  /**
+   * Set setpoint and return Rotation movement
+   * @param position
+   * coral or reef controlled by moveX
+   * @return pid output
+   */
   public double MoveRot(Angle position) {
-    RotController.setSetpoint(position.in(Degrees));
+    RotReefController.setSetpoint(position.in(Degrees));
     
-    return MathUtil.clamp(moveRot, -1 * Speeds.kTrackRotateMax, Speeds.kTrackRotateMax);
+    return MathUtil.clamp(moveRot, -Speeds.kTrackRotateMax, Speeds.kTrackRotateMax);
+
   } 
   
   // Set leds to off to save on power when we are not tracking
   public void SetLEDOn() {
-    LimelightHelpers.setLEDMode_ForceOn(IO.Camera.kLimeLightReef);
+    LimelightHelpers.setLEDMode_ForceOn(isReefTracking?IO.Camera.kLimeLightReef:IO.Camera.kLimeLightCoral);
     isTracking = true;
   }
 
   // Set leds to on if the venue lights are shit and to indicate tracking
   public void SetLEDOff() {
-    LimelightHelpers.setLEDMode_ForceOff(IO.Camera.kLimeLightReef);
+    LimelightHelpers.setLEDMode_ForceOff(isReefTracking?IO.Camera.kLimeLightReef:IO.Camera.kLimeLightCoral);
     isTracking = false;
   }
 
