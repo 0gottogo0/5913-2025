@@ -56,6 +56,11 @@ public class Wrist extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
+    // Turn off pid if roborio gets shorted or encoder gets unplugged
+    if (GetAngle().in(Degree) == (360 - IO.Misc.kPivotEncoderOffset)) {
+      pidToggle = false;
+    }
+
     double pid = 0;
 
     // Calculate pid
@@ -71,7 +76,7 @@ public class Wrist extends SubsystemBase {
     SmartDashboard.putNumber("Wrist PID Input", pid);
     SmartDashboard.putNumber("Wrist Setpoint", wristSetpoint);
     SmartDashboard.putNumber("Wrist Encoder", GetAngle().in(Degree));
-    SmartDashboard.putBoolean("Wrist Encoder Status", GetAngle().in(Degree) != 360); // Returns false if roborio gets shorted or encoder gets unplugged
+    SmartDashboard.putBoolean("Wrist Encoder Status", GetAngle().in(Degree) != (360 - IO.Misc.kPivotEncoderOffset)); // Returns false if roborio gets shorted or encoder gets unplugged
   }
 
   // Set the setpoint

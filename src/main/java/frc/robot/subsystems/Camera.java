@@ -41,8 +41,6 @@ public class Camera extends SubsystemBase {
   private boolean isTracking = false;
   private boolean isReefTracking = true;
 
-  public boolean driveSlow = false;
-
   /** Creates a new Camera. */
   public Camera() {}
 
@@ -70,8 +68,8 @@ public class Camera extends SubsystemBase {
       moveY = YReefController.calculate(yToTargetReef);
       moveRot = RotReefController.calculate(rotToTargetReef.in(Degrees));
     } else {
-      moveX = XCoralController.calculate(xToTargetCoral); //+ Math.abs(moveY)/4; // please find a way to get rid of this
-      moveY = YCoralController.calculate(yToTargetCoral) +0.05;
+      moveX = XCoralController.calculate(xToTargetCoral);
+      moveY = YCoralController.calculate(yToTargetCoral) + 0.05; // Drive into the coral station a bit
       moveRot = RotCoralController.calculate(rotToTargetCoral.in(Degrees));
     }
 
@@ -102,7 +100,6 @@ public class Camera extends SubsystemBase {
     isReefTracking = !coral;
 
     return -MathUtil.clamp(moveX, -Speeds.kTrackMoveMax, Speeds.kTrackMoveMax);
-
   }
 
   
@@ -116,7 +113,6 @@ public class Camera extends SubsystemBase {
     YReefController.setSetpoint(position);
 
     return MathUtil.clamp(moveY, -Speeds.kTrackMoveMax, Speeds.kTrackMoveMax);
-
   }
 
   /**
@@ -129,16 +125,15 @@ public class Camera extends SubsystemBase {
     RotReefController.setSetpoint(position.in(Degrees));
     
     return MathUtil.clamp(moveRot, -Speeds.kTrackRotateMax, Speeds.kTrackRotateMax);
-
   } 
   
-  // Set leds to off to save on power when we are not tracking
+  // Set leds to off because we aint trackin
   public void SetLEDOn() {
     LimelightHelpers.setLEDMode_ForceOn(isReefTracking?IO.Camera.kLimeLightReef:IO.Camera.kLimeLightCoral);
     isTracking = true;
   }
 
-  // Set leds to on if the venue lights are shit and to indicate tracking
+  // Set leds to on to indicate trackin
   public void SetLEDOff() {
     LimelightHelpers.setLEDMode_ForceOff(isReefTracking?IO.Camera.kLimeLightReef:IO.Camera.kLimeLightCoral);
     isTracking = false;

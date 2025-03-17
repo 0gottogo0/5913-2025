@@ -72,8 +72,8 @@ public final class Constants {
         }
 
         public static final class Track {
-            public static final double kReefTrackXKP = .5;
-            public static final double kReefTrackYKP = .75;
+            public static final double kReefTrackXKP = 0.5;
+            public static final double kReefTrackYKP = 0.75;
             public static final double kReefTrackRotKP = 0.05;
             public static final double kCoralTrackXKP = 1.00;
             public static final double kCoralTrackYKP = .75;
