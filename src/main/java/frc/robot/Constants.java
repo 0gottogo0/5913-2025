@@ -159,7 +159,7 @@ public final class Constants {
 
         public static final class CANdle {
             public static final int kCANdleID = 26;
-            public static final int kTotalLightAmount = 8; // Add 8 to the total because the candle has 8
+            public static final int kTotalLightAmount = 0;
         }
     }
 }

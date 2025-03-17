@@ -9,6 +9,7 @@ import static frc.robot.Constants.*;
 import com.ctre.phoenix.led.Animation;
 import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
+import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
 import com.ctre.phoenix.led.CANdleConfiguration;
 import com.ctre.phoenix.led.ColorFlowAnimation;
 import com.ctre.phoenix.led.FireAnimation;
@@ -27,6 +28,10 @@ public class Lights extends SubsystemBase {
   private CANdleConfiguration cfg = new CANdleConfiguration();
 
   private Animation m_toAnimate = null;
+
+  private int allLights = IO.CANdle.kTotalLightAmount + 8;
+
+  public boolean badError = false;
 
   // Create our states
   public enum AnimationTypes {
@@ -92,10 +97,10 @@ public class Lights extends SubsystemBase {
     m_currentAnimation = toChange;
       switch(toChange) {
         case IDLE:
-          m_toAnimate = new ColorFlowAnimation(255, 255, 255);
+          m_toAnimate = new ColorFlowAnimation(255, 255, 255, 255, 0.1, allLights, Direction.Forward);
           break;
         case DISABLED:
-          m_toAnimate = new RainbowAnimation(1, 0.4, IO.CANdle.kTotalLightAmount);
+          m_toAnimate = new RainbowAnimation(1, 0.4, allLights);
           break;
         case AUTONOMOUS:
           m_toAnimate = new FireAnimation();
@@ -113,11 +118,11 @@ public class Lights extends SubsystemBase {
           candle.setLEDs(255, 255, 0);
           break;
         case TRACK:
-          m_toAnimate = new ColorFlowAnimation(0, 255, 0);
+          m_toAnimate = new ColorFlowAnimation(0, 255, 0, 255, 0.3, allLights, Direction.Forward);
           break;
         case ALGAE:
           m_toAnimate = null;
-          candle.setLEDs(0, 255, 255, 0, 0, IO.CANdle.kTotalLightAmount);
+          candle.setLEDs(0, 255, 255, 0, 0, allLights);
           break;
         case ESTOP:
           m_toAnimate = new StrobeAnimation(255, 0, 0);
@@ -143,7 +148,9 @@ public class Lights extends SubsystemBase {
     // This method will be called once per scheduler run
     
     // Set the lights to our predefinded states
-    if (!DriverStation.isDSAttached()) {
+    if (badError) {
+      changeAnimation(AnimationTypes.ESTOP);
+    } else if (!DriverStation.isDSAttached()) {
       changeAnimation(AnimationTypes.IDLE);
     } else if (DriverStation.isEStopped()) {
       changeAnimation(AnimationTypes.ESTOP);

@@ -4,12 +4,14 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.*;
 import static frc.robot.Constants.*;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.IO;
 import frc.robot.Constants.PID;
 
 public class Robot extends TimedRobot {
@@ -45,6 +47,9 @@ public class Robot extends TimedRobot {
 
     // Slow the elevator if we are holding algae
     m_robotContainer.elevator.holdAglae = m_robotContainer.intake.holdAlgae == true;
+
+    // Set lights to red if "bad error"
+    m_robotContainer.lights.badError = m_robotContainer.pivot.GetAngle().in(Degree) == (360 - IO.Misc.kPivotEncoderOffset) || m_robotContainer.wrist.GetAngle().in(Degree) == (360 - IO.Misc.kWristEncoderOffset);
   }
 
   @Override
