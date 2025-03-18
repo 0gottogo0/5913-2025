@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.IO;
 
 public class Lights extends SubsystemBase {
 
@@ -118,14 +119,14 @@ public class Lights extends SubsystemBase {
           candle.setLEDs(255, 255, 0);
           break;
         case TRACK:
-          m_toAnimate = new ColorFlowAnimation(0, 255, 0, 255, 0.3, allLights, Direction.Forward);
+          m_toAnimate = new ColorFlowAnimation(0, 255, 0, 255, 0.1, allLights, Direction.Forward);
           break;
         case ALGAE:
           m_toAnimate = null;
           candle.setLEDs(0, 255, 255, 0, 0, allLights);
           break;
         case ESTOP:
-          m_toAnimate = new StrobeAnimation(255, 0, 0);
+          m_toAnimate = new ColorFlowAnimation(255, 0, 0, 255, 0.1, allLights, Direction.Forward);;
           break;
       }
     }

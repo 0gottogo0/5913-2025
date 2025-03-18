@@ -38,7 +38,7 @@ public class Wrist extends SubsystemBase {
       .inverted(false)
       .idleMode(IdleMode.kBrake);
 
-    wristSetpoint = GetAngle().in(Degree); // Set to current encoder value so elevetor doesnt "snap" when first enabled
+    wristSetpoint = GetAngle(false).in(Degree); // Set to current encoder value so elevetor doesnt "snap" when first enabled
 
     pidToggle = true;
 
@@ -46,7 +46,7 @@ public class Wrist extends SubsystemBase {
     new Thread(() -> {
       try {
           Thread.sleep(3000);
-          wristSetpoint = GetAngle().in(Degree);
+          wristSetpoint = GetAngle(false).in(Degree);
       } catch (Exception e) {
       }
     }).start();
@@ -57,7 +57,7 @@ public class Wrist extends SubsystemBase {
     // This method will be called once per scheduler run
 
     // Turn off pid if roborio gets shorted or encoder gets unplugged
-    if (GetAngle().in(Degree) == (360 - IO.Misc.kWristEncoderOffset)) {
+    if (GetAngle(false).in(Degree) == (360 - IO.Misc.kWristEncoderOffset) || GetAngle(true).in(Degree) < 0) {
       pidToggle = false;
     }
 
@@ -66,7 +66,7 @@ public class Wrist extends SubsystemBase {
     // Calculate pid
 
     if (pidToggle) {
-      pid = wristController.calculate(GetAngle().in(Degree), wristSetpoint);
+      pid = wristController.calculate(GetAngle(false).in(Degree), wristSetpoint);
     }
 
     pid = MathUtil.clamp(pid, -1 * Speeds.kWristSpeedMax, Speeds.kWristSpeedMax);
@@ -75,8 +75,9 @@ public class Wrist extends SubsystemBase {
     // Debug
     SmartDashboard.putNumber("Wrist PID Input", pid);
     SmartDashboard.putNumber("Wrist Setpoint", wristSetpoint);
-    SmartDashboard.putNumber("Wrist Encoder", GetAngle().in(Degree));
-    SmartDashboard.putBoolean("Wrist Encoder Status", GetAngle().in(Degree) != (360 - IO.Misc.kWristEncoderOffset)); // Returns false if roborio gets shorted or encoder gets unplugged
+    SmartDashboard.putNumber("Wrist Encoder", GetAngle(false).in(Degree));
+    SmartDashboard.putNumber("Wrist Encoder No Offset", GetAngle(true).in(Degree));
+    SmartDashboard.putBoolean("Wrist Encoder Status", GetAngle(false).in(Degree) != (360 - IO.Misc.kWristEncoderOffset) || GetAngle(true).in(Degree) > 0); // Returns false if roborio gets shorted or encoder gets unplugged
   }
 
   // Set the setpoint
@@ -97,12 +98,16 @@ public class Wrist extends SubsystemBase {
 
   // Stop pivot
   public void Stop() {
-    wristSetpoint = GetAngle().in(Degrees);
+    wristSetpoint = GetAngle(false).in(Degrees);
     pidToggle = true;
   }
 
   // Get external encoder position
-  public Angle GetAngle() {
+  public Angle GetAngle(boolean noOffset) {
+    if (noOffset) {
+      return Rotations.of(wristEncoder.get());
+    }
+
     return Rotations.of(wristEncoder.get()).minus(Degrees.of(IO.Misc.kWristEncoderOffset));
   }
 

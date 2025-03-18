@@ -192,8 +192,6 @@ public class RobotContainer {
       () -> intake.Stop())
       );
 
-      
-
     // For Auto
     autoChooser = AutoBuilder.buildAutoChooser("None");
 

@@ -11,8 +11,6 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Constants.IO;
-import frc.robot.Constants.PID;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -49,7 +47,7 @@ public class Robot extends TimedRobot {
     m_robotContainer.elevator.holdAglae = m_robotContainer.intake.holdAlgae == true;
 
     // Set lights to red if "bad error"
-    m_robotContainer.lights.badError = m_robotContainer.pivot.GetAngle().in(Degree) == (360 - IO.Misc.kPivotEncoderOffset) || m_robotContainer.wrist.GetAngle().in(Degree) == (360 - IO.Misc.kWristEncoderOffset);
+    m_robotContainer.lights.badError = m_robotContainer.pivot.GetAngle().in(Degree) == (360 - IO.Misc.kPivotEncoderOffset) || m_robotContainer.wrist.GetAngle(false).in(Degree) == (360 - IO.Misc.kWristEncoderOffset) || m_robotContainer.wrist.GetAngle(true).in(Degree) < 0;
   }
 
   @Override

@@ -22,6 +22,7 @@ public final class Constants {
         public static final double kWristSpeedMax = 0.7;
     }
 
+
     public static final class Drivetrain {
         public static final double kMoveSlewRateLimiter = 8.00;
         public static final double kRotateSlewRateLimiter = 40.00;
@@ -149,7 +150,7 @@ public final class Constants {
             public static final int kPivotEncoderID = 2;
             public static final double kPivotEncoderOffset = 0;
             public static final int kWristEncoderID = 1;
-            public static final double kWristEncoderOffset = 36.3;
+            public static final double kWristEncoderOffset = 55.7;
         }
 
         public static final class Camera {
