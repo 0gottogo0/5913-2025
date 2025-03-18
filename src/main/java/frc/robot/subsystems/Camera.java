@@ -98,8 +98,7 @@ public class Camera extends SubsystemBase {
     XReefController.setSetpoint(position);
 
     isReefTracking = !coral;
-
-    return -MathUtil.clamp(moveX, -Speeds.kTrackMoveMax, Speeds.kTrackMoveMax);
+    return -MathUtil.clamp(moveX, -Speeds.kTrackReefMoveMax, Speeds.kTrackReefMoveMax);
   }
 
   
@@ -111,8 +110,7 @@ public class Camera extends SubsystemBase {
    */
   public double MoveY(double position) {
     YReefController.setSetpoint(position);
-
-    return MathUtil.clamp(moveY, -Speeds.kTrackMoveMax, Speeds.kTrackMoveMax);
+    return MathUtil.clamp(moveY, -Speeds.kTrackReefMoveMax, Speeds.kTrackReefMoveMax);
   }
 
   /**
@@ -123,8 +121,7 @@ public class Camera extends SubsystemBase {
    */
   public double MoveRot(Angle position) {
     RotReefController.setSetpoint(position.in(Degrees));
-    
-    return MathUtil.clamp(moveRot, -Speeds.kTrackRotateMax, Speeds.kTrackRotateMax);
+    return MathUtil.clamp(moveRot, -Speeds.kTrackReefRotateMax, Speeds.kTrackReefRotateMax);
   } 
   
   // Set leds to off because we aint trackin

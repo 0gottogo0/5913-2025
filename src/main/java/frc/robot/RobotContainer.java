@@ -113,10 +113,8 @@ public class RobotContainer {
       () -> intake.RunIntake(),
       () -> intake.Stop()));
 
-    NamedCommands.registerCommand("L4", intake.run(
-      () -> intake.Open(false))
-      .alongWith(elevator.run(
-      () -> elevator.Set(PID.Elevator.kElevatorL4)))
+    NamedCommands.registerCommand("L4", elevator.run(
+      () -> elevator.Set(PID.Elevator.kElevatorL4))
       .alongWith(new WaitCommand(0.6)
         .andThen(pivot.run(
         () -> pivot.Set(PID.Pivot.kPivotL4))))

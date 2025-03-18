@@ -17,8 +17,10 @@ public final class Constants {
         public static final double kIntakeSpeed = 0.5;
         public static final double kIntakeSpeedHoldAlgae = -0.15;
         public static final double kPivotSpeedMax = 1;
-        public static final double kTrackMoveMax = .2;
-        public static final double kTrackRotateMax = 0.1;
+        public static final double kTrackReefMoveMax = .2;
+        public static final double kTrackReefRotateMax = 0.1;
+        public static final double kTrackCoralMoveMax = .25;
+        public static final double kTrackCoralRotateMax = 0.15;
         public static final double kWristSpeedMax = 0.7;
     }
 
@@ -73,7 +75,7 @@ public final class Constants {
         }
 
         public static final class Track {
-            public static final double kReefTrackXKP = 0.5;
+            public static final double kReefTrackXKP = 0.75;
             public static final double kReefTrackYKP = 0.75;
             public static final double kReefTrackRotKP = 0.05;
             public static final double kCoralTrackXKP = 1.00;
@@ -150,7 +152,7 @@ public final class Constants {
             public static final int kPivotEncoderID = 2;
             public static final double kPivotEncoderOffset = 0;
             public static final int kWristEncoderID = 1;
-            public static final double kWristEncoderOffset = 55.7;
+            public static final double kWristEncoderOffset = 0;
         }
 
         public static final class Camera {

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.50575,
-        "y": 1.9677499999999997
+        "x": 2.0625773195876294,
+        "y": 1.7151546391752561
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.194069672131147,
-        "y": 1.8358852459016384
+        "x": 1.7508969917187764,
+        "y": 1.5832898850768948
       },
       "isLocked": false,
       "linkedName": "Right Coral Track Alt"
@@ -48,7 +48,7 @@
   "folder": "Right",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 17.650124219930127
+    "rotation": 51.842773412630855
   },
   "useDefaultConstraints": false
 }
