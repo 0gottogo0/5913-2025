@@ -5,6 +5,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "Intake"
+          }
+        },
+        {
           "type": "deadline",
           "data": {
             "commands": [
@@ -15,9 +21,22 @@
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "Intake"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.8
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "L4"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -38,12 +57,6 @@
                 "data": {
                   "pathName": "EF to E"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "L4"
-                }
               }
             ]
           }
@@ -55,7 +68,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.125
+                  "waitTime": 1.0
                 }
               },
               {
@@ -80,7 +93,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.5
+                  "waitTime": 0.6
                 }
               },
               {
@@ -105,13 +118,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake"
+                  "name": "Run Intake"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Run Intake"
+                  "name": "Intake"
                 }
               }
             ]

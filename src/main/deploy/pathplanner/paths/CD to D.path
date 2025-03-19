@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.464446721311475,
-        "y": 2.3527151639344255
+        "x": 3.4764344262295084,
+        "y": 2.304764344262295
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.6525908949881956,
-        "y": 2.5173413159015543
+        "x": 3.6645785999062293,
+        "y": 2.469390496229424
       },
       "isLocked": false,
       "linkedName": "CD"
@@ -48,7 +48,7 @@
   "folder": "Right",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 58.73626830562252
+    "rotation": 58.29857033049415
   },
   "useDefaultConstraints": true
 }
