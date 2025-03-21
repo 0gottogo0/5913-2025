@@ -41,9 +41,6 @@ public class Camera extends SubsystemBase {
   private boolean isTracking = false;
   private boolean isReefTracking = true;
 
-  var llReefMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(IO.Camera.kLimeLightReef);
-  var llCoralMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(IO.Camera.kLimeLightCoral);
-
   /** Creates a new Camera. */
   public Camera() {}
 
@@ -55,6 +52,9 @@ public class Camera extends SubsystemBase {
     double[] resultsReef = NetworkTableInstance.getDefault().getTable(IO.Camera.kLimeLightReef).getEntry("botpose_targetspace").getDoubleArray(new double[6]);
     double[] resultsCoral = NetworkTableInstance.getDefault().getTable(IO.Camera.kLimeLightCoral).getEntry("botpose_targetspace").getDoubleArray(new double[6]);
 
+    var llReefMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(IO.Camera.kLimeLightReef);
+    var llCoralMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(IO.Camera.kLimeLightCoral);
+
     // Get the X, Y, and Rotation from said results
     xToTargetReef = resultsReef[0];
     yToTargetReef = resultsReef[2];
@@ -64,20 +64,8 @@ public class Camera extends SubsystemBase {
     yToTargetCoral = resultsCoral[2];
     rotToTargetCoral = Degrees.of(resultsCoral[4]);
 
-    /* TODO: Put this in its own function that we can call whenever tracking is good
-    // Calculate X, Y, and Rotation movements
-    // Also check if we are going to track the reef or coral station
-    if (isReefTracking) {
-      moveX = XReefController.calculate(xToTargetReef);
-      moveY = YReefController.calculate(yToTargetReef);
-      moveRot = RotReefController.calculate(rotToTargetReef.in(Degrees));
-    } else {
-      moveX = XCoralController.calculate(xToTargetCoral);
-      moveY = YCoralController.calculate(yToTargetCoral) + 0.05; // Drive into the coral station a bit
-      moveRot = RotCoralController.calculate(rotToTargetCoral.in(Degrees));
-    }*/
-
-   CalculatePID(llReefMeasurement != null && llReefMeasurement.tagCount || llCoralMeasCoralnt != null && llCoralMeasurement.tagCount);
+    // We dont need to run though this logic twice but we will
+    CalculatePID(llReefMeasurement != null && llReefMeasurement.tagCount > 0 || llCoralMeasurement != null && llCoralMeasurement.tagCount > 0);
 
     // Debug
     SmartDashboard.putNumber("PID X", moveX);
@@ -94,17 +82,28 @@ public class Camera extends SubsystemBase {
   }
 
   public void CalculatePID (boolean calculate) {
-    if (!ccalculate) {
+    var llReefMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(IO.Camera.kLimeLightReef);
+    var llCoralMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(IO.Camera.kLimeLightCoral);
+
+    if (!calculate) {
       moveX = 0;
       moveY = 0;
       moveRot = 0;
-      return; // Exit functiofunction earlytagswe see no april tags
+      return; // Exit function early if we see no april tags
     }
 
     if (isReefTracking) {
-      // Calculate PID
+      if (llReefMeasurement != null && llReefMeasurement.tagCount > 0) {
+        moveX = XReefController.calculate(xToTargetReef);
+        moveY = YReefController.calculate(yToTargetReef);
+        moveRot = RotReefController.calculate(rotToTargetReef.in(Degrees));
+      }
     } else {
-      // Calculate PID
+      if (llCoralMeasurement != null && llCoralMeasurement.tagCount > 0) {
+        moveX = XCoralController.calculate(xToTargetCoral);
+        moveY = YCoralController.calculate(yToTargetCoral) + 0.05; // Drive into the coral station a bit
+        moveRot = RotCoralController.calculate(rotToTargetCoral.in(Degrees));
+      }
     }
   }
 
