@@ -42,7 +42,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "L4"
+                  "name": "Go to L4"
                 }
               }
             ]
@@ -80,7 +80,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake"
+                  "name": "Go to Intake"
                 }
               }
             ]
@@ -99,7 +99,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Bottom Algae"
+                  "name": "Go to Bottom Algae"
                 }
               }
             ]
@@ -143,7 +143,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Algae Home"
+                  "name": "Go to Algae Home"
                 }
               }
             ]
@@ -175,7 +175,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Algae Barge"
+                  "name": "Go to Algae Barge"
                 }
               }
             ]
@@ -213,7 +213,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Algae Home"
+                  "name": "Go to Algae Home"
                 }
               }
             ]
@@ -245,7 +245,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Top Algae"
+                  "name": "Go to Top Algae"
                 }
               }
             ]
@@ -289,7 +289,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Algae Home"
+                  "name": "Go to Algae Home"
                 }
               }
             ]
@@ -321,7 +321,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Algae Barge"
+                  "name": "Go to Algae Barge"
                 }
               }
             ]
@@ -359,7 +359,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake"
+                  "name": "Go to Intake"
                 }
               }
             ]

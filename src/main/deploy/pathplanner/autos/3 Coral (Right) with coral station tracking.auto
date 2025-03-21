@@ -7,7 +7,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Intake"
+            "name": "Go to Intake"
           }
         },
         {
@@ -33,7 +33,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "L4"
+                        "name": "Go to L4"
                       }
                     }
                   ]
@@ -68,7 +68,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.875
+                  "waitTime": 0.85
                 }
               },
               {
@@ -80,7 +80,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "L4 No Wait Pivot"
+                  "name": "Go to L4 No Wait Pivot"
                 }
               }
             ]
@@ -124,7 +124,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake"
+                  "name": "Go to Intake"
                 }
               }
             ]
@@ -216,7 +216,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "L4"
+                        "name": "Go to L4"
                       }
                     }
                   ]
@@ -270,7 +270,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.85
+                  "waitTime": 0.75
                 }
               },
               {
@@ -282,7 +282,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "L4 No Wait Pivot"
+                  "name": "Go to L4 No Wait Pivot"
                 }
               }
             ]
@@ -320,7 +320,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake"
+                  "name": "Go to Intake"
                 }
               }
             ]
@@ -333,7 +333,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.6
+                  "waitTime": 1.65
                 }
               },
               {
@@ -393,7 +393,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "L4"
+                        "name": "Go to L4"
                       }
                     }
                   ]
@@ -459,7 +459,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "L4 No Wait Pivot"
+                  "name": "Go to L4 No Wait Pivot"
                 }
               }
             ]

@@ -113,7 +113,7 @@ public class RobotContainer {
       () -> intake.RunIntake(),
       () -> intake.Stop()));
 
-    NamedCommands.registerCommand("L4", elevator.run(
+    NamedCommands.registerCommand("Go to L4", elevator.run(
       () -> elevator.Set(PID.Elevator.kElevatorL4))
       .alongWith(new WaitCommand(0.6)
         .andThen(pivot.run(
@@ -122,7 +122,7 @@ public class RobotContainer {
       () -> wrist.Set(PID.Wrist.kWristL4))));
 
     //only use in auto if the L4 command will run out of time to move the pivot when that block ends
-    NamedCommands.registerCommand("L4 No Wait Pivot", intake.run( 
+    NamedCommands.registerCommand("Go to L4 No Wait Pivot", intake.run( 
       () -> intake.Open(false))
       .alongWith(elevator.run(
       () -> elevator.Set(PID.Elevator.kElevatorL4)))
@@ -131,7 +131,7 @@ public class RobotContainer {
       .alongWith(wrist.run(
       () -> wrist.Set(PID.Wrist.kWristL4))));
 
-    NamedCommands.registerCommand("Intake", new WaitCommand(0.3)
+    NamedCommands.registerCommand("Go to Intake", new WaitCommand(0.3)
     .andThen(elevator.runOnce(
         () -> elevator.Set(PID.Elevator.kElevatorIntake)))
       .alongWith(pivot.runOnce(
@@ -140,7 +140,7 @@ public class RobotContainer {
         .andThen(wrist.runOnce(
         () -> wrist.Set(PID.Wrist.kWristIntake)))));
 
-    NamedCommands.registerCommand("Bottom Algae", intake.runOnce(
+    NamedCommands.registerCommand("Go to Bottom Algae", intake.runOnce(
       () -> intake.Open(true))
       .alongWith(elevator.runOnce(
       () -> elevator.Set(PID.Elevator.kElevatorBottomAlgae)))
@@ -151,7 +151,7 @@ public class RobotContainer {
       );
 
 
-    NamedCommands.registerCommand("Top Algae", intake.runOnce(
+    NamedCommands.registerCommand("Go to Top Algae", intake.runOnce(
       () -> intake.Open(true))
       .alongWith(elevator.runOnce(
       () -> elevator.Set(PID.Elevator.kElevatorTopAlgae)))
@@ -161,7 +161,7 @@ public class RobotContainer {
       () -> wrist.Set(PID.Wrist.kWristTopAlgae)))
       );
 
-    NamedCommands.registerCommand("Algae Barge", intake.runOnce(
+    NamedCommands.registerCommand("Go to Algae Barge", intake.runOnce(
       () -> intake.Open(true))
       .alongWith(elevator.runOnce(
       () -> elevator.Set(PID.Elevator.kElevatorBarge)))
@@ -171,7 +171,7 @@ public class RobotContainer {
       () -> wrist.Set(PID.Wrist.kWristBarge)))
       );
 
-    NamedCommands.registerCommand("Algae Home", intake.runOnce(
+    NamedCommands.registerCommand("Go to Algae Home", intake.runOnce(
       () -> intake.Open(true))
       .alongWith(new WaitCommand(0.6)
         .andThen(elevator.runOnce(

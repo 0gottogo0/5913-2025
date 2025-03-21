@@ -17,7 +17,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake"
+                  "name": "Go to Intake"
                 }
               }
             ]
@@ -55,7 +55,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "L4"
+                  "name": "Go to L4"
                 }
               },
               {
@@ -99,7 +99,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake"
+                  "name": "Go to Intake"
                 }
               }
             ]
@@ -200,7 +200,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "L4"
+                  "name": "Go to L4"
                 }
               },
               {
