@@ -17,16 +17,14 @@ public final class Constants {
         public static final double kIntakeSpeed = 0.5;
         public static final double kIntakeSpeedHoldAlgae = -0.15;
         public static final double kPivotSpeedMax = 1;
-        public static final double kTrackReefMoveMax = .2;
-        public static final double kTrackReefRotateMax = 0.1;
-        public static final double kTrackCoralMoveMax = .25;
-        public static final double kTrackCoralRotateMax = 0.15;
+        public static final double kTrackMoveMax = .2;
+        public static final double kTrackRotateMax = 0.1;
         public static final double kWristSpeedMax = 0.7;
     }
 
 
     public static final class Drivetrain {
-        public static final double kMoveSlewRateLimiter = 8.00;
+        public static final double kMoveSlewRateLimiter = 12.00;
         public static final double kRotateSlewRateLimiter = 40.00;
         public static final double kRotateMagnitude = 0.90;
         public static final double kStickDeadzone = 0.02;
