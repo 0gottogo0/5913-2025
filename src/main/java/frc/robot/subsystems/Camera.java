@@ -11,6 +11,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Speeds;
@@ -79,6 +80,18 @@ public class Camera extends SubsystemBase {
     SmartDashboard.putNumber("Coral X to Target", xToTargetCoral);
     SmartDashboard.putNumber("Coral Y to Target", yToTargetCoral);
     SmartDashboard.putNumber("Coral Rot to Target", rotToTargetCoral.in(Degrees));
+
+    if (llReefMeasurement != null) {
+      DataLogManager.log("Reef Camera Connected");
+    } else {
+      DataLogManager.log("Reef Camera Lost!");
+    }
+
+    if (llCoralMeasurement != null) {
+      DataLogManager.log("Coral Camera Connected");
+    } else {
+      DataLogManager.log("Coral Camera Lost!");
+    }
   }
 
   public void CalculatePID (boolean calculate) {

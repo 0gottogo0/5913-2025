@@ -79,6 +79,18 @@ public final class Constants {
             public static final double kCoralTrackXKP = 1.00;
             public static final double kCoralTrackYKP = .75;
             public static final double kCoralTrackRotKP = 0.05;
+
+            /**
+             * Tracking offsets should be averaged with field calibration
+             * Take a hexshaft and tape measure to the calibration field
+             * Put the hexshaft in the middle of the april tag
+             * Measure to the far end of the hex shaft to the middle of the post
+             * 
+             * Home field average:
+             *  Left:  7 1/4
+             *  Right: 7 1/2
+             */
+
             public static final double kTrackXOffsetLeft = -0.193;
             public static final double kTrackYOffsetLeft = -0.464;
             public static final double kTrackXOffsetCenter = -0.050;

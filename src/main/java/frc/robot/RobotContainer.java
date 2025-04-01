@@ -140,6 +140,19 @@ public class RobotContainer {
         .andThen(wrist.runOnce(
         () -> wrist.Set(PID.Wrist.kWristIntake)))));
 
+    NamedCommands.registerCommand("Go to Intake Then L4", new WaitCommand(.3)
+    .andThen(elevator.runOnce(
+        () -> elevator.Set(PID.Elevator.kElevatorIntake)))
+        .andThen(new WaitCommand(.5)
+        .andThen(elevator.runOnce(
+          () -> elevator.Set(PID.Elevator.kElevatorL4))))
+      .alongWith(new WaitCommand(.8)
+      .andThen(pivot.runOnce(
+      () -> pivot.Set(PID.Pivot.kPivotIntake)))
+      .alongWith(new WaitCommand(.8)
+        .andThen(wrist.runOnce(
+        () -> wrist.Set(PID.Wrist.kWristL4))))));
+
     NamedCommands.registerCommand("Go to Bottom Algae", intake.runOnce(
       () -> intake.Open(true))
       .alongWith(elevator.runOnce(

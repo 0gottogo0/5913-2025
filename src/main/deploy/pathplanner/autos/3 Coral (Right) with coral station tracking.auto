@@ -5,12 +5,6 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "Go to Intake"
-          }
-        },
-        {
           "type": "deadline",
           "data": {
             "commands": [
@@ -21,22 +15,9 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.8
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Go to L4"
-                      }
-                    }
-                  ]
+                  "name": "Go to Intake Then L4"
                 }
               }
             ]
@@ -270,7 +251,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.75
+                  "waitTime": 1.2
                 }
               },
               {
@@ -286,6 +267,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.25
           }
         },
         {

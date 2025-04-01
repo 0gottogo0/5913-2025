@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.1407786885245907,
-        "y": 2.508555327868852
+        "x": 3.2726434426229503,
+        "y": 2.62843237704918
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.324029913807673,
-        "y": 2.697083615007606
+        "x": 3.4558946679060325,
+        "y": 2.816960664187934
       },
       "isLocked": false,
       "linkedName": "CD more C"
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
+    "maxVelocity": 5.0,
     "maxAcceleration": 4.1,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -48,7 +48,7 @@
   "folder": "Right",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 66.44773632710526
+    "rotation": 56.725112015165216
   },
   "useDefaultConstraints": true
 }
