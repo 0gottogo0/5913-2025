@@ -12,7 +12,7 @@ public final class Constants {
 
     public static final class Speeds {
         public static final double kElevatorSpeedMax = 1;
-        public static final double kElevatorSpeedAlgae = 0.65;
+        public static final double kElevatorSpeedAlgae = 0.8;
         public static final double kIntakeSpeedMax = 1;
         public static final double kIntakeSpeed = 0.5;
         public static final double kIntakeSpeedHoldAlgae = -0.15;
@@ -91,12 +91,12 @@ public final class Constants {
         
         public static final class Wrist {
             public static final double kWristKP = 0.015;
-            public static final double kWristIntake = 293.40;
+            public static final double kWristIntake = 289.80;
             public static final double kWristBarge = 218.3;
             public static final double kWristProcessor = 85.70;
             public static final double kWristHome = 283.00;
-            public static final double kWristL2 = 315.70;
-            public static final double kWristL3 = 307.90;
+            public static final double kWristL2 = 305.60;
+            public static final double kWristL3 = 295.00;
             public static final double kWristL4 = 237.00;
             public static final double kWristBottomAlgae = 82.50;
             public static final double kWristTopAlgae = 88.10;
@@ -150,7 +150,7 @@ public final class Constants {
             public static final int kPivotEncoderID = 2;
             public static final double kPivotEncoderOffset = 0;
             public static final int kWristEncoderID = 1;
-            public static final double kWristEncoderOffset = 0;
+            public static final double kWristEncoderOffset = -23;
         }
 
         public static final class Camera {
