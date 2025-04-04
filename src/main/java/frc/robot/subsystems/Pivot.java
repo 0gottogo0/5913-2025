@@ -19,7 +19,6 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.Speeds;
 
 public class Pivot extends SubsystemBase {
 
@@ -92,15 +91,22 @@ public class Pivot extends SubsystemBase {
     SmartDashboard.putBoolean("Pivot Encoder Status", GetAngle().in(Degree) != (360 - IO.Misc.kPivotEncoderOffset)); // Returns false if roborio gets shorted or encoder gets unplugged
   }
 
-  // Set the setpoint
+  /**
+   * Set setpoint
+   * @param setpoint
+   */
   public void Set(double setpoint) {
     pivotSetpoint = setpoint;
   }
 
-  // Move the pivot manually with the pid
-  // Move the pivot manually without the pid if rawMode is true
-  public void ManualMovement(double input, double sensitivity, boolean rawMode) {
-    if (rawMode) {
+  /**
+   * Control setpoint with axis
+   * @param input input value -1 to 1
+   * @param sensitivity input multiplier
+   * @param disablePID false = use pid
+   */
+  public void ManualMovement(double input, double sensitivity, boolean disablePID) {
+    if (disablePID) {
       pivotLeftMaster.set(input);
       pidToggle = false;
     } else {
@@ -120,7 +126,6 @@ public class Pivot extends SubsystemBase {
   }
 
   // Get the current setpoint for the pid controller
-  // This helps with the beambreak in Robot.java
   public double GetSetpoint() {
     return pivotController.getSetpoint();
   }

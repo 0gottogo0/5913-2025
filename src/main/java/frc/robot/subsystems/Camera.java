@@ -157,13 +157,11 @@ public class Camera extends SubsystemBase {
     return MathUtil.clamp(moveRot, -Speeds.kTrackRotateMax, Speeds.kTrackRotateMax);
   } 
   
-  // Set leds to off because we aint tracking
   public void SetLEDOn() {
     LimelightHelpers.setLEDMode_ForceOn(isReefTracking?IO.Camera.kLimeLightReef:IO.Camera.kLimeLightCoral);
     isTracking = true;
   }
 
-  // Set leds to on to indicate tracking
   public void SetLEDOff() {
     LimelightHelpers.setLEDMode_ForceOff(isReefTracking?IO.Camera.kLimeLightReef:IO.Camera.kLimeLightCoral);
     isTracking = false;

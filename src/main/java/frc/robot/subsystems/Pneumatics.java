@@ -24,7 +24,7 @@ public class Pneumatics extends SubsystemBase {
     // Debug
     SmartDashboard.putNumber("Pressure", PH.getPressure(0));
 
-    // Enable the compressor whenever we are below the min pressure until we hit the max pressure
+    // Enable the compressor
     PH.enableCompressorAnalog(PneumaticsIDs.kMinPressure, PneumaticsIDs.kMaxPressure);
   }
 }

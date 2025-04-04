@@ -15,7 +15,6 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.Speeds;
 
 public class Elevator extends SubsystemBase {
 
@@ -63,7 +62,6 @@ public class Elevator extends SubsystemBase {
     }
     
     // Slow elevator if we have want to go to algae position
-    // This helps keep the algae stay in the robot
     if (!holdAglae) {
       pid = MathUtil.clamp(pid, -1 * Speeds.kElevatorSpeedMax, Speeds.kElevatorSpeedMax);
       elevator.set(pid);
@@ -78,15 +76,22 @@ public class Elevator extends SubsystemBase {
     SmartDashboard.putNumber("Elevator Encoder", GetPosition());
   }
 
-  // Set the setpoint
+  /**
+   * Set setpoint
+   * @param setpoint
+   */
   public void Set(double setpoint) {
     elevatorSetpoint = setpoint;
   }
 
-  // Move the elevator manually with the pid
-  // Move the elevator manually without the pid if rawMode is true
-  public void ManualMovement(double input, double sensitivity, boolean rawMode) {
-    if (rawMode) {
+  /**
+   * Control setpoint with axis
+   * @param input input value -1 to 1
+   * @param sensitivity input multiplier
+   * @param disablePID false = use pid
+   */
+  public void ManualMovement(double input, double sensitivity, boolean disablePID) {
+    if (disablePID) {
       elevator.set(input);
       pidToggle = false;
     } else {

@@ -74,7 +74,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.6
+                  "waitTime": 0.4
                 }
               },
               {
@@ -251,7 +251,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.2
+                  "waitTime": 1.1
                 }
               },
               {
@@ -282,7 +282,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.6
+                  "waitTime": 0.4
                 }
               },
               {
@@ -302,6 +302,12 @@
                 "type": "path",
                 "data": {
                   "pathName": "D to Right Coral Track End with vel alt"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Run Intake"
                 }
               },
               {
@@ -434,7 +440,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.0
+                  "waitTime": 1.1
                 }
               },
               {
@@ -475,6 +481,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "2 Coral",
+  "folder": "3 Coral",
   "choreoAuto": false
 }

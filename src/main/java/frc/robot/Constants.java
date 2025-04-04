@@ -61,15 +61,15 @@ public final class Constants {
             public static final double kPivotL2 = 128.00;
             public static final double kPivotL3 = 135.00;
             public static final double kPivotL4 = 140.70;
-            public static final double kPivotIntake = 149.90;
+            public static final double kPivotIntake = 150.60;
             public static final double kPivotProcessor = 113.80;
             public static final double kPivotHome = 135.00;
             public static final double kPivotClimb = 122.50;
             public static final double kPivotClimbEnd = 96.50;
             public static final double kPivotBottomAlgae = 127.10;
             public static final double kPivotTopAlgae = 131.70;
-            public static final double kPivotGroundAlgae = 99.7;
-            public static final double kPivotDeadzone = 0.1;
+            public static final double kPivotGroundAlgae = 99.70;
+            public static final double kPivotDeadzone = 0.05;
         }
 
         public static final class Track {
@@ -79,18 +79,6 @@ public final class Constants {
             public static final double kCoralTrackXKP = 1.00;
             public static final double kCoralTrackYKP = .75;
             public static final double kCoralTrackRotKP = 0.05;
-
-            /**
-             * Tracking offsets should be averaged with field calibration
-             * Take a hexshaft and tape measure to the calibration field
-             * Put the hexshaft in the middle of the april tag
-             * Measure to the far end of the hex shaft to the middle of the post
-             * 
-             * Home field average:
-             *  Left:  7 1/4
-             *  Right: 7 1/2
-             */
-
             public static final double kTrackXOffsetLeft = -0.193;
             public static final double kTrackYOffsetLeft = -0.464;
             public static final double kTrackXOffsetCenter = -0.050;
@@ -106,7 +94,7 @@ public final class Constants {
             public static final double kWristIntake = 289.80;
             public static final double kWristBarge = 218.3;
             public static final double kWristProcessor = 85.70;
-            public static final double kWristHome = 283.00;
+            public static final double kWristHome = 305.60;
             public static final double kWristL2 = 305.60;
             public static final double kWristL3 = 295.00;
             public static final double kWristL4 = 237.00;
@@ -162,7 +150,7 @@ public final class Constants {
             public static final int kPivotEncoderID = 2;
             public static final double kPivotEncoderOffset = 0;
             public static final int kWristEncoderID = 1;
-            public static final double kWristEncoderOffset = -23;
+            public static final double kWristEncoderOffset = -12;
         }
 
         public static final class Camera {

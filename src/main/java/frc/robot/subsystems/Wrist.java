@@ -80,13 +80,20 @@ public class Wrist extends SubsystemBase {
     SmartDashboard.putBoolean("Wrist Encoder Status", GetAngle(false).in(Degree) != (360 - IO.Misc.kWristEncoderOffset) || GetAngle(true).in(Degree) > 0); // Returns false if roborio gets shorted or encoder gets unplugged
   }
 
-  // Set the setpoint
+  /**
+   * Set setpoint
+   * @param setpoint
+   */
   public void Set(double setpoint) {
     wristSetpoint = setpoint;
   }
 
-  // Move the wrist manually with the pid
-  // Move the wrist manually without the pid if rawMode is true
+  /**
+   * Control setpoint with axis
+   * @param input input value -1 to 1
+   * @param sensitivity input multiplier
+   * @param disablePID false = use pid
+   */
   public void ManualMovement(double input, double sensitivity, boolean rawMode) {
     if (rawMode) {
       wrist.set(input);
@@ -112,7 +119,6 @@ public class Wrist extends SubsystemBase {
   }
 
   // Get the current setpoint for the pid controller
-  // This is currently not used to my knowlage but keep it here to be safe
   public double GetSetpoint() {
     return wristController.getSetpoint();
   }

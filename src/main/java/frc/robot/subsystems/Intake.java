@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.Speeds;
 
 public class Intake extends SubsystemBase {
 
@@ -60,7 +59,6 @@ public class Intake extends SubsystemBase {
   }
 
   // Run the intake with the beambreak
-  // If we arnt in the intake position we can just run the intake normally
   public void RunIntakeWithBeam() {
     if (!ignoreBeamBreak) {
       if (!GetBeamBreak()) {
@@ -80,7 +78,10 @@ public class Intake extends SubsystemBase {
     holdAlgae = false;
   }
 
-  // Open the claw if algae is true
+  /**
+   * Open or close claw
+   * @param algae false = close claw
+   */
   public void Open(boolean algae) {
     if (!algae) {
       clawSolenoid.set(DoubleSolenoid.Value.kForward);
@@ -93,14 +94,15 @@ public class Intake extends SubsystemBase {
     }
   }
 
-  // Get the status of the beambreak
-  // Whenever GetBeamBreak is true, there is a coral in the claw and the beam is broken
+  /**
+   * Get the status of the beambreak
+   * @return beambreak status, true = coral in claw
+   */
   public boolean GetBeamBreak() {
     return !beamBreak.get();
   }
 
   // Stop the intake
-  // Keeps intaking slightly if we are in an algae spot
   public void Stop() {
     if (holdAlgae) {
       intake.set(Speeds.kIntakeSpeedHoldAlgae);
