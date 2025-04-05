@@ -56,8 +56,7 @@ public class Wrist extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    // Turn off pid if roborio gets shorted or encoder gets unplugged
-    if (GetAngle(false).in(Degree) == (360 - IO.Misc.kWristEncoderOffset) || GetAngle(true).in(Degree) < 0) {
+    if (!IsConnected()) {
       pidToggle = false;
     }
 
@@ -77,7 +76,7 @@ public class Wrist extends SubsystemBase {
     SmartDashboard.putNumber("Wrist Setpoint", wristSetpoint);
     SmartDashboard.putNumber("Wrist Encoder", GetAngle(false).in(Degree));
     SmartDashboard.putNumber("Wrist Encoder No Offset", GetAngle(true).in(Degree));
-    SmartDashboard.putBoolean("Wrist Encoder Status", GetAngle(false).in(Degree) != (360 - IO.Misc.kWristEncoderOffset) || GetAngle(true).in(Degree) > 0); // Returns false if roborio gets shorted or encoder gets unplugged
+    SmartDashboard.putBoolean("Wrist Encoder Status", IsConnected());
   }
 
   /**
@@ -103,13 +102,19 @@ public class Wrist extends SubsystemBase {
     }
   }
 
-  // Stop pivot
+  /**
+   * Stop wrist
+   */
   public void Stop() {
     wristSetpoint = GetAngle(false).in(Degrees);
     pidToggle = true;
   }
 
-  // Get external encoder position
+  /**
+   * Get current encoder angle
+   * @param noOffset add the offset to the encoder or not
+   * @return encoder angle
+   */
   public Angle GetAngle(boolean noOffset) {
     if (noOffset) {
       return Rotations.of(wristEncoder.get());
@@ -118,7 +123,18 @@ public class Wrist extends SubsystemBase {
     return Rotations.of(wristEncoder.get()).minus(Degrees.of(IO.Misc.kWristEncoderOffset));
   }
 
-  // Get the current setpoint for the pid controller
+  /**
+   * Check if encoder is connected
+   * @return true = connected
+   */
+  public boolean IsConnected() {
+    return GetAngle(false).in(Degree) != (360 - IO.Misc.kWristEncoderOffset);
+  }
+
+  /**
+   * Get current setpoint
+   * @return current setpoint
+   */
   public double GetSetpoint() {
     return wristController.getSetpoint();
   }

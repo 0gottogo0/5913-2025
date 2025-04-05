@@ -7,6 +7,9 @@ package frc.robot;
 import static edu.wpi.first.units.Units.*;
 import static frc.robot.Constants.*;
 
+import com.ctre.phoenix6.SignalLogger;
+import com.pathplanner.lib.commands.FollowPathCommand;
+
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -19,9 +22,15 @@ public class Robot extends TimedRobot {
   private final RobotContainer m_robotContainer;
 
   public Robot() {
+    // Disable CTRE Logging
+    SignalLogger.enableAutoLogging(false);
+
     m_robotContainer = new RobotContainer();
 
     DataLogManager.start();
+
+    // Pathplanner
+    FollowPathCommand.warmupCommand().schedule();
   }
 
   @Override

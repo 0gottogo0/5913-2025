@@ -81,15 +81,11 @@ public class Camera extends SubsystemBase {
     SmartDashboard.putNumber("Coral Y to Target", yToTargetCoral);
     SmartDashboard.putNumber("Coral Rot to Target", rotToTargetCoral.in(Degrees));
 
-    if (llReefMeasurement != null) {
-      DataLogManager.log("Reef Camera Connected");
-    } else {
+    if (llReefMeasurement == null) {
       DataLogManager.log("Reef Camera Lost!");
     }
 
-    if (llCoralMeasurement != null) {
-      DataLogManager.log("Coral Camera Connected");
-    } else {
+    if (llCoralMeasurement == null) {
       DataLogManager.log("Coral Camera Lost!");
     }
   }
