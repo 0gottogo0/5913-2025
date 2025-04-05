@@ -65,7 +65,7 @@ public final class Constants {
             public static final double kPivotProcessor = 113.80;
             public static final double kPivotHome = 135.00;
             public static final double kPivotClimb = 122.50;
-            public static final double kPivotClimbEnd = 96.50;
+            public static final double kPivotClimbEnd = 95.50;
             public static final double kPivotBottomAlgae = 127.10;
             public static final double kPivotTopAlgae = 131.70;
             public static final double kPivotGroundAlgae = 99.70;

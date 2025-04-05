@@ -114,7 +114,7 @@ public class Camera extends SubsystemBase {
     } else {
       if (llCoralMeasurement != null && llCoralMeasurement.tagCount > 0) {
         moveX = XCoralController.calculate(xToTargetCoral);
-        moveY = YCoralController.calculate(yToTargetCoral) + 0.05; // Drive into the coral station a bit
+        moveY = YCoralController.calculate(yToTargetCoral); //+ 0.05; *DONT* Drive into the coral station a bit
         moveRot = RotCoralController.calculate(rotToTargetCoral.in(Degrees));
       }
     }
