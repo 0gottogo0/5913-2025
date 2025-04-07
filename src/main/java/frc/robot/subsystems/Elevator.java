@@ -53,7 +53,7 @@ public class Elevator extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
+    
     double pid = 0;
 
     // Calculate pid
@@ -69,7 +69,7 @@ public class Elevator extends SubsystemBase {
       pid = MathUtil.clamp(pid, -1 * Speeds.kElevatorSpeedAlgae, Speeds.kElevatorSpeedAlgae); // Slowed elevator
       elevator.set(pid);
     }
-
+    
     // Debug
     SmartDashboard.putNumber("Elevator PID Input", pid);
     SmartDashboard.putNumber("Elevator Setpoint", elevatorSetpoint);
@@ -82,6 +82,17 @@ public class Elevator extends SubsystemBase {
    */
   public void Set(double setpoint) {
     elevatorSetpoint = setpoint;
+  }
+
+  /**
+   * Set setpoint if true
+   * @param setpoint
+   * @param isTrue true = set setpoint
+   */
+  public void SetIfTrue(double setpoint, boolean isTrue) {
+    if (isTrue) {
+      elevatorSetpoint = setpoint;
+    }
   }
 
   /**

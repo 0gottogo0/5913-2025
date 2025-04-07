@@ -42,18 +42,18 @@ public final class Constants {
 
     public static final class PID {
         public static final class Elevator {
-        public static final double kElevatorKP = 0.05;
+        public static final double kElevatorKP = 0.08;
         public static final double kElevatorIntake = 0.00;
-        public static final double kElevatorBarge = -75.30;
+        public static final double kElevatorBarge = -45.20;
         public static final double kElevatorProcessor = 0.00;
         public static final double kElevatorHome = 0.00;
         public static final double kElevatorClimb = 0.00;
-        public static final double kElevatorL2 = -13.20;
-        public static final double kElevatorL3 = -34.70;
-        public static final double kElevatorL4 = -75.30;
-        public static final double kElevatorBottomAlgae = -22.40;
-        public static final double kElevatorTopAlgae = -40.20;
-        public static final double kElevatorGroundAlgae = -8.7;
+        public static final double kElevatorL2 = -8.00;
+        public static final double kElevatorL3 = -20.80;
+        public static final double kElevatorL4 = -45.20;
+        public static final double kElevatorBottomAlgae = -13.40;
+        public static final double kElevatorTopAlgae = -26.50;
+        public static final double kElevatorGroundAlgae = -5.2;
         }
 
         public static final class Pivot {

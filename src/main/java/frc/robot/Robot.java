@@ -8,18 +8,21 @@ import static edu.wpi.first.units.Units.*;
 import static frc.robot.Constants.*;
 
 import com.ctre.phoenix6.SignalLogger;
-import com.pathplanner.lib.commands.FollowPathCommand;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private final RobotContainer m_robotContainer;
+
+  private final CommandXboxController ManipulatorController = new CommandXboxController(Controllers.kManipulatorController);
 
   public Robot() {
     // Disable CTRE Logging
@@ -30,7 +33,7 @@ public class Robot extends TimedRobot {
     DataLogManager.start();
 
     // Pathplanner
-    FollowPathCommand.warmupCommand().schedule();
+    // FollowPathCommand.warmupCommand().schedule();
   }
 
   @Override
@@ -60,6 +63,8 @@ public class Robot extends TimedRobot {
 
     // Set lights to red if "bad error"
     m_robotContainer.lights.badError = m_robotContainer.pivot.GetAngle().in(Degree) == (360 - IO.Misc.kPivotEncoderOffset) || m_robotContainer.wrist.GetAngle(false).in(Degree) == (360 - IO.Misc.kWristEncoderOffset) || m_robotContainer.wrist.GetAngle(true).in(Degree) < 0;
+
+    SmartDashboard.putNumber("Controller Y", ManipulatorController.getLeftY());
   }
 
   @Override

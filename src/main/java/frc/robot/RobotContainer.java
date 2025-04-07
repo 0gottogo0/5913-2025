@@ -121,7 +121,14 @@ public class RobotContainer {
       .alongWith(wrist.run(
       () -> wrist.Set(PID.Wrist.kWristL4))));
 
-    // Only use in auto if the L4 command will run out of time to move the pivot when that block ends
+    NamedCommands.registerCommand("Go to L4 Only If Intaked", elevator.run(
+      () -> elevator.SetIfTrue(PID.Elevator.kElevatorL4, intake.GetBeamBreak()))
+      .alongWith(new WaitCommand(0.6)
+        .andThen(pivot.run(
+        () -> pivot.Set(PID.Pivot.kPivotL4))))
+      .alongWith(wrist.run(
+      () -> wrist.Set(PID.Wrist.kWristL4))));
+
     NamedCommands.registerCommand("Go to L4 No Wait Pivot", intake.run( 
       () -> intake.Open(false))
       .alongWith(elevator.run(
