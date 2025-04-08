@@ -42,7 +42,8 @@ public final class Constants {
 
     public static final class PID {
         public static final class Elevator {
-        public static final double kElevatorKP = 0.08;
+        public static final double kElevatorKPUp = 0.10;
+        public static final double kElevatorKPDown = 0.08;
         public static final double kElevatorIntake = 0.00;
         public static final double kElevatorBarge = -45.20;
         public static final double kElevatorProcessor = 0.00;

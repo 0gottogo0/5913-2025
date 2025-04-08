@@ -65,6 +65,10 @@ public class Robot extends TimedRobot {
     m_robotContainer.lights.badError = m_robotContainer.pivot.GetAngle().in(Degree) == (360 - IO.Misc.kPivotEncoderOffset) || m_robotContainer.wrist.GetAngle(false).in(Degree) == (360 - IO.Misc.kWristEncoderOffset) || m_robotContainer.wrist.GetAngle(true).in(Degree) < 0;
 
     SmartDashboard.putNumber("Controller Y", ManipulatorController.getLeftY());
+
+    if (m_robotContainer.intake.GetBeamBreak() && m_robotContainer.pivot.GetSetpoint() == PID.Pivot.kPivotIntake) {
+      m_robotContainer.pivot.Set(PID.Pivot.kPivotL4);
+    }
   }
 
   @Override

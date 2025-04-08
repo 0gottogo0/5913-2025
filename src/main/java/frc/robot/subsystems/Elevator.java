@@ -21,7 +21,8 @@ public class Elevator extends SubsystemBase {
   private TalonFX elevator = new TalonFX(MotorIDs.Misc.kElevatorMotor);
   private TalonFXConfiguration cfg = new TalonFXConfiguration();
 
-  private PIDController elevatorController = new PIDController(PID.Elevator.kElevatorKP, 0, 0);
+  private PIDController elevatorControllerUp = new PIDController(PID.Elevator.kElevatorKPUp, 0, 0);
+  private PIDController elevatorControllerDown = new PIDController(PID.Elevator.kElevatorKPDown, 0, 0);
 
   private double elevatorSetpoint; 
   private boolean pidToggle;
@@ -56,9 +57,13 @@ public class Elevator extends SubsystemBase {
     
     double pid = 0;
 
-    // Calculate pid
+    // Calculate pid TODO: Replace with elevatorFeedforward
     if (pidToggle) {
-      pid = elevatorController.calculate(GetPosition(), elevatorSetpoint);
+      if (elevatorSetpoint > GetPosition()) {
+        pid = elevatorControllerUp.calculate(GetPosition(), elevatorSetpoint);
+      } else {
+        pid = elevatorControllerDown.calculate(GetPosition(), elevatorSetpoint);
+      }
     }
     
     // Slow elevator if we have want to go to algae position
@@ -119,5 +124,13 @@ public class Elevator extends SubsystemBase {
   // Get internal motor encoder position
   public double GetPosition() {
     return elevator.getPosition().getValueAsDouble();
+  }
+
+  /**
+   * Get current setpoint
+   * @return current setpoint
+   */
+  public double GetSetpoint() {
+    return elevatorSetpoint;
   }
 }
