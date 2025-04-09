@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.1028688524590162,
-        "y": 0.9861168032786872
+        "x": 5.574282786885245,
+        "y": 2.2328381147540983
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9262609191447446,
-        "y": 1.5535897141026345
+        "x": 5.462479388010255,
+        "y": 2.456444912504077
       },
       "isLocked": false,
-      "linkedName": "Right Coral"
+      "linkedName": "EF"
     },
     {
       "anchor": {
-        "x": 3.1527663934426227,
-        "y": 2.62843237704918
+        "x": 5.142725409836065,
+        "y": 2.8921618852459017
       },
       "prevControl": {
-        "x": 2.577356557377048,
-        "y": 2.2568135245901644
+        "x": 5.254528808711054,
+        "y": 2.6685550874959225
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "CD more C"
+      "linkedName": "EF Bball"
     }
   ],
   "rotationTargets": [],
@@ -41,14 +41,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 2.0,
-    "rotation": 60.25511870305777
+    "velocity": 0,
+    "rotation": 120.06858282186244
   },
   "reversed": false,
-  "folder": "Right",
+  "folder": "Center",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 53.36588612403259
+    "rotation": 123.38851357611148
   },
   "useDefaultConstraints": true
 }

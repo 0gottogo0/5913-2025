@@ -17,7 +17,7 @@ public final class Constants {
         public static final double kIntakeSpeed = 0.5;
         public static final double kIntakeSpeedHoldAlgae = -0.15;
         public static final double kPivotSpeedMax = 1;
-        public static final double kTrackMoveMax = .2;
+        public static final double kTrackMoveMax = .3;
         public static final double kTrackRotateMax = 0.1;
         public static final double kWristSpeedMax = 0.7;
     }
@@ -42,7 +42,7 @@ public final class Constants {
 
     public static final class PID {
         public static final class Elevator {
-        public static final double kElevatorKPUp = 0.10;
+        public static final double kElevatorKPUp = 0.12;
         public static final double kElevatorKPDown = 0.08;
         public static final double kElevatorIntake = 0.00;
         public static final double kElevatorBarge = -45.20;
@@ -76,7 +76,7 @@ public final class Constants {
         public static final class Track {
             public static final double kReefTrackXKP = 1.00;
             public static final double kReefTrackYKP = 0.75;
-            public static final double kReefTrackRotKP = 0.05;
+            public static final double kReefTrackRotKP = 0.04;
             public static final double kCoralTrackXKP = 1.00;
             public static final double kCoralTrackYKP = .75;
             public static final double kCoralTrackRotKP = 0.05;

@@ -123,11 +123,11 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("Go to L4 Only If Intaked", elevator.run(
       () -> elevator.SetIfTrue(PID.Elevator.kElevatorL4, intake.GetBeamBreak()))
-      .alongWith(new WaitCommand(0.6)
-        .andThen(pivot.run(
-        () -> pivot.Set(PID.Pivot.kPivotL4))))
-      .alongWith(wrist.run(
-      () -> wrist.Set(PID.Wrist.kWristL4))));
+      .alongWith(pivot.runOnce(
+        () -> pivot.Set(PID.Pivot.kPivotL4)))
+      .alongWith(new WaitCommand(0.55)
+      .andThen(wrist.runOnce(
+      () -> wrist.Set(PID.Wrist.kWristL4)))));
 
     NamedCommands.registerCommand("Go to L4 No Wait Pivot", intake.run( 
       () -> intake.Open(false))
@@ -181,15 +181,12 @@ public class RobotContainer {
       () -> wrist.Set(PID.Wrist.kWristTopAlgae)))
       );
 
-    NamedCommands.registerCommand("Go to Algae Barge", intake.runOnce(
-      () -> intake.Open(true))
-      .alongWith(elevator.runOnce(
-      () -> elevator.Set(PID.Elevator.kElevatorBarge)))
+    NamedCommands.registerCommand("Go to Algae Barge", elevator.runOnce(
+      () -> elevator.Set(PID.Elevator.kElevatorBarge))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(PID.Pivot.kPivotIntake)))
+      () -> pivot.Set(PID.Pivot.kPivotIntake))
       .alongWith(wrist.runOnce(
-      () -> wrist.Set(PID.Wrist.kWristBarge)))
-      );
+      () -> wrist.Set(PID.Wrist.kWristBarge)))));
 
     NamedCommands.registerCommand("Go to Algae Home", intake.runOnce(
       () -> intake.Open(true))
@@ -308,35 +305,35 @@ public class RobotContainer {
     // L2
     ManipulatorController.a().onTrue(intake.runOnce(
       () -> intake.Open(false))
-      .alongWith(new WaitCommand(0.1)
-        .andThen(elevator.runOnce(
-        () -> elevator.Set(PID.Elevator.kElevatorL2))))
+      .alongWith(elevator.runOnce(
+        () -> elevator.Set(PID.Elevator.kElevatorL2)))
       .alongWith(pivot.runOnce(
       () -> pivot.Set(PID.Pivot.kPivotL2)))
-      .alongWith(wrist.runOnce(
-      () -> wrist.Set(PID.Wrist.kWristL2))));
+      .alongWith(new WaitCommand(0.55)
+      .andThen(wrist.runOnce(
+      () -> wrist.Set(PID.Wrist.kWristL2)))));
 
     // L3
     ManipulatorController.x().onTrue(intake.runOnce(
       () -> intake.Open(false))
       .alongWith(elevator.runOnce(
       () -> elevator.Set(PID.Elevator.kElevatorL3)))
-      .alongWith(new WaitCommand(0.1)
-        .andThen(pivot.runOnce(
-        () -> pivot.Set(PID.Pivot.kPivotL3))))
-      .alongWith(wrist.runOnce(
-      () -> wrist.Set(PID.Wrist.kWristL3))));
+      .alongWith(pivot.runOnce(
+        () -> pivot.Set(PID.Pivot.kPivotL3)))
+      .alongWith(new WaitCommand(0.55)
+      .andThen(wrist.runOnce(
+      () -> wrist.Set(PID.Wrist.kWristL3)))));
 
     // L4
     ManipulatorController.y().onTrue(intake.runOnce(
       () -> intake.Open(false))
       .alongWith(elevator.runOnce(
       () -> elevator.Set(PID.Elevator.kElevatorL4)))
-      .alongWith(new WaitCommand(0.6)
-        .andThen(pivot.runOnce(
-        () -> pivot.Set(PID.Pivot.kPivotL4))))
-      .alongWith(wrist.runOnce(
-      () -> wrist.Set(PID.Wrist.kWristL4))));
+      .alongWith(pivot.runOnce(
+        () -> pivot.Set(PID.Pivot.kPivotL4)))
+      .alongWith(new WaitCommand(0.55)
+      .andThen(wrist.runOnce(
+      () -> wrist.Set(PID.Wrist.kWristL4)))));
 
     // Home
     ManipulatorController.button(9).onTrue(intake.runOnce(

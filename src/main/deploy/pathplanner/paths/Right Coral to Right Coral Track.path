@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3785860655737705,
-        "y": 1.0940061475409835
+        "x": 1.9899590163934429,
+        "y": 1.2977971311475414
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.0669057377049176,
-        "y": 0.9621413934426222
+        "x": 1.67827868852459,
+        "y": 1.16593237704918
       },
       "isLocked": false,
       "linkedName": "Right Coral Track"
@@ -34,7 +34,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.0,
-    "maxAcceleration": 4.1,
+    "maxAcceleration": 6.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

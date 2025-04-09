@@ -59,7 +59,7 @@ public class Elevator extends SubsystemBase {
 
     // Calculate pid TODO: Replace with elevatorFeedforward
     if (pidToggle) {
-      if (elevatorSetpoint > GetPosition()) {
+      if (elevatorSetpoint < GetPosition()) {
         pid = elevatorControllerUp.calculate(GetPosition(), elevatorSetpoint);
       } else {
         pid = elevatorControllerDown.calculate(GetPosition(), elevatorSetpoint);
