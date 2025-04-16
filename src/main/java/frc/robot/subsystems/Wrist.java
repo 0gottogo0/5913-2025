@@ -88,6 +88,17 @@ public class Wrist extends SubsystemBase {
   }
 
   /**
+   * Set setpoint if true
+   * @param setpoint
+   * @param isTrue true = set setpoint
+   */
+  public void SetIfTrue(double setpoint, boolean isTrue) {
+    if (isTrue) {
+      wristSetpoint = setpoint;
+    }
+  }
+
+  /**
    * Control setpoint with axis
    * @param input input value -1 to 1
    * @param sensitivity input multiplier

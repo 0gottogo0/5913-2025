@@ -109,7 +109,7 @@ public class Camera extends SubsystemBase {
       }
     } else {
       if (llCoralMeasurement != null && llCoralMeasurement.tagCount > 0) {
-        moveX = XCoralController.calculate(xToTargetCoral);
+        moveX = XCoralController.calculate(xToTargetCoral) + 0.1; // TODO: what
         moveY = YCoralController.calculate(yToTargetCoral); //+ 0.05; *DONT* Drive into the coral station a bit
         moveRot = RotCoralController.calculate(rotToTargetCoral.in(Degrees));
       }
@@ -127,7 +127,7 @@ public class Camera extends SubsystemBase {
     XReefController.setSetpoint(position);
 
     isReefTracking = !coral;
-    return -MathUtil.clamp(moveX, -Speeds.kTrackMoveMax, Speeds.kTrackMoveMax);
+    return -MathUtil.clamp(moveX, isReefTracking?-Speeds.kTrackMoveMax:-Speeds.kTrackMoveSlow, isReefTracking?Speeds.kTrackMoveMax:Speeds.kTrackMoveSlow);
   }
 
   
@@ -139,7 +139,7 @@ public class Camera extends SubsystemBase {
    */
   public double MoveY(double position) {
     YReefController.setSetpoint(position);
-    return MathUtil.clamp(moveY, -Speeds.kTrackMoveMax, Speeds.kTrackMoveMax);
+    return MathUtil.clamp(moveY, isReefTracking?-Speeds.kTrackMoveMax:-Speeds.kTrackMoveSlow, isReefTracking?Speeds.kTrackMoveMax:Speeds.kTrackMoveSlow);
   }
 
   /**

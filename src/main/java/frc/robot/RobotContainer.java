@@ -127,7 +127,7 @@ public class RobotContainer {
         () -> pivot.Set(PID.Pivot.kPivotL4)))
       .alongWith(new WaitCommand(0.55)
       .andThen(wrist.runOnce(
-      () -> wrist.Set(PID.Wrist.kWristL4)))));
+      () -> wrist.SetIfTrue(PID.Wrist.kWristL4, intake.GetBeamBreak())))));
 
     NamedCommands.registerCommand("Go to L4 No Wait Pivot", intake.run( 
       () -> intake.Open(false))
@@ -289,6 +289,17 @@ public class RobotContainer {
     // Reset Field Heading
     DriverController.button(7).onTrue(drivetrain.runOnce(
       () -> drivetrain.seedFieldCentric()));
+
+    // L1
+    DriverController.povUp().onTrue(intake.runOnce(
+      () -> intake.Open(false))
+      .alongWith(elevator.runOnce(
+        () -> elevator.Set(PID.Elevator.kElevatorL1)))
+      .alongWith(pivot.runOnce(
+      () -> pivot.Set(PID.Pivot.kPivotL1)))
+      .alongWith(new WaitCommand(0.55)
+      .andThen(wrist.runOnce(
+      () -> wrist.Set(PID.Wrist.kWristL1)))));
 
     // ** Manipulator Control **
     
