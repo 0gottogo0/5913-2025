@@ -90,20 +90,10 @@ public class Pivot extends SubsystemBase {
     SmartDashboard.putBoolean("Pivot Encoder Status", IsConnected());
   }
 
-  /**
-   * Set setpoint
-   * @param setpoint
-   */
   public void Set(double setpoint) {
     pivotSetpoint = setpoint;
   }
 
-  /**
-   * Control setpoint with axis
-   * @param input input value -1 to 1
-   * @param sensitivity input multiplier
-   * @param disablePID false = use pid
-   */
   public void ManualMovement(double input, double sensitivity, boolean disablePID) {
     if (disablePID) {
       pivotLeftMaster.set(input);
@@ -113,34 +103,19 @@ public class Pivot extends SubsystemBase {
     }
   }
 
-  /**
-   * Stop pivot
-   */
   public void Stop() {
     pivotSetpoint = GetAngle().in(Degrees);
     pidToggle = true;
   }
 
-  /**
-   * Get current encoder angle
-   * @return encoder angle
-   */
   public Angle GetAngle() {
     return Rotations.of(pivotEncoder.get()).minus(Degrees.of(IO.Misc.kPivotEncoderOffset));
   }
 
-  /**
-   * Check if encoder is connected
-   * @return true = connected
-   */
   public boolean IsConnected() {
     return GetAngle().in(Degree) != (360 - IO.Misc.kPivotEncoderOffset);
   }
 
-  /**
-   * Get current setpoint
-   * @return current setpoint
-   */
   public double GetSetpoint() {
     return pivotController.getSetpoint();
   }

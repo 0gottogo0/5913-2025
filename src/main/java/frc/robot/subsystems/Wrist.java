@@ -79,31 +79,16 @@ public class Wrist extends SubsystemBase {
     SmartDashboard.putBoolean("Wrist Encoder Status", IsConnected());
   }
 
-  /**
-   * Set setpoint
-   * @param setpoint
-   */
   public void Set(double setpoint) {
     wristSetpoint = setpoint;
   }
 
-  /**
-   * Set setpoint if true
-   * @param setpoint
-   * @param isTrue true = set setpoint
-   */
   public void SetIfTrue(double setpoint, boolean isTrue) {
     if (isTrue) {
       wristSetpoint = setpoint;
     }
   }
 
-  /**
-   * Control setpoint with axis
-   * @param input input value -1 to 1
-   * @param sensitivity input multiplier
-   * @param disablePID false = use pid
-   */
   public void ManualMovement(double input, double sensitivity, boolean rawMode) {
     if (rawMode) {
       wrist.set(input);
@@ -113,19 +98,11 @@ public class Wrist extends SubsystemBase {
     }
   }
 
-  /**
-   * Stop wrist
-   */
   public void Stop() {
     wristSetpoint = GetAngle(false).in(Degrees);
     pidToggle = true;
   }
 
-  /**
-   * Get current encoder angle
-   * @param noOffset add the offset to the encoder or not
-   * @return encoder angle
-   */
   public Angle GetAngle(boolean noOffset) {
     if (noOffset) {
       return Rotations.of(wristEncoder.get());
@@ -134,18 +111,10 @@ public class Wrist extends SubsystemBase {
     return Rotations.of(wristEncoder.get()).minus(Degrees.of(IO.Misc.kWristEncoderOffset));
   }
 
-  /**
-   * Check if encoder is connected
-   * @return true = connected
-   */
   public boolean IsConnected() {
     return GetAngle(false).in(Degree) != (360 - IO.Misc.kWristEncoderOffset);
   }
 
-  /**
-   * Get current setpoint
-   * @return current setpoint
-   */
   public double GetSetpoint() {
     return wristController.getSetpoint();
   }

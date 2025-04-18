@@ -82,31 +82,16 @@ public class Elevator extends SubsystemBase {
     SmartDashboard.putNumber("Elevator Encoder", GetPosition());
   }
 
-  /**
-   * Set setpoint
-   * @param setpoint
-   */
   public void Set(double setpoint) {
     elevatorSetpoint = setpoint;
   }
 
-  /**
-   * Set setpoint if true
-   * @param setpoint
-   * @param isTrue true = set setpoint
-   */
   public void SetIfTrue(double setpoint, boolean isTrue) {
     if (isTrue) {
       elevatorSetpoint = setpoint;
     }
   }
 
-  /**
-   * Control setpoint with axis
-   * @param input input value -1 to 1
-   * @param sensitivity input multiplier
-   * @param disablePID false = use pid
-   */
   public void ManualMovement(double input, double sensitivity, boolean disablePID) {
     if (disablePID) {
       elevator.set(input);
@@ -116,21 +101,15 @@ public class Elevator extends SubsystemBase {
     }
   }
 
-  // Stop elevator
   public void Stop() {
     elevatorSetpoint = GetPosition();
     pidToggle = true;
   }
 
-  // Get internal motor encoder position
   public double GetPosition() {
     return elevator.getPosition().getValueAsDouble();
   }
 
-  /**
-   * Get current setpoint
-   * @return current setpoint
-   */
   public double GetSetpoint() {
     return elevatorSetpoint;
   }

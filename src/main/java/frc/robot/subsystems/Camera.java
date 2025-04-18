@@ -12,6 +12,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Speeds;
@@ -108,46 +109,38 @@ public class Camera extends SubsystemBase {
         moveRot = RotReefController.calculate(rotToTargetReef.in(Degrees));
       }
     } else {
+      // TODO: Track correctly
       if (llCoralMeasurement != null && llCoralMeasurement.tagCount > 0) {
-        moveX = XCoralController.calculate(xToTargetCoral) + 0.1; // TODO: what
-        moveY = YCoralController.calculate(yToTargetCoral); //+ 0.05; *DONT* Drive into the coral station a bit
+        moveX = XCoralController.calculate(xToTargetCoral) + 0.1; // Drive to the side a bit
+        moveY = YCoralController.calculate(yToTargetCoral);
         moveRot = RotCoralController.calculate(rotToTargetCoral.in(Degrees));
       }
     }
   }
 
-  
-  /**
-   * Set setpoint and return X movement
-   * @param position
-   * @param coral false = reef
-   * @return pid output
-   */
   public double MoveX(double position, boolean coral) {
     XReefController.setSetpoint(position);
-
     isReefTracking = !coral;
+
+    // Move slower in tele so brodie can cope
+    if (DriverStation.isTeleop()) {
+      return -MathUtil.clamp(moveX, -Speeds.kTrackMoveSlow, Speeds.kTrackMoveSlow);
+    }
+
     return -MathUtil.clamp(moveX, isReefTracking?-Speeds.kTrackMoveMax:-Speeds.kTrackMoveSlow, isReefTracking?Speeds.kTrackMoveMax:Speeds.kTrackMoveSlow);
   }
 
-  
-  /**
-   * Set setpoint and return Y movement
-   * @param position
-   * coral or reef controlled by moveX
-   * @return pid output 
-   */
   public double MoveY(double position) {
     YReefController.setSetpoint(position);
+
+    // Move slower in tele so brodie can cope
+    if (DriverStation.isTeleop()) {
+      return MathUtil.clamp(moveY, -Speeds.kTrackMoveSlow, Speeds.kTrackMoveSlow);
+    }
+
     return MathUtil.clamp(moveY, isReefTracking?-Speeds.kTrackMoveMax:-Speeds.kTrackMoveSlow, isReefTracking?Speeds.kTrackMoveMax:Speeds.kTrackMoveSlow);
   }
 
-  /**
-   * Set setpoint and return Rotation movement
-   * @param position
-   * coral or reef controlled by moveX
-   * @return pid output
-   */
   public double MoveRot(Angle position) {
     RotReefController.setSetpoint(position.in(Degrees));
     return MathUtil.clamp(moveRot, -Speeds.kTrackRotateMax, Speeds.kTrackRotateMax);

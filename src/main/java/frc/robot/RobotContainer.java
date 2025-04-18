@@ -170,7 +170,6 @@ public class RobotContainer {
       () -> wrist.Set(PID.Wrist.kWristBottomAlgae)))
       );
 
-
     NamedCommands.registerCommand("Go to Top Algae", intake.runOnce(
       () -> intake.Open(true))
       .alongWith(elevator.runOnce(

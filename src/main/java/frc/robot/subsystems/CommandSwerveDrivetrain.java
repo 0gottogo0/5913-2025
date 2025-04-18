@@ -258,7 +258,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     public double SlowSwerve(boolean slow) {
         double speed;
         if (slow) {
-            speed = 0.25;
+            speed = 0.15;
         } else {
             speed = 1;
         }
