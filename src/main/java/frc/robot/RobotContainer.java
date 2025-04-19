@@ -104,7 +104,6 @@ public class RobotContainer {
     () -> camera.SetLEDOn(),
     () -> camera.SetLEDOff())));
 
-
     NamedCommands.registerCommand("Run Intake With Beam Break", intake.runEnd(
       () -> intake.RunIntakeWithBeam(),
       () -> intake.Stop()));

@@ -46,6 +46,7 @@ public class Camera extends SubsystemBase {
   /** Creates a new Camera. */
   public Camera() {}
 
+  @SuppressWarnings("unused")
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -73,6 +74,7 @@ public class Camera extends SubsystemBase {
     SmartDashboard.putNumber("PID X", moveX);
     SmartDashboard.putNumber("PID Y", moveY);
     SmartDashboard.putNumber("PID Rot", moveRot);
+    SmartDashboard.putBoolean("Tracking Tag", llReefMeasurement != null && llReefMeasurement.tagCount > 0);
 
     SmartDashboard.putNumber("Reef X to Target", xToTargetReef);
     SmartDashboard.putNumber("Reef Y to Target", yToTargetReef);

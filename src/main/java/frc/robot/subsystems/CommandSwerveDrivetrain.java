@@ -138,7 +138,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             
             AutoBuilder.configure(
                 () -> getState().Pose,   // Supplier of current robot pose
-                this::resetPose,         // Consumer for seeding pose against auto
+                this::ResetPose2d,       // Consumer for seeding pose against auto
                 () -> getState().Speeds, // Supplier of current robot speeds
                 // Consumer of ChassisSpeeds and feedforwards to drive the robot
                 (speeds, feedforwards) -> setControl(
@@ -203,6 +203,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SmartDashboard.putNumber("Robot X", getState().Pose.getX());
         SmartDashboard.putNumber("Robot Y", getState().Pose.getY());
         SmartDashboard.putNumber("Robot Rot", getState().Pose.getRotation().getDegrees());
+        SmartDashboard.putBoolean("Is Blue", DriverStation.getAlliance().isPresent()?DriverStation.getAlliance().get().equals(Alliance.Blue):false);
+        SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime()<=0?0:DriverStation.getMatchTime());
     }
 
     private void startSimThread() {
@@ -252,6 +254,17 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         Matrix<N3, N1> visionMeasurementStdDevs
     ) {
         super.addVisionMeasurement(visionRobotPoseMeters, Utils.fpgaToCurrentTime(timestampSeconds), visionMeasurementStdDevs);
+    }
+
+    // Reset the pose manualy
+    public void ResetPose2d(Pose2d pose) {
+        
+        // We run metatag2 so setting the x and y to zero should be fine
+        if (DriverStation.getAlliance().get().equals(Alliance.Red) && DriverStation.getAlliance().isPresent() == true) {
+            resetPose(new Pose2d(0.00, 0.00, Rotation2d.k180deg)); // Flip the rotation for red alliance
+        } else {
+            resetPose(new Pose2d(0.00, 0.00, Rotation2d.kZero));
+        }
     }
 
     // Slow down robot so we dont break climber
