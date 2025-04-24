@@ -280,6 +280,16 @@ public class RobotContainer {
       .alongWith(wrist.runOnce(
       () -> wrist.Set(PID.Wrist.kWristIntake))));
 
+    // Home
+    DriverController.povLeft().onTrue(intake.runOnce(
+      () -> intake.Open(false))
+      .alongWith(elevator.runOnce(
+      () -> elevator.Set(PID.Elevator.kElevatorHome)))
+      .alongWith(pivot.runOnce(
+      () -> pivot.Set(PID.Pivot.kPivotHome)))
+      .alongWith(wrist.runOnce(
+      () -> wrist.Set(PID.Wrist.kWristHome))));
+
     // Stop
     DriverController.button(8).whileTrue(drivetrain.applyRequest(
       () -> brake));
@@ -288,16 +298,9 @@ public class RobotContainer {
     DriverController.button(7).onTrue(drivetrain.runOnce(
       () -> drivetrain.seedFieldCentric()));
 
-    // L1
-    DriverController.povUp().onTrue(intake.runOnce(
-      () -> intake.Open(false))
-      .alongWith(elevator.runOnce(
-        () -> elevator.Set(PID.Elevator.kElevatorL1)))
-      .alongWith(pivot.runOnce(
-      () -> pivot.Set(PID.Pivot.kPivotL1)))
-      .alongWith(new WaitCommand(0.55)
-      .andThen(wrist.runOnce(
-      () -> wrist.Set(PID.Wrist.kWristL1)))));
+    // Open
+    DriverController.button(10).onTrue(intake.runOnce(
+      () -> intake.Open(true)));
 
     // ** Manipulator Control **
     
@@ -310,6 +313,27 @@ public class RobotContainer {
     ManipulatorController.leftTrigger().whileTrue(intake.runEnd(
       () -> intake.RunIntakeReverse(),
       () -> intake.Stop()));
+
+    // L1
+    ManipulatorController.button(9).onTrue(intake.runOnce(
+      () -> intake.Open(false))
+      .alongWith(elevator.runOnce(
+        () -> elevator.Set(PID.Elevator.kElevatorL1)))
+      .alongWith(pivot.runOnce(
+      () -> pivot.Set(PID.Pivot.kPivotL1)))
+      .alongWith(new WaitCommand(0.55)
+      .andThen(wrist.runOnce(
+      () -> wrist.Set(PID.Wrist.kWristL1)))));
+
+    // Coral Ground
+    ManipulatorController.button(10).onTrue(intake.runOnce(
+      () -> intake.OpenNoAlgae())
+      .alongWith(elevator.runOnce(
+        () -> elevator.Set(PID.Elevator.kElevatorGroundAlgae)))
+      .alongWith(pivot.runOnce(
+      () -> pivot.Set(PID.Pivot.kPivotGroundCoral)))
+      .alongWith(wrist.runOnce(
+      () -> wrist.Set(PID.Wrist.kWristGroundCoral))));
 
     // L2
     ManipulatorController.a().onTrue(intake.runOnce(
@@ -343,16 +367,6 @@ public class RobotContainer {
       .alongWith(new WaitCommand(0.55)
       .andThen(wrist.runOnce(
       () -> wrist.Set(PID.Wrist.kWristL4)))));
-
-    // Home
-    ManipulatorController.button(9).onTrue(intake.runOnce(
-      () -> intake.Open(false))
-      .alongWith(elevator.runOnce(
-      () -> elevator.Set(PID.Elevator.kElevatorHome)))
-      .alongWith(pivot.runOnce(
-      () -> pivot.Set(PID.Pivot.kPivotHome)))
-      .alongWith(wrist.runOnce(
-      () -> wrist.Set(PID.Wrist.kWristHome))));
 
     // Intake
     ManipulatorController.b().onTrue(intake.runOnce(
@@ -434,15 +448,13 @@ public class RobotContainer {
       .alongWith(elevator.runOnce(
       () -> elevator.Set(PID.Elevator.kElevatorGroundAlgae)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(PID.Pivot.kPivotGroundAlgae)))
+      () -> pivot.Set(PID.Pivot.kPivotGroundCoral)))
       .alongWith(wrist.runOnce(
-      () -> wrist.Set(PID.Wrist.kWristGroundALgae))));
+      () -> wrist.Set(PID.Wrist.kWristGroundCoral))));
 
     // Manual Control
     // Janky but works
-    ManipulatorController.button(8).whileTrue(intake.run(
-      () -> intake.Open(ManipulatorController.rightBumper().getAsBoolean()))
-      .alongWith(elevator.runEnd(
+    ManipulatorController.button(8).whileTrue(elevator.runEnd(
       () -> elevator.ManualMovement(MathUtil.applyDeadband(ManipulatorController.getLeftY(), 0.05), 0.75, false),
       () -> elevator.Stop())
       .alongWith(pivot.runEnd(
@@ -450,7 +462,7 @@ public class RobotContainer {
       () -> pivot.Stop())
       .alongWith(wrist.runEnd(
       () -> wrist.ManualMovement(MathUtil.applyDeadband(ManipulatorController.getRightX(), 0.05), 1.5, false),
-      () -> wrist.Stop())))));
+      () -> wrist.Stop()))));
   }
 
   public Command getAutonomousCommand() {
