@@ -261,9 +261,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         
         // We run metatag2 so setting the x and y to zero should be fine
         if (DriverStation.getAlliance().get().equals(Alliance.Red) && DriverStation.getAlliance().isPresent() == true) {
-            resetPose(new Pose2d(0.00, 0.00, Rotation2d.k180deg)); // Flip the rotation for red alliance
+            resetPose(new Pose2d(0.00, 0.00, Rotation2d.kZero)); // Flip the rotation for red alliance
         } else {
-            resetPose(new Pose2d(0.00, 0.00, Rotation2d.kZero));
+            resetPose(new Pose2d(0.00, 0.00, Rotation2d.k180deg));
         }
     }
 

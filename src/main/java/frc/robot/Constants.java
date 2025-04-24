@@ -15,6 +15,7 @@ public final class Constants {
         public static final double kElevatorSpeedAlgae = 0.8;
         public static final double kIntakeSpeedMax = 1;
         public static final double kIntakeSpeed = 0.4;
+        public static final double kIntakeSpeedL1 = 0.4;
         public static final double kIntakeSpeedHoldAlgae = -0.15;
         public static final double kPivotSpeedMax = 1;
         public static final double kTrackMoveMax = .3;
@@ -50,7 +51,7 @@ public final class Constants {
         public static final double kElevatorProcessor = 0.00;
         public static final double kElevatorHome = 0.00;
         public static final double kElevatorClimb = 0.00;
-        public static final double kElevatorL1 = -0.00;
+        public static final double kElevatorL1 = -4.80;
         public static final double kElevatorL2 = -8.00;
         public static final double kElevatorL3 = -20.80;
         public static final double kElevatorL4 = -45.20;
@@ -61,7 +62,7 @@ public final class Constants {
 
         public static final class Pivot {
             public static final double kPivotKP = 0.09;
-            public static final double kPivotL1 = 117.30;
+            public static final double kPivotL1 = 140.50;
             public static final double kPivotL2 = 128.00;
             public static final double kPivotL3 = 135.00;
             public static final double kPivotL4 = 140.70;
@@ -73,6 +74,7 @@ public final class Constants {
             public static final double kPivotBottomAlgae = 127.10;
             public static final double kPivotTopAlgae = 131.70;
             public static final double kPivotGroundAlgae = 99.70;
+            public static final double kPivotGroundCoral = 104.50;
             public static final double kPivotDeadzone = 0.05;
         }
 
@@ -99,7 +101,7 @@ public final class Constants {
             public static final double kWristBarge = 218.3;
             public static final double kWristProcessor = 85.70;
             public static final double kWristHome = 305.60;
-            public static final double kWristL1 = 312.00;
+            public static final double kWristL1 = 37.10;
             public static final double kWristL2 = 305.60;
             public static final double kWristL3 = 295.00;
             public static final double kWristL4 = 237.00;
@@ -107,6 +109,7 @@ public final class Constants {
             public static final double kWristTopAlgae = 88.10;
             public static final double kWristHomeAlgae = 82.50;
             public static final double kWristGroundALgae = 51.20;
+            public static final double kWristGroundCoral = 35.50;
         }
     }
         

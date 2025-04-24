@@ -14,6 +14,7 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticHub;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -28,8 +29,13 @@ public class Intake extends SubsystemBase {
   
   private DigitalInput beamBreak = new DigitalInput(IO.Misc.kBeamBreak);
 
+  private Timer ejectTimer = new Timer();
+
   public boolean ignoreBeamBreak = false;
   public boolean holdAlgae = false; // Turn this varable true if we are in an algae spot
+  public boolean groundCoral = false;
+  public boolean ejectCoral = false;
+  public boolean levelOne = false;
 
   /** Creates a new Claw. */
   public Intake() {
@@ -38,11 +44,17 @@ public class Intake extends SubsystemBase {
       .idleMode(IdleMode.kCoast);
 
     clawSolenoid.set(DoubleSolenoid.Value.kForward);
+
+    ejectTimer.reset();
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    if (ejectCoral) {
+      Stop();
+    }
 
     // Debug
     SmartDashboard.putBoolean("Claw Is Loaded", GetBeamBreak());
@@ -53,6 +65,10 @@ public class Intake extends SubsystemBase {
     intake.set(-Speeds.kIntakeSpeedMax);
   }
 
+  public void RunIntakeSlow() {
+    intake.set(-Speeds.kIntakeSpeedL1);
+  }
+
   // Run the intake backwards
   public void RunIntakeReverse() {
     intake.set(Speeds.kIntakeSpeedMax);
@@ -60,6 +76,16 @@ public class Intake extends SubsystemBase {
 
   // Run the intake with the beambreak
   public void RunIntakeWithBeam() {
+    if (groundCoral) {
+      RunIntakeReverse();
+      return;
+    }
+
+    if (levelOne) {
+      RunIntakeSlow();
+      return;
+    }
+
     if (!ignoreBeamBreak) {
       if (!GetBeamBreak()) {
         intake.set(-Speeds.kIntakeSpeed);
@@ -73,9 +99,10 @@ public class Intake extends SubsystemBase {
 
   // Eject the Algae by closing the claw and outtake
   public void EjectAlgae() {
+    ejectCoral = true;
+    holdAlgae = false;
     clawSolenoid.set(DoubleSolenoid.Value.kForward);
     intake.set(Speeds.kIntakeSpeedMax);
-    holdAlgae = false;
   }
 
   /**
@@ -94,6 +121,12 @@ public class Intake extends SubsystemBase {
     }
   }
 
+  public void OpenNoAlgae() {
+    clawSolenoid.set(DoubleSolenoid.Value.kReverse);
+      holdAlgae = false;
+      Stop();
+  }
+
   /**
    * Get the status of the beambreak
    * @return beambreak status, true = coral in claw
@@ -104,6 +137,23 @@ public class Intake extends SubsystemBase {
 
   // Stop the intake
   public void Stop() {
+    if (ejectCoral) {
+      ejectTimer.start();
+      if (ejectTimer.get() > 0.75) {
+        ejectTimer.stop();
+        ejectTimer.reset();
+        ejectCoral = false;
+        intake.set(0);
+      }
+
+      return;
+    }
+
+    if (groundCoral) {
+      intake.set(0);
+      return;
+    }
+
     if (holdAlgae) {
       intake.set(Speeds.kIntakeSpeedHoldAlgae);
     } else if (!holdAlgae) {
