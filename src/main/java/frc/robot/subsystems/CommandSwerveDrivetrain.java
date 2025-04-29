@@ -133,12 +133,12 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private void configureAutoBuilder() {
         try {
             // RobotConfig config = RobotConfig.fromGUISettings();
-            RobotConfig config = new RobotConfig(Pounds.of(113), KilogramSquareMeters.of(5.0), 
+            RobotConfig config = new RobotConfig(Pounds.of(114.8), KilogramSquareMeters.of(5.0), 
             new ModuleConfig(Inches.of(Constants.Drivetrain.kDrivetrainWheelDiameter), TunerConstants.kSpeedAt12Volts, 0.7, DCMotor.getKrakenX60(1).withReduction(Constants.Drivetrain.kDrivetrainGearRatio), Amps.of(20), 1), getModuleLocations());
             
             AutoBuilder.configure(
                 () -> getState().Pose,   // Supplier of current robot pose
-                this::ResetPose2d,       // Consumer for seeding pose against auto
+                this::ResetDrivePose,       // Consumer for seeding pose against auto
                 () -> getState().Speeds, // Supplier of current robot speeds
                 // Consumer of ChassisSpeeds and feedforwards to drive the robot
                 (speeds, feedforwards) -> setControl(
@@ -257,13 +257,13 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
 
     // Reset the pose manualy
-    public void ResetPose2d(Pose2d pose) {
+    public void ResetDrivePose(Pose2d poseToReset) {
         
         // We run metatag2 so setting the x and y to zero should be fine
         if (DriverStation.getAlliance().get().equals(Alliance.Red) && DriverStation.getAlliance().isPresent() == true) {
-            resetPose(new Pose2d(0.00, 0.00, Rotation2d.kZero)); // Flip the rotation for red alliance
+            resetPose(new Pose2d(poseToReset.getX(), poseToReset.getY(), Rotation2d.kZero)); // Flip the rotation for red alliance
         } else {
-            resetPose(new Pose2d(0.00, 0.00, Rotation2d.k180deg));
+            resetPose(new Pose2d(poseToReset.getX(), poseToReset.getY(), Rotation2d.k180deg));
         }
     }
 

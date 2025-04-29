@@ -327,7 +327,7 @@ public class RobotContainer {
 
     // Coral Ground
     ManipulatorController.button(10).onTrue(intake.runOnce(
-      () -> intake.OpenNoAlgae())
+      () -> intake.OpenNoAlgae(true))
       .alongWith(elevator.runOnce(
         () -> elevator.Set(PID.Elevator.kElevatorGroundAlgae)))
       .alongWith(pivot.runOnce(

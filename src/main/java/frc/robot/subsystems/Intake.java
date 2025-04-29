@@ -110,6 +110,7 @@ public class Intake extends SubsystemBase {
    * @param algae false = close claw
    */
   public void Open(boolean algae) {
+    groundCoral = false
     if (!algae) {
       clawSolenoid.set(DoubleSolenoid.Value.kForward);
       holdAlgae = false;
@@ -121,9 +122,14 @@ public class Intake extends SubsystemBase {
     }
   }
 
-  public void OpenNoAlgae() {
+  public void OpenNoAlgae(boolean ground) {
     clawSolenoid.set(DoubleSolenoid.Value.kReverse);
       holdAlgae = false;
+      if(ground) {
+        groundCoral = true;
+      } else {
+        groundCoral = false;
+      }
       Stop();
   }
 

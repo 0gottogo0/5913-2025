@@ -52,7 +52,7 @@ public final class Constants {
         public static final double kElevatorHome = 0.00;
         public static final double kElevatorClimb = 0.00;
         public static final double kElevatorL1 = -4.80;
-        public static final double kElevatorL2 = -8.00;
+        public static final double kElevatorL2 = -6.80;
         public static final double kElevatorL3 = -20.80;
         public static final double kElevatorL4 = -45.20;
         public static final double kElevatorBottomAlgae = -13.40;
@@ -87,7 +87,7 @@ public final class Constants {
             public static final double kCoralTrackRotKP = 0.03;
             public static final double kTrackXOffsetLeft = -0.193;
             public static final double kTrackYOffsetLeft = -0.464;
-            public static final double kTrackXOffsetCenter = -0.050;
+            public static final double kTrackXOffsetCenter = 0.000;
             public static final double kTrackYOffsetCenter = -0.590;
             public static final double kTrackXOffsetRight = 0.153;
             public static final double kTrackYOffsetRight = -0.464;
@@ -102,7 +102,7 @@ public final class Constants {
             public static final double kWristProcessor = 85.70;
             public static final double kWristHome = 305.60;
             public static final double kWristL1 = 37.10;
-            public static final double kWristL2 = 305.60;
+            public static final double kWristL2 = 291.80;
             public static final double kWristL3 = 295.00;
             public static final double kWristL4 = 237.00;
             public static final double kWristBottomAlgae = 82.50;
