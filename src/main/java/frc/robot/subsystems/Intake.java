@@ -111,6 +111,7 @@ public class Intake extends SubsystemBase {
    */
   public void Open(boolean algae) {
     groundCoral = false;
+    levelOne = false;
     if (!algae) {
       clawSolenoid.set(DoubleSolenoid.Value.kForward);
       holdAlgae = false;
@@ -125,12 +126,21 @@ public class Intake extends SubsystemBase {
   public void OpenNoAlgae(boolean ground) {
     clawSolenoid.set(DoubleSolenoid.Value.kReverse);
       holdAlgae = false;
+      levelOne = false;
       if(ground) {
         groundCoral = true;
       } else {
         groundCoral = false;
       }
       Stop();
+  }
+
+  public void CloseNoAlgae() {
+    clawSolenoid.set(DoubleSolenoid.Value.kForward);
+    holdAlgae = false;
+    groundCoral = false;
+    levelOne = true;
+    Stop();
   }
 
   /**
@@ -156,14 +166,20 @@ public class Intake extends SubsystemBase {
     }
 
     if (groundCoral) {
-      intake.set(0);
+      intake.set(-Speeds.kIntakeSpeedHoldAlgae);
+      return;
+    }
+
+    if (levelOne) {
+      intake.set(-Speeds.kIntakeSpeedHoldAlgae);
       return;
     }
 
     if (holdAlgae) {
       intake.set(Speeds.kIntakeSpeedHoldAlgae);
-    } else if (!holdAlgae) {
-      intake.set(0);
+      return;
     }
+    
+    intake.set(0);
   }
 }

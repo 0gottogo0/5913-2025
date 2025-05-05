@@ -316,7 +316,7 @@ public class RobotContainer {
 
     // L1
     ManipulatorController.button(9).onTrue(intake.runOnce(
-      () -> intake.Open(false))
+      () -> intake.CloseNoAlgae())
       .alongWith(elevator.runOnce(
         () -> elevator.Set(PID.Elevator.kElevatorL1)))
       .alongWith(pivot.runOnce(
@@ -329,7 +329,7 @@ public class RobotContainer {
     ManipulatorController.button(10).onTrue(intake.runOnce(
       () -> intake.OpenNoAlgae(true))
       .alongWith(elevator.runOnce(
-        () -> elevator.Set(PID.Elevator.kElevatorGroundAlgae)))
+        () -> elevator.Set(PID.Elevator.kElevatorIntake)))
       .alongWith(pivot.runOnce(
       () -> pivot.Set(PID.Pivot.kPivotGroundCoral)))
       .alongWith(wrist.runOnce(
@@ -448,9 +448,9 @@ public class RobotContainer {
       .alongWith(elevator.runOnce(
       () -> elevator.Set(PID.Elevator.kElevatorGroundAlgae)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(PID.Pivot.kPivotGroundCoral)))
+      () -> pivot.Set(PID.Pivot.kPivotGroundAlgae)))
       .alongWith(wrist.runOnce(
-      () -> wrist.Set(PID.Wrist.kWristGroundCoral))));
+      () -> wrist.Set(PID.Wrist.kWristGroundAlgae))));
 
     // Manual Control
     // Janky but works

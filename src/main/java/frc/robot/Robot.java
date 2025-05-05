@@ -61,9 +61,6 @@ public class Robot extends TimedRobot {
     // Dont ignore the beambreak if we are intaking
     m_robotContainer.intake.ignoreBeamBreak = m_robotContainer.pivot.GetSetpoint() != PID.Pivot.kPivotIntake && m_robotContainer.wrist.GetSetpoint() != PID.Wrist.kWristIntake;
 
-    // Change intake when L1 coral
-    m_robotContainer.intake.levelOne = m_robotContainer.wrist.GetSetpoint() == PID.Wrist.kWristL1;
-
     // Slow the elevator if we are holding algae
     m_robotContainer.elevator.holdAglae = m_robotContainer.intake.holdAlgae == true;
 
