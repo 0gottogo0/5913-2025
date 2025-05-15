@@ -100,7 +100,7 @@ public final class Constants {
             public static final double kWristIntake = 273.80;
             public static final double kWristBarge = 218.3;
             public static final double kWristProcessor = 85.70;
-            public static final double kWristHome = 305.60;
+            public static final double kWristHome = 297.00;
             public static final double kWristL1 = 37.10;
             public static final double kWristL2 = 291.80;
             public static final double kWristL3 = 280.70;
@@ -158,7 +158,7 @@ public final class Constants {
             public static final int kPivotEncoderID = 2;
             public static final double kPivotEncoderOffset = 0;
             public static final int kWristEncoderID = 1;
-            public static final double kWristEncoderOffset = -15;
+            public static final double kWristEncoderOffset = -29.8;
         }
 
         public static final class Camera {

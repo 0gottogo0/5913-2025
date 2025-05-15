@@ -146,7 +146,7 @@ public class RobotContainer {
         .andThen(wrist.runOnce(
         () -> wrist.Set(PID.Wrist.kWristIntake)))));
 
-    NamedCommands.registerCommand("Go to Intake Then L4", new WaitCommand(.3)
+    NamedCommands.registerCommand("Go to Intake Then L4", new WaitCommand(0.3)
     .andThen(elevator.runOnce(
         () -> elevator.Set(PID.Elevator.kElevatorIntake)))
         .andThen(new WaitCommand(.5)
@@ -202,6 +202,9 @@ public class RobotContainer {
       () -> intake.EjectAlgae(),
       () -> intake.Stop())
       );
+
+    NamedCommands.registerCommand("Reset Gyro", drivetrain.runOnce(
+      () -> drivetrain.ResetDrivePose()));
 
     // For Auto
     autoChooser = AutoBuilder.buildAutoChooser("None");

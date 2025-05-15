@@ -138,7 +138,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             
             AutoBuilder.configure(
                 () -> getState().Pose,   // Supplier of current robot pose
-                this::ResetDrivePose,       // Consumer for seeding pose against auto
+                this::resetPose,       // Consumer for seeding pose against auto
                 () -> getState().Speeds, // Supplier of current robot speeds
                 // Consumer of ChassisSpeeds and feedforwards to drive the robot
                 (speeds, feedforwards) -> setControl(
@@ -257,13 +257,13 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
 
     // Reset the pose manualy
-    public void ResetDrivePose(Pose2d poseToReset) {
+    public void ResetDrivePose() {
         
         // We run metatag2 so setting the x and y to zero should be fine
         if (DriverStation.getAlliance().get().equals(Alliance.Red) && DriverStation.getAlliance().isPresent() == true) {
-            resetPose(new Pose2d(poseToReset.getX(), poseToReset.getY(), Rotation2d.kZero)); // Flip the rotation for red alliance
+            resetPose(new Pose2d(0, 0, Rotation2d.kZero)); // Flip the rotation for red alliance
         } else {
-            resetPose(new Pose2d(poseToReset.getX(), poseToReset.getY(), Rotation2d.k180deg));
+            resetPose(new Pose2d(0, 0, Rotation2d.k180deg));
         }
     }
 

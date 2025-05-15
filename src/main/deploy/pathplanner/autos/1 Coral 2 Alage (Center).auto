@@ -19,8 +19,20 @@
                 "data": {
                   "pathName": "Start Center To H"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Go to Intake"
+                }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Reset Gyro"
           }
         },
         {
@@ -198,7 +210,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.25
+                        "waitTime": 1.2
                       }
                     },
                     {
@@ -312,7 +324,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.35
+                        "waitTime": 1.25
                       }
                     },
                     {
@@ -393,7 +405,7 @@
       ]
     }
   },
-  "resetOdom": true,
+  "resetOdom": false,
   "folder": "1 Coral & 2 Alage",
   "choreoAuto": false
 }
