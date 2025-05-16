@@ -46,24 +46,22 @@ public class RobotContainer {
   // Setting up bindings for necessary control of the swerve drive platform
   public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
-  Camera camera = new Camera();
-  Elevator elevator = new Elevator();
-  Intake intake = new Intake();
-  Lights lights = new Lights(camera, intake);
-  Pivot pivot = new Pivot();
-  Pneumatics pneumatics = new Pneumatics();
-  Wrist wrist = new Wrist();
+  public Camera camera = new Camera();
+  public Elevator elevator = new Elevator();
+  public Intake intake = new Intake();
+  public Lights lights = new Lights(camera, intake);
+  public Pivot pivot = new Pivot();
+  public Pneumatics pneumatics = new Pneumatics();
+  public Wrist wrist = new Wrist();
 
   // Swerve Requests
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
       .withDeadband(MaxSpeed * Drivetrain.STICK_DEADZONE).withRotationalDeadband(MaxAngularRate * Drivetrain.STICK_DEADZONE) // Add a 2% deadband
-      .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
-                                                               // driving in open loop
+      .withDriveRequestType(DriveRequestType.OpenLoopVoltage); 
 
   private final SwerveRequest.RobotCentric driveTrack = new SwerveRequest.RobotCentric()
       .withDeadband(MaxSpeed * 0.05).withRotationalDeadband(MaxAngularRate * 0.05) // Add a 5% deadband
-      .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
-                                                               // driving in open loop
+      .withDriveRequestType(DriveRequestType.OpenLoopVoltage); 
 
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
 
@@ -74,30 +72,30 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("Track Left", drivetrain.applyRequest(
       () -> driveTrack.withVelocityX(camera.MoveY(PID.Track.TRACK_Y_OFFSET_LEFT) * MaxSpeed)              // Drive forward with negative Y (forward)
-                      .withVelocityY(camera.MoveX(PID.Track.TRACK_X_OFFSET_LEFT, false) * MaxSpeed) // Drive left with negative X (left)
+                      .withVelocityY(camera.MoveX(PID.Track.TRACK_X_OFFSET_LEFT, false) * MaxSpeed)       // Drive left with negative X (left)
                       .withRotationalRate(-camera.MoveRot(Degrees.of(0)) * MaxAngularRate))
       .alongWith(camera.runEnd(
       () -> camera.SetLEDOn(),
       () -> camera.SetLEDOff())));
 
     NamedCommands.registerCommand("Track Right", drivetrain.applyRequest(
-      () -> driveTrack.withVelocityX(camera.MoveY(PID.Track.TRACK_Y_OFFSET_RIGHT) * MaxSpeed)              // Drive forward with negative Y (forward)
-                      .withVelocityY(camera.MoveX(PID.Track.TRACK_X_OFFSET_RIGHT, false) * MaxSpeed) // Drive left with negative X (left)
+      () -> driveTrack.withVelocityX(camera.MoveY(PID.Track.TRACK_Y_OFFSET_RIGHT) * MaxSpeed)             // Drive forward with negative Y (forward)
+                      .withVelocityY(camera.MoveX(PID.Track.TRACK_X_OFFSET_RIGHT, false) * MaxSpeed)      // Drive left with negative X (left)
                       .withRotationalRate(-camera.MoveRot(Degrees.of(0)) * MaxAngularRate))
       .alongWith(camera.runEnd(
       () -> camera.SetLEDOn(),
       () -> camera.SetLEDOff())));
 
     NamedCommands.registerCommand("Track Ball", drivetrain.applyRequest(
-      () -> driveTrack.withVelocityX(camera.MoveY(PID.Track.TRACK_Y_OFFSET_CENTER) * MaxSpeed)              // Drive forward with negative Y (forward)
-                      .withVelocityY(camera.MoveX(PID.Track.TRACK_X_OFFSET_CENTER, false) * MaxSpeed) // Drive left with negative X (left)
+      () -> driveTrack.withVelocityX(camera.MoveY(PID.Track.TRACK_Y_OFFSET_CENTER) * MaxSpeed)            // Drive forward with negative Y (forward)
+                      .withVelocityY(camera.MoveX(PID.Track.TRACK_X_OFFSET_CENTER, false) * MaxSpeed)     // Drive left with negative X (left)
                       .withRotationalRate(-camera.MoveRot(Degrees.of(0)) * MaxAngularRate))
       .alongWith(camera.runEnd(
       () -> camera.SetLEDOn(),
       () -> camera.SetLEDOff())));
 
     NamedCommands.registerCommand("Track Coral", drivetrain.applyRequest(
-    () -> driveTrack.withVelocityX(-camera.MoveY(PID.Track.TRACK_Y_OFFSET_CORAL) * MaxSpeed * 1.5)              // Drive forward with negative Y (forward)
+    () -> driveTrack.withVelocityX(-camera.MoveY(PID.Track.TRACK_Y_OFFSET_CORAL) * MaxSpeed * 1.5)        // Drive forward with negative Y (forward)
                     .withVelocityY(-camera.MoveX(PID.Track.TRACK_X_OFFSET_CORAL, true) * MaxSpeed * 1.5)  // Drive left with negative X (left)
                     .withRotationalRate(camera.MoveRot(Degrees.of(0)) * MaxAngularRate * 1.5))
     .alongWith(camera.runEnd(

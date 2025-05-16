@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import static edu.wpi.first.units.Units.*;
 import static frc.robot.Constants.*;
 
 import com.ctre.phoenix.led.Animation;
@@ -19,6 +20,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 
 public class Lights extends SubsystemBase {
 
@@ -145,6 +147,12 @@ public class Lights extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    if(Robot.m_robotContainer.pivot.GetAngle().in(Degree) == (360 - IO.Misc.PIVOT_ENCODER_OFFSET) || Robot.m_robotContainer.wrist.GetAngle(false).in(Degree) == (360 - IO.Misc.WRIST_ENCODER_OFFSET) || Robot.m_robotContainer.wrist.GetAngle(true).in(Degree) < 0) {
+      badError = true;
+    } else {
+      badError = false;
+    }
     
     // Set the lights to our predefinded states
     if (badError) {

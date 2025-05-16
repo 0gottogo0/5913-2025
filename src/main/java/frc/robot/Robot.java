@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import static edu.wpi.first.units.Units.*;
 import static frc.robot.Constants.*;
 
 import com.ctre.phoenix6.SignalLogger;
@@ -21,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
-  private final RobotContainer m_robotContainer;
+  public static final RobotContainer m_robotContainer = new RobotContainer();
 
   private final CommandXboxController ManipulatorController = new CommandXboxController(Controllers.MANIPULATOR_CONTROLLER);
 
@@ -30,8 +29,6 @@ public class Robot extends TimedRobot {
   public Robot() {
     // Disable CTRE Logging
     SignalLogger.enableAutoLogging(false);
-
-    m_robotContainer = new RobotContainer();
 
     DataLogManager.start();
 
@@ -60,12 +57,6 @@ public class Robot extends TimedRobot {
 
     // Dont ignore the beambreak if we are intaking
     m_robotContainer.intake.ignoreBeamBreak = m_robotContainer.pivot.GetSetpoint() != PID.Pivot.PIVOT_INTAKE && m_robotContainer.wrist.GetSetpoint() != PID.Wrist.WRIST_INTAKE;
-
-    // Slow the elevator if we are holding algae
-    m_robotContainer.elevator.holdAglae = m_robotContainer.intake.holdAlgae == true;
-
-    // Set lights to red if "bad error"
-    m_robotContainer.lights.badError = m_robotContainer.pivot.GetAngle().in(Degree) == (360 - IO.Misc.PIVOT_ENCODER_OFFSET) || m_robotContainer.wrist.GetAngle(false).in(Degree) == (360 - IO.Misc.WRIST_ENCODER_OFFSET) || m_robotContainer.wrist.GetAngle(true).in(Degree) < 0;
 
     SmartDashboard.putNumber("Controller Y", ManipulatorController.getLeftY());
     SmartDashboard.putNumber("Intake Timer", intakeTimer.get());

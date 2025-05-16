@@ -26,7 +26,6 @@ public class Elevator extends SubsystemBase {
 
   private double elevatorSetpoint; 
   private boolean pidToggle;
-  public boolean holdAglae; // Turn this varable true if we are in an algae spot
 
   /** Creates a new Elevator. */
   public Elevator() {
@@ -39,7 +38,6 @@ public class Elevator extends SubsystemBase {
     elevatorSetpoint = GetPosition(); // Set to current encoder value so elevetor doesnt "snap" when first enabled
 
     pidToggle = true;
-    holdAglae = false;
 
     // Wait to set current encoder value, sometimes it takes a tinsie bit
     new Thread(() -> {
@@ -58,7 +56,6 @@ public class Elevator extends SubsystemBase {
     double pid = 0;
 
     // Calculate pid
-    // TODO: Replace with elevatorFeedforward
     if (pidToggle) {
       if (elevatorSetpoint < GetPosition()) {
         pid = elevatorControllerUp.calculate(GetPosition(), elevatorSetpoint);
@@ -67,14 +64,8 @@ public class Elevator extends SubsystemBase {
       }
     }
     
-    // Slow elevator if we have want to go to algae position
-    if (!holdAglae) {
-      pid = MathUtil.clamp(pid, -1 * Speeds.ELEVATOR_SPEED_MAX, Speeds.ELEVATOR_SPEED_MAX);
-      elevator.set(pid);
-    } else {
-      pid = MathUtil.clamp(pid, -1 * Speeds.ELEVATOR_SPEED_ALGAE, Speeds.ELEVATOR_SPEED_ALGAE); // Slowed elevator
-      elevator.set(pid);
-    }
+    pid = MathUtil.clamp(pid, -1 * Speeds.ELEVATOR_SPEED_MAX, Speeds.ELEVATOR_SPEED_MAX);
+    elevator.set(pid);
     
     // Debug
     SmartDashboard.putNumber("Elevator PID Input", pid);

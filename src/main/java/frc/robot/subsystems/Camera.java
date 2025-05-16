@@ -66,7 +66,6 @@ public class Camera extends SubsystemBase {
     yToTargetCoral = resultsCoral[2];
     rotToTargetCoral = Degrees.of(resultsCoral[4]);
 
-    // We dont need to run though this logic twice but we will
     CalculatePID();
 
     // Debug
