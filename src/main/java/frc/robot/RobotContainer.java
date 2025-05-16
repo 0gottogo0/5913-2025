@@ -32,16 +32,16 @@ import frc.robot.subsystems.Wrist;
 public class RobotContainer {
   // Some constants needed for swerve
   private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-  private double MaxAngularRate = RotationsPerSecond.of(Drivetrain.kRotateMagnitude).in(RadiansPerSecond);
+  private double MaxAngularRate = RotationsPerSecond.of(Drivetrain.ROTATE_MAGNITUDE).in(RadiansPerSecond);
 
   // Slew rate limiters smooth out drivetrain. 
-  private SlewRateLimiter xLimiter = new SlewRateLimiter(Drivetrain.kMoveSlewRateLimiter);
-  private SlewRateLimiter yLimiter = new SlewRateLimiter(Drivetrain.kMoveSlewRateLimiter);
-  private SlewRateLimiter rotLimiter = new SlewRateLimiter(Drivetrain.kRotateSlewRateLimiter);
+  private SlewRateLimiter xLimiter = new SlewRateLimiter(Drivetrain.MOVE_SLEW_RATE_LIMITER);
+  private SlewRateLimiter yLimiter = new SlewRateLimiter(Drivetrain.MOVE_SLEW_RATE_LIMITER);
+  private SlewRateLimiter rotLimiter = new SlewRateLimiter(Drivetrain.ROTATE_SLEW_RATE_LIMITER);
 
   // Set up controllers
-  private final CommandXboxController DriverController = new CommandXboxController(Controllers.kDriverController);
-  private final CommandXboxController ManipulatorController = new CommandXboxController(Controllers.kManipulatorController);
+  private final CommandXboxController DriverController = new CommandXboxController(Controllers.DRIVER_CONTROLLER);
+  private final CommandXboxController ManipulatorController = new CommandXboxController(Controllers.MANIPULATOR_CONTROLLER);
   
   // Setting up bindings for necessary control of the swerve drive platform
   public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
@@ -56,7 +56,7 @@ public class RobotContainer {
 
   // Swerve Requests
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-      .withDeadband(MaxSpeed * Drivetrain.kStickDeadzone).withRotationalDeadband(MaxAngularRate * Drivetrain.kStickDeadzone) // Add a 2% deadband
+      .withDeadband(MaxSpeed * Drivetrain.STICK_DEADZONE).withRotationalDeadband(MaxAngularRate * Drivetrain.STICK_DEADZONE) // Add a 2% deadband
       .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
                                                                // driving in open loop
 
@@ -73,32 +73,32 @@ public class RobotContainer {
   public RobotContainer() {
 
     NamedCommands.registerCommand("Track Left", drivetrain.applyRequest(
-      () -> driveTrack.withVelocityX(camera.MoveY(PID.Track.kTrackYOffsetLeft) * MaxSpeed)              // Drive forward with negative Y (forward)
-                      .withVelocityY(camera.MoveX(PID.Track.kTrackXOffsetLeft, false) * MaxSpeed) // Drive left with negative X (left)
+      () -> driveTrack.withVelocityX(camera.MoveY(PID.Track.TRACK_Y_OFFSET_LEFT) * MaxSpeed)              // Drive forward with negative Y (forward)
+                      .withVelocityY(camera.MoveX(PID.Track.TRACK_X_OFFSET_LEFT, false) * MaxSpeed) // Drive left with negative X (left)
                       .withRotationalRate(-camera.MoveRot(Degrees.of(0)) * MaxAngularRate))
       .alongWith(camera.runEnd(
       () -> camera.SetLEDOn(),
       () -> camera.SetLEDOff())));
 
     NamedCommands.registerCommand("Track Right", drivetrain.applyRequest(
-      () -> driveTrack.withVelocityX(camera.MoveY(PID.Track.kTrackYOffsetRight) * MaxSpeed)              // Drive forward with negative Y (forward)
-                      .withVelocityY(camera.MoveX(PID.Track.kTrackXOffsetRight, false) * MaxSpeed) // Drive left with negative X (left)
+      () -> driveTrack.withVelocityX(camera.MoveY(PID.Track.TRACK_Y_OFFSET_RIGHT) * MaxSpeed)              // Drive forward with negative Y (forward)
+                      .withVelocityY(camera.MoveX(PID.Track.TRACK_X_OFFSET_RIGHT, false) * MaxSpeed) // Drive left with negative X (left)
                       .withRotationalRate(-camera.MoveRot(Degrees.of(0)) * MaxAngularRate))
       .alongWith(camera.runEnd(
       () -> camera.SetLEDOn(),
       () -> camera.SetLEDOff())));
 
     NamedCommands.registerCommand("Track Ball", drivetrain.applyRequest(
-      () -> driveTrack.withVelocityX(camera.MoveY(PID.Track.kTrackYOffsetCenter) * MaxSpeed)              // Drive forward with negative Y (forward)
-                      .withVelocityY(camera.MoveX(PID.Track.kTrackXOffsetCenter, false) * MaxSpeed) // Drive left with negative X (left)
+      () -> driveTrack.withVelocityX(camera.MoveY(PID.Track.TRACK_Y_OFFSET_CENTER) * MaxSpeed)              // Drive forward with negative Y (forward)
+                      .withVelocityY(camera.MoveX(PID.Track.TRACK_X_OFFSET_CENTER, false) * MaxSpeed) // Drive left with negative X (left)
                       .withRotationalRate(-camera.MoveRot(Degrees.of(0)) * MaxAngularRate))
       .alongWith(camera.runEnd(
       () -> camera.SetLEDOn(),
       () -> camera.SetLEDOff())));
 
     NamedCommands.registerCommand("Track Coral", drivetrain.applyRequest(
-    () -> driveTrack.withVelocityX(-camera.MoveY(PID.Track.kTrackYOffsetCoral) * MaxSpeed * 1.5)              // Drive forward with negative Y (forward)
-                    .withVelocityY(-camera.MoveX(PID.Track.kTrackXOffsetCoral, true) * MaxSpeed * 1.5)  // Drive left with negative X (left)
+    () -> driveTrack.withVelocityX(-camera.MoveY(PID.Track.TRACK_Y_OFFSET_CORAL) * MaxSpeed * 1.5)              // Drive forward with negative Y (forward)
+                    .withVelocityY(-camera.MoveX(PID.Track.TRACK_X_OFFSET_CORAL, true) * MaxSpeed * 1.5)  // Drive left with negative X (left)
                     .withRotationalRate(camera.MoveRot(Degrees.of(0)) * MaxAngularRate * 1.5))
     .alongWith(camera.runEnd(
     () -> camera.SetLEDOn(),
@@ -113,89 +113,89 @@ public class RobotContainer {
       () -> intake.Stop()));
 
     NamedCommands.registerCommand("Go to L4", elevator.run(
-      () -> elevator.Set(PID.Elevator.kElevatorL4))
+      () -> elevator.Set(PID.Elevator.ELEVATOR_L4))
       .alongWith(new WaitCommand(0.6)
         .andThen(pivot.run(
-        () -> pivot.Set(PID.Pivot.kPivotL4))))
+        () -> pivot.Set(PID.Pivot.PIVOT_L4))))
       .alongWith(wrist.run(
-      () -> wrist.Set(PID.Wrist.kWristL4))));
+      () -> wrist.Set(PID.Wrist.WRIST_L4))));
 
     NamedCommands.registerCommand("Go to L4 Only If Intaked", elevator.run(
-      () -> elevator.SetIfTrue(PID.Elevator.kElevatorL4, intake.GetBeamBreak()))
+      () -> elevator.SetIfTrue(PID.Elevator.ELEVATOR_L4, intake.GetBeamBreak()))
       .alongWith(pivot.runOnce(
-        () -> pivot.Set(PID.Pivot.kPivotL4)))
+        () -> pivot.Set(PID.Pivot.PIVOT_L4)))
       .alongWith(new WaitCommand(0.55)
       .andThen(wrist.runOnce(
-      () -> wrist.SetIfTrue(PID.Wrist.kWristL4, intake.GetBeamBreak())))));
+      () -> wrist.SetIfTrue(PID.Wrist.WRIST_L4, intake.GetBeamBreak())))));
 
     NamedCommands.registerCommand("Go to L4 No Wait Pivot", intake.run( 
       () -> intake.Open(false))
       .alongWith(elevator.run(
-      () -> elevator.Set(PID.Elevator.kElevatorL4)))
+      () -> elevator.Set(PID.Elevator.ELEVATOR_L4)))
       .alongWith(pivot.run(
-        () -> pivot.Set(PID.Pivot.kPivotL4)))
+        () -> pivot.Set(PID.Pivot.PIVOT_L4)))
       .alongWith(wrist.run(
-      () -> wrist.Set(PID.Wrist.kWristL4))));
+      () -> wrist.Set(PID.Wrist.WRIST_L4))));
 
     NamedCommands.registerCommand("Go to Intake", new WaitCommand(0.3)
     .andThen(elevator.runOnce(
-        () -> elevator.Set(PID.Elevator.kElevatorIntake)))
+        () -> elevator.Set(PID.Elevator.ELEVATOR_INTAKE)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(PID.Pivot.kPivotIntake)))
+      () -> pivot.Set(PID.Pivot.PIVOT_INTAKE)))
       .alongWith(new WaitCommand(0.3)
         .andThen(wrist.runOnce(
-        () -> wrist.Set(PID.Wrist.kWristIntake)))));
+        () -> wrist.Set(PID.Wrist.WRIST_INTAKE)))));
 
     NamedCommands.registerCommand("Go to Intake Then L4", new WaitCommand(0.3)
     .andThen(elevator.runOnce(
-        () -> elevator.Set(PID.Elevator.kElevatorIntake)))
+        () -> elevator.Set(PID.Elevator.ELEVATOR_INTAKE)))
         .andThen(new WaitCommand(.5)
         .andThen(elevator.runOnce(
-          () -> elevator.Set(PID.Elevator.kElevatorL4))))
+          () -> elevator.Set(PID.Elevator.ELEVATOR_L4))))
       .alongWith(new WaitCommand(.8)
       .andThen(pivot.runOnce(
-      () -> pivot.Set(PID.Pivot.kPivotIntake)))
+      () -> pivot.Set(PID.Pivot.PIVOT_INTAKE)))
       .alongWith(new WaitCommand(.8)
         .andThen(wrist.runOnce(
-        () -> wrist.Set(PID.Wrist.kWristL4))))));
+        () -> wrist.Set(PID.Wrist.WRIST_L4))))));
 
     NamedCommands.registerCommand("Go to Bottom Algae", intake.runOnce(
       () -> intake.Open(true))
       .alongWith(elevator.runOnce(
-      () -> elevator.Set(PID.Elevator.kElevatorBottomAlgae)))
+      () -> elevator.Set(PID.Elevator.ELEVATOR_BOTTOM_ALGAE)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(PID.Pivot.kPivotL2)))
+      () -> pivot.Set(PID.Pivot.PIVOT_L2)))
       .alongWith(wrist.runOnce(
-      () -> wrist.Set(PID.Wrist.kWristBottomAlgae)))
+      () -> wrist.Set(PID.Wrist.WRIST_BOTTOM_ALGAE)))
       );
 
     NamedCommands.registerCommand("Go to Top Algae", intake.runOnce(
       () -> intake.Open(true))
       .alongWith(elevator.runOnce(
-      () -> elevator.Set(PID.Elevator.kElevatorTopAlgae)))
+      () -> elevator.Set(PID.Elevator.ELEVATOR_TOP_ALGAE)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(PID.Pivot.kPivotL3)))
+      () -> pivot.Set(PID.Pivot.PIVOT_L3)))
       .alongWith(wrist.runOnce(
-      () -> wrist.Set(PID.Wrist.kWristTopAlgae)))
+      () -> wrist.Set(PID.Wrist.WRIST_TOP_ALGAE)))
       );
 
     NamedCommands.registerCommand("Go to Algae Barge", elevator.runOnce(
-      () -> elevator.Set(PID.Elevator.kElevatorBarge))
+      () -> elevator.Set(PID.Elevator.ELEVATOR_BARGE))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(PID.Pivot.kPivotIntake))
+      () -> pivot.Set(PID.Pivot.PIVOT_INTAKE))
       .alongWith(wrist.runOnce(
-      () -> wrist.Set(PID.Wrist.kWristBarge)))));
+      () -> wrist.Set(PID.Wrist.WRIST_BARGE)))));
 
     NamedCommands.registerCommand("Go to Algae Home", intake.runOnce(
       () -> intake.Open(true))
       .alongWith(new WaitCommand(0.6)
         .andThen(elevator.runOnce(
-        () -> elevator.Set(PID.Elevator.kElevatorIntake))))
+        () -> elevator.Set(PID.Elevator.ELEVATOR_INTAKE))))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(PID.Pivot.kPivotIntake)))
+      () -> pivot.Set(PID.Pivot.PIVOT_INTAKE)))
       .alongWith(new WaitCommand(0.6)
         .andThen(wrist.runOnce(
-        () -> wrist.Set(PID.Wrist.kWristHomeAlgae))))
+        () -> wrist.Set(PID.Wrist.WRIST_HOME_ALGAE))))
       );
 
     NamedCommands.registerCommand("Eject Algae", intake.runEnd(
@@ -219,45 +219,45 @@ public class RobotContainer {
     // Drivetrain will execute this command periodically
     drivetrain.setDefaultCommand(
       drivetrain.applyRequest(
-        () -> drive.withVelocityX(xLimiter.calculate(MathUtil.applyDeadband(-DriverController.getLeftY(), Drivetrain.kStickDeadzone) * MaxSpeed * drivetrain.SlowSwerve(DriverController.x().getAsBoolean()))) // Drive forward with negative Y (forward)
-                   .withVelocityY(yLimiter.calculate(MathUtil.applyDeadband(-DriverController.getLeftX(), Drivetrain.kStickDeadzone) * MaxSpeed * drivetrain.SlowSwerve(DriverController.x().getAsBoolean()))) // Drive left with negative X (left)
-                   .withRotationalRate(rotLimiter.calculate(MathUtil.applyDeadband(-DriverController.getRightX(), Drivetrain.kStickDeadzone) * MaxAngularRate * drivetrain.SlowSwerve(DriverController.x().getAsBoolean()))) // Drive counterclockwise with negative X (left)
+        () -> drive.withVelocityX(xLimiter.calculate(MathUtil.applyDeadband(-DriverController.getLeftY(), Drivetrain.STICK_DEADZONE) * MaxSpeed * drivetrain.SlowSwerve(DriverController.x().getAsBoolean()))) // Drive forward with negative Y (forward)
+                   .withVelocityY(yLimiter.calculate(MathUtil.applyDeadband(-DriverController.getLeftX(), Drivetrain.STICK_DEADZONE) * MaxSpeed * drivetrain.SlowSwerve(DriverController.x().getAsBoolean()))) // Drive left with negative X (left)
+                   .withRotationalRate(rotLimiter.calculate(MathUtil.applyDeadband(-DriverController.getRightX(), Drivetrain.STICK_DEADZONE) * MaxAngularRate * drivetrain.SlowSwerve(DriverController.x().getAsBoolean()))) // Drive counterclockwise with negative X (left)
       ));
 
     // ** Driver Control **
 
     // Track Left
     DriverController.leftBumper().whileTrue(drivetrain.applyRequest(
-      () -> driveTrack.withVelocityX((camera.MoveY(PID.Track.kTrackYOffsetLeft) + xLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftY(), Drivetrain.kStickDeadzone))) * MaxSpeed) // Drive forward with negative Y (forward)
-                      .withVelocityY((camera.MoveX(PID.Track.kTrackXOffsetLeft, false) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), Drivetrain.kStickDeadzone))) * MaxSpeed) // Drive left with negative X (left)
-                      .withRotationalRate((-camera.MoveRot(Degrees.of(0)) + rotLimiter.calculate(-MathUtil.applyDeadband(DriverController.getRightX(), Drivetrain.kStickDeadzone))) * MaxAngularRate))
+      () -> driveTrack.withVelocityX((camera.MoveY(PID.Track.TRACK_Y_OFFSET_LEFT) + xLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftY(), Drivetrain.STICK_DEADZONE))) * MaxSpeed) // Drive forward with negative Y (forward)
+                      .withVelocityY((camera.MoveX(PID.Track.TRACK_X_OFFSET_LEFT, false) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), Drivetrain.STICK_DEADZONE))) * MaxSpeed) // Drive left with negative X (left)
+                      .withRotationalRate((-camera.MoveRot(Degrees.of(0)) + rotLimiter.calculate(-MathUtil.applyDeadband(DriverController.getRightX(), Drivetrain.STICK_DEADZONE))) * MaxAngularRate))
       .alongWith(camera.runEnd(
       () -> camera.SetLEDOn(),
       () -> camera.SetLEDOff())));
 
     // Track Center
     DriverController.leftTrigger().whileTrue(drivetrain.applyRequest(
-      () -> driveTrack.withVelocityX((camera.MoveY(PID.Track.kTrackYOffsetCenter) + xLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftY(), Drivetrain.kStickDeadzone))) * MaxSpeed) // Drive forward with negative Y (forward)
-                      .withVelocityY((camera.MoveX(PID.Track.kTrackXOffsetCenter, false) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), Drivetrain.kStickDeadzone))) * MaxSpeed) // Drive left with negative X (left)
-                      .withRotationalRate((-camera.MoveRot(Degrees.of(0)) + rotLimiter.calculate(-MathUtil.applyDeadband(DriverController.getRightX(), Drivetrain.kStickDeadzone))) * MaxAngularRate))
+      () -> driveTrack.withVelocityX((camera.MoveY(PID.Track.TRACK_Y_OFFSET_CENTER) + xLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftY(), Drivetrain.STICK_DEADZONE))) * MaxSpeed) // Drive forward with negative Y (forward)
+                      .withVelocityY((camera.MoveX(PID.Track.TRACK_X_OFFSET_CENTER, false) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), Drivetrain.STICK_DEADZONE))) * MaxSpeed) // Drive left with negative X (left)
+                      .withRotationalRate((-camera.MoveRot(Degrees.of(0)) + rotLimiter.calculate(-MathUtil.applyDeadband(DriverController.getRightX(), Drivetrain.STICK_DEADZONE))) * MaxAngularRate))
       .alongWith(camera.runEnd(
       () -> camera.SetLEDOn(),
       () -> camera.SetLEDOff())));
 
     // Track Right
     DriverController.rightBumper().whileTrue(drivetrain.applyRequest(
-      () -> driveTrack.withVelocityX((camera.MoveY(PID.Track.kTrackYOffsetRight) + xLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftY(), Drivetrain.kStickDeadzone))) * MaxSpeed) // Drive forward with negative Y (forward)
-                      .withVelocityY((camera.MoveX(PID.Track.kTrackXOffsetRight, false) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), Drivetrain.kStickDeadzone))) * MaxSpeed) // Drive left with negative X (left)
-                      .withRotationalRate((-camera.MoveRot(Degrees.of(0)) + rotLimiter.calculate(-MathUtil.applyDeadband(DriverController.getRightX(), Drivetrain.kStickDeadzone))) * MaxAngularRate))
+      () -> driveTrack.withVelocityX((camera.MoveY(PID.Track.TRACK_Y_OFFSET_RIGHT) + xLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftY(), Drivetrain.STICK_DEADZONE))) * MaxSpeed) // Drive forward with negative Y (forward)
+                      .withVelocityY((camera.MoveX(PID.Track.TRACK_X_OFFSET_RIGHT, false) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), Drivetrain.STICK_DEADZONE))) * MaxSpeed) // Drive left with negative X (left)
+                      .withRotationalRate((-camera.MoveRot(Degrees.of(0)) + rotLimiter.calculate(-MathUtil.applyDeadband(DriverController.getRightX(), Drivetrain.STICK_DEADZONE))) * MaxAngularRate))
       .alongWith(camera.runEnd(
       () -> camera.SetLEDOn(),
       () -> camera.SetLEDOff())));
 
     //Track Coral
     DriverController.a().whileTrue(drivetrain.applyRequest(
-      () -> driveTrack.withVelocityX((-camera.MoveY(PID.Track.kTrackYOffsetCoral) + xLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftY(), Drivetrain.kStickDeadzone))) * MaxSpeed) // Drive forward with negative Y (forward)
-                      .withVelocityY((-camera.MoveX(PID.Track.kTrackXOffsetCoral, true) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), Drivetrain.kStickDeadzone))) * MaxSpeed) // Drive left with negative X (left)
-                      .withRotationalRate((camera.MoveRot(Degrees.of(0)) + rotLimiter.calculate(-MathUtil.applyDeadband(DriverController.getRightX(), Drivetrain.kStickDeadzone))) * MaxAngularRate)
+      () -> driveTrack.withVelocityX((-camera.MoveY(PID.Track.TRACK_Y_OFFSET_CORAL) + xLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftY(), Drivetrain.STICK_DEADZONE))) * MaxSpeed) // Drive forward with negative Y (forward)
+                      .withVelocityY((-camera.MoveX(PID.Track.TRACK_X_OFFSET_CORAL, true) + yLimiter.calculate(-MathUtil.applyDeadband(DriverController.getLeftX(), Drivetrain.STICK_DEADZONE))) * MaxSpeed) // Drive left with negative X (left)
+                      .withRotationalRate((camera.MoveRot(Degrees.of(0)) + rotLimiter.calculate(-MathUtil.applyDeadband(DriverController.getRightX(), Drivetrain.STICK_DEADZONE))) * MaxAngularRate)
                       )
       .alongWith(camera.runEnd(
       () -> camera.SetLEDOn(),
@@ -277,21 +277,21 @@ public class RobotContainer {
     DriverController.b().onTrue(intake.runOnce(
       () -> intake.Open(false))
       .alongWith(elevator.runOnce(
-      () -> elevator.Set(PID.Elevator.kElevatorClimb)))
+      () -> elevator.Set(PID.Elevator.ELEVATOR_CLIMB)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(PID.Pivot.kPivotClimbEnd)))
+      () -> pivot.Set(PID.Pivot.PIVOT_CLIMB_END)))
       .alongWith(wrist.runOnce(
-      () -> wrist.Set(PID.Wrist.kWristIntake))));
+      () -> wrist.Set(PID.Wrist.WRIST_INTAKE))));
 
     // Home
     DriverController.povLeft().onTrue(intake.runOnce(
       () -> intake.Open(false))
       .alongWith(elevator.runOnce(
-      () -> elevator.Set(PID.Elevator.kElevatorHome)))
+      () -> elevator.Set(PID.Elevator.ELEVATOR_HOME)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(PID.Pivot.kPivotHome)))
+      () -> pivot.Set(PID.Pivot.PIVOT_HOME)))
       .alongWith(wrist.runOnce(
-      () -> wrist.Set(PID.Wrist.kWristHome))));
+      () -> wrist.Set(PID.Wrist.WRIST_HOME))));
 
     // Stop
     DriverController.button(8).whileTrue(drivetrain.applyRequest(
@@ -321,139 +321,139 @@ public class RobotContainer {
     ManipulatorController.button(9).onTrue(intake.runOnce(
       () -> intake.CloseNoAlgae())
       .alongWith(elevator.runOnce(
-        () -> elevator.Set(PID.Elevator.kElevatorL1)))
+        () -> elevator.Set(PID.Elevator.ELEVATOR_L1)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(PID.Pivot.kPivotL1)))
+      () -> pivot.Set(PID.Pivot.PIVOT_L1)))
       .alongWith(new WaitCommand(0.55)
       .andThen(wrist.runOnce(
-      () -> wrist.Set(PID.Wrist.kWristL1)))));
+      () -> wrist.Set(PID.Wrist.WRIST_L1)))));
 
     // Coral Ground
     ManipulatorController.button(10).onTrue(intake.runOnce(
       () -> intake.OpenNoAlgae(true))
       .alongWith(elevator.runOnce(
-        () -> elevator.Set(PID.Elevator.kElevatorIntake)))
+        () -> elevator.Set(PID.Elevator.ELEVATOR_INTAKE)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(PID.Pivot.kPivotGroundCoral)))
+      () -> pivot.Set(PID.Pivot.PIVOT_GROUND_CORRAL)))
       .alongWith(wrist.runOnce(
-      () -> wrist.Set(PID.Wrist.kWristGroundCoral))));
+      () -> wrist.Set(PID.Wrist.WRIST_GROUND_CORAL))));
 
     // L2
     ManipulatorController.a().onTrue(intake.runOnce(
       () -> intake.Open(false))
       .alongWith(elevator.runOnce(
-        () -> elevator.Set(PID.Elevator.kElevatorL2)))
+        () -> elevator.Set(PID.Elevator.ELEVATOR_L2)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(PID.Pivot.kPivotL2)))
+      () -> pivot.Set(PID.Pivot.PIVOT_L2)))
       .alongWith(new WaitCommand(0.55)
       .andThen(wrist.runOnce(
-      () -> wrist.Set(PID.Wrist.kWristL2)))));
+      () -> wrist.Set(PID.Wrist.WRIST_L2)))));
 
     // L3
     ManipulatorController.x().onTrue(intake.runOnce(
       () -> intake.Open(false))
       .alongWith(elevator.runOnce(
-      () -> elevator.Set(PID.Elevator.kElevatorL3)))
+      () -> elevator.Set(PID.Elevator.ELEVATOR_L3)))
       .alongWith(pivot.runOnce(
-        () -> pivot.Set(PID.Pivot.kPivotL3)))
+        () -> pivot.Set(PID.Pivot.PIVOT_L3)))
       .alongWith(new WaitCommand(0.55)
       .andThen(wrist.runOnce(
-      () -> wrist.Set(PID.Wrist.kWristL3)))));
+      () -> wrist.Set(PID.Wrist.WRIST_L3)))));
 
     // L4
     ManipulatorController.y().onTrue(intake.runOnce(
       () -> intake.Open(false))
       .alongWith(elevator.runOnce(
-      () -> elevator.Set(PID.Elevator.kElevatorL4)))
+      () -> elevator.Set(PID.Elevator.ELEVATOR_L4)))
       .alongWith(pivot.runOnce(
-        () -> pivot.Set(PID.Pivot.kPivotL4)))
+        () -> pivot.Set(PID.Pivot.PIVOT_L4)))
       .alongWith(new WaitCommand(0.55)
       .andThen(wrist.runOnce(
-      () -> wrist.Set(PID.Wrist.kWristL4)))));
+      () -> wrist.Set(PID.Wrist.WRIST_L4)))));
 
     // Intake
     ManipulatorController.b().onTrue(intake.runOnce(
       () -> intake.Open(false))
       .alongWith(new WaitCommand(0.3)
         .andThen(elevator.runOnce(
-        () -> elevator.Set(PID.Elevator.kElevatorIntake))))
+        () -> elevator.Set(PID.Elevator.ELEVATOR_INTAKE))))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(PID.Pivot.kPivotIntake)))
+      () -> pivot.Set(PID.Pivot.PIVOT_INTAKE)))
       .alongWith(new WaitCommand(0.3)
         .andThen(wrist.runOnce(
-        () -> wrist.Set(PID.Wrist.kWristIntake)))));
+        () -> wrist.Set(PID.Wrist.WRIST_INTAKE)))));
 
     // Start Climb
     ManipulatorController.leftBumper().onTrue(intake.runOnce(
       () -> intake.Open(false))
       .alongWith(elevator.runOnce(
-      () -> elevator.Set(PID.Elevator.kElevatorClimb)))
+      () -> elevator.Set(PID.Elevator.ELEVATOR_CLIMB)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(PID.Pivot.kPivotClimb)))
+      () -> pivot.Set(PID.Pivot.PIVOT_CLIMB)))
       .alongWith(wrist.runOnce(
-      () -> wrist.Set(PID.Wrist.kWristIntake))));
+      () -> wrist.Set(PID.Wrist.WRIST_INTAKE))));
 
     // Barge
     ManipulatorController.povLeft().onTrue(intake.runOnce(
       () -> intake.Open(true))
       .alongWith(elevator.runOnce(
-      () -> elevator.Set(PID.Elevator.kElevatorBarge)))
+      () -> elevator.Set(PID.Elevator.ELEVATOR_BARGE)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(PID.Pivot.kPivotIntake)))
+      () -> pivot.Set(PID.Pivot.PIVOT_INTAKE)))
       .alongWith(wrist.runOnce(
-      () -> wrist.Set(PID.Wrist.kWristBarge))));
+      () -> wrist.Set(PID.Wrist.WRIST_BARGE))));
 
     // Processor
     ManipulatorController.povRight().onTrue(intake.runOnce(
       () -> intake.Open(true))
       .alongWith(elevator.runOnce(
-      () -> elevator.Set(PID.Elevator.kElevatorProcessor)))
+      () -> elevator.Set(PID.Elevator.ELEVATOR_PROCESSOR)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(PID.Pivot.kPivotProcessor)))
+      () -> pivot.Set(PID.Pivot.PIVOT_PROCESSOR)))
       .alongWith(wrist.runOnce(
-      () -> wrist.Set(PID.Wrist.kWristProcessor))));
+      () -> wrist.Set(PID.Wrist.WRIST_PROCESSOR))));
 
     // Bottom Algae
     ManipulatorController.povDown().onTrue(intake.runOnce(
       () -> intake.Open(true))
       .alongWith(elevator.runOnce(
-      () -> elevator.Set(PID.Elevator.kElevatorBottomAlgae)))
+      () -> elevator.Set(PID.Elevator.ELEVATOR_BOTTOM_ALGAE)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(PID.Pivot.kPivotL2)))
+      () -> pivot.Set(PID.Pivot.PIVOT_L2)))
       .alongWith(wrist.runOnce(
-      () -> wrist.Set(PID.Wrist.kWristBottomAlgae))));
+      () -> wrist.Set(PID.Wrist.WRIST_BOTTOM_ALGAE))));
 
     // Top Algae
     ManipulatorController.povUp().onTrue(intake.runOnce(
       () -> intake.Open(true))
       .alongWith(elevator.runOnce(
-      () -> elevator.Set(PID.Elevator.kElevatorTopAlgae)))
+      () -> elevator.Set(PID.Elevator.ELEVATOR_TOP_ALGAE)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(PID.Pivot.kPivotL3)))
+      () -> pivot.Set(PID.Pivot.PIVOT_L3)))
       .alongWith(wrist.runOnce(
-      () -> wrist.Set(PID.Wrist.kWristTopAlgae))));
+      () -> wrist.Set(PID.Wrist.WRIST_TOP_ALGAE))));
 
     // Home Algae
     ManipulatorController.button(7).onTrue(intake.runOnce(
       () -> intake.Open(true))
       .alongWith(new WaitCommand(0.6)
         .andThen(elevator.runOnce(
-        () -> elevator.Set(PID.Elevator.kElevatorIntake))))
+        () -> elevator.Set(PID.Elevator.ELEVATOR_INTAKE))))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(PID.Pivot.kPivotIntake)))
+      () -> pivot.Set(PID.Pivot.PIVOT_INTAKE)))
       .alongWith(new WaitCommand(0.6)
         .andThen(wrist.runOnce(
-        () -> wrist.Set(PID.Wrist.kWristHomeAlgae)))));
+        () -> wrist.Set(PID.Wrist.WRIST_HOME_ALGAE)))));
 
     // Ground Algae
     ManipulatorController.rightBumper().onTrue(intake.runOnce(
       () -> intake.Open(true))
       .alongWith(elevator.runOnce(
-      () -> elevator.Set(PID.Elevator.kElevatorGroundAlgae)))
+      () -> elevator.Set(PID.Elevator.ELEVATOR_GROUND_ALGAE)))
       .alongWith(pivot.runOnce(
-      () -> pivot.Set(PID.Pivot.kPivotGroundAlgae)))
+      () -> pivot.Set(PID.Pivot.PIVOT_GROUND_ALGAE)))
       .alongWith(wrist.runOnce(
-      () -> wrist.Set(PID.Wrist.kWristGroundAlgae))));
+      () -> wrist.Set(PID.Wrist.WRIST_GROUND_ALGAE))));
 
     // Manual Control
     // Janky but works

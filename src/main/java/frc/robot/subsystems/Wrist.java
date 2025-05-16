@@ -21,13 +21,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Wrist extends SubsystemBase {
 
-  private SparkMax wrist = new SparkMax(MotorIDs.Misc.kWristMotor, MotorType.kBrushless);
+  private SparkMax wrist = new SparkMax(MotorIDs.Misc.WRIST_MOTOR, MotorType.kBrushless);
 
   private SparkMaxConfig cfg = new SparkMaxConfig();
 
-  private PIDController wristController = new PIDController(PID.Wrist.kWristKP, 0, 0);
+  private PIDController wristController = new PIDController(PID.Wrist.WRIST_KP, 0, 0);
   
-  private DutyCycleEncoder wristEncoder = new DutyCycleEncoder(IO.Misc.kWristEncoderID);
+  private DutyCycleEncoder wristEncoder = new DutyCycleEncoder(IO.Misc.WRIST_ENCODER);
   
   private double wristSetpoint;
   private boolean pidToggle;
@@ -68,7 +68,7 @@ public class Wrist extends SubsystemBase {
       pid = wristController.calculate(GetAngle(false).in(Degree), wristSetpoint);
     }
 
-    pid = MathUtil.clamp(pid, -1 * Speeds.kWristSpeedMax, Speeds.kWristSpeedMax);
+    pid = MathUtil.clamp(pid, -1 * Speeds.WRIST_SPEED_MAX, Speeds.WRIST_SPEED_MAX);
     wrist.set(-1 * pid);
     
     // Debug
@@ -108,11 +108,11 @@ public class Wrist extends SubsystemBase {
       return Rotations.of(wristEncoder.get());
     }
 
-    return Rotations.of(wristEncoder.get()).minus(Degrees.of(IO.Misc.kWristEncoderOffset));
+    return Rotations.of(wristEncoder.get()).minus(Degrees.of(IO.Misc.WRIST_ENCODER_OFFSET));
   }
 
   public boolean IsConnected() {
-    return GetAngle(false).in(Degree) != (360 - IO.Misc.kWristEncoderOffset);
+    return GetAngle(false).in(Degree) != (360 - IO.Misc.WRIST_ENCODER_OFFSET);
   }
 
   public double GetSetpoint() {

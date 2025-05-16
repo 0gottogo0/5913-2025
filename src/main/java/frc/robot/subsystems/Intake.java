@@ -20,14 +20,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase {
 
-  private SparkMax intake = new SparkMax(MotorIDs.Misc.kIntakeMotor, MotorType.kBrushless);
+  private SparkMax intake = new SparkMax(MotorIDs.Misc.INTAKE_MOTOR, MotorType.kBrushless);
   private SparkMaxConfig cfg = new SparkMaxConfig();
   
-  private PneumaticHub PH = new PneumaticHub(PneumaticsIDs.kPHID);
+  private PneumaticHub PH = new PneumaticHub(PneumaticsIDs.PNEUMATICS_HUB);
   
-  private DoubleSolenoid clawSolenoid = PH.makeDoubleSolenoid(PneumaticsIDs.kClawClose, PneumaticsIDs.kClawOpen);
+  private DoubleSolenoid clawSolenoid = PH.makeDoubleSolenoid(PneumaticsIDs.CLAW_CLOSE, PneumaticsIDs.CLAW_OPEN);
   
-  private DigitalInput beamBreak = new DigitalInput(IO.Misc.kBeamBreak);
+  private DigitalInput beamBreak = new DigitalInput(IO.Misc.BEAM_BREAK);
 
   private Timer ejectTimer = new Timer();
 
@@ -62,16 +62,16 @@ public class Intake extends SubsystemBase {
 
   // Run the intake without the beambreak
   public void RunIntake() {
-    intake.set(-Speeds.kIntakeSpeedMax);
+    intake.set(-Speeds.INTAKE_SPEED_MAX);
   }
 
   public void RunIntakeSlow() {
-    intake.set(-Speeds.kIntakeSpeedL1);
+    intake.set(-Speeds.INTAKE_SPEED_L1);
   }
 
   // Run the intake backwards
   public void RunIntakeReverse() {
-    intake.set(Speeds.kIntakeSpeedMax);
+    intake.set(Speeds.INTAKE_SPEED_MAX);
   }
 
   // Run the intake with the beambreak
@@ -88,7 +88,7 @@ public class Intake extends SubsystemBase {
 
     if (!ignoreBeamBreak) {
       if (!GetBeamBreak()) {
-        intake.set(-Speeds.kIntakeSpeed);
+        intake.set(-Speeds.INTAKE_SPEED);
       } else {
         Stop();
       }
@@ -102,7 +102,7 @@ public class Intake extends SubsystemBase {
     ejectCoral = true;
     holdAlgae = false;
     clawSolenoid.set(DoubleSolenoid.Value.kForward);
-    intake.set(Speeds.kIntakeSpeedMax);
+    intake.set(Speeds.INTAKE_SPEED_MAX);
   }
 
   /**
@@ -166,17 +166,17 @@ public class Intake extends SubsystemBase {
     }
 
     if (groundCoral) {
-      intake.set(-Speeds.kIntakeSpeedHoldAlgae);
+      intake.set(-Speeds.INTAKE_SPEED_HOLD_ALGAE);
       return;
     }
 
     if (levelOne) {
-      intake.set(-Speeds.kIntakeSpeedHoldAlgae);
+      intake.set(-Speeds.INTAKE_SPEED_HOLD_ALGAE);
       return;
     }
 
     if (holdAlgae) {
-      intake.set(Speeds.kIntakeSpeedHoldAlgae);
+      intake.set(Speeds.INTAKE_SPEED_HOLD_ALGAE);
       return;
     }
     

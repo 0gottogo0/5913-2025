@@ -18,11 +18,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Elevator extends SubsystemBase {
 
-  private TalonFX elevator = new TalonFX(MotorIDs.Misc.kElevatorMotor);
+  private TalonFX elevator = new TalonFX(MotorIDs.Misc.ELEVATOR_MOTOR);
   private TalonFXConfiguration cfg = new TalonFXConfiguration();
 
-  private PIDController elevatorControllerUp = new PIDController(PID.Elevator.kElevatorKPUp, 0, 0);
-  private PIDController elevatorControllerDown = new PIDController(PID.Elevator.kElevatorKPDown, 0, 0);
+  private PIDController elevatorControllerUp = new PIDController(PID.Elevator.ELEVATOR_KP_UP, 0, 0);
+  private PIDController elevatorControllerDown = new PIDController(PID.Elevator.ELEVATOR_KP_DOWN, 0, 0);
 
   private double elevatorSetpoint; 
   private boolean pidToggle;
@@ -69,10 +69,10 @@ public class Elevator extends SubsystemBase {
     
     // Slow elevator if we have want to go to algae position
     if (!holdAglae) {
-      pid = MathUtil.clamp(pid, -1 * Speeds.kElevatorSpeedMax, Speeds.kElevatorSpeedMax);
+      pid = MathUtil.clamp(pid, -1 * Speeds.ELEVATOR_SPEED_MAX, Speeds.ELEVATOR_SPEED_MAX);
       elevator.set(pid);
     } else {
-      pid = MathUtil.clamp(pid, -1 * Speeds.kElevatorSpeedAlgae, Speeds.kElevatorSpeedAlgae); // Slowed elevator
+      pid = MathUtil.clamp(pid, -1 * Speeds.ELEVATOR_SPEED_ALGAE, Speeds.ELEVATOR_SPEED_ALGAE); // Slowed elevator
       elevator.set(pid);
     }
     

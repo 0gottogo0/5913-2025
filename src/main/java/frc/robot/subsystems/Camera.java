@@ -19,13 +19,13 @@ import frc.robot.Constants.Speeds;
 import frc.robot.LimelightHelpers;
 
 public class Camera extends SubsystemBase {
-  private PIDController XReefController = new PIDController(PID.Track.kReefTrackXKP, 0, 0);
-  private PIDController YReefController = new PIDController(PID.Track.kReefTrackYKP, 0, 0);
-  private PIDController RotReefController = new PIDController(PID.Track.kReefTrackRotKP, 0, 0);
+  private PIDController XReefController = new PIDController(PID.Track.REEF_TRACK_X_KP, 0, 0);
+  private PIDController YReefController = new PIDController(PID.Track.REEF_TRACK_Y_KP, 0, 0);
+  private PIDController RotReefController = new PIDController(PID.Track.REEF_TRACK_ROT_KP, 0, 0);
 
-  private PIDController XCoralController = new PIDController(PID.Track.kCoralTrackXKP, 0, 0);
-  private PIDController YCoralController = new PIDController(PID.Track.kCoralTrackYKP, 0, 0);
-  private PIDController RotCoralController = new PIDController(PID.Track.kCoralTrackRotKP, 0, 0);
+  private PIDController XCoralController = new PIDController(PID.Track.CORAL_TRACK_X_KP, 0, 0);
+  private PIDController YCoralController = new PIDController(PID.Track.CORAL_TRACK_Y_KP, 0, 0);
+  private PIDController RotCoralController = new PIDController(PID.Track.CORAL_TRACK_ROT_KP, 0, 0);
 
   private double moveX;
   private double moveY;
@@ -46,17 +46,16 @@ public class Camera extends SubsystemBase {
   /** Creates a new Camera. */
   public Camera() {}
 
-  @SuppressWarnings("unused")
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
 
     // Get the metatag2 results of where our robot is relative to the tag
-    double[] resultsReef = NetworkTableInstance.getDefault().getTable(IO.Camera.kLimeLightReef).getEntry("botpose_targetspace").getDoubleArray(new double[6]);
-    double[] resultsCoral = NetworkTableInstance.getDefault().getTable(IO.Camera.kLimeLightCoral).getEntry("botpose_targetspace").getDoubleArray(new double[6]);
+    double[] resultsReef = NetworkTableInstance.getDefault().getTable(IO.Camera.LIMELIGHT_REEF).getEntry("botpose_targetspace").getDoubleArray(new double[6]);
+    double[] resultsCoral = NetworkTableInstance.getDefault().getTable(IO.Camera.LIMELIGHT_CORAL).getEntry("botpose_targetspace").getDoubleArray(new double[6]);
 
-    var llReefMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(IO.Camera.kLimeLightReef);
-    var llCoralMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(IO.Camera.kLimeLightCoral);
+    var llReefMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(IO.Camera.LIMELIGHT_REEF);
+    var llCoralMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(IO.Camera.LIMELIGHT_CORAL);
 
     // Get the X, Y, and Rotation from said results
     xToTargetReef = resultsReef[0];
@@ -68,7 +67,7 @@ public class Camera extends SubsystemBase {
     rotToTargetCoral = Degrees.of(resultsCoral[4]);
 
     // We dont need to run though this logic twice but we will
-    CalculatePID(llReefMeasurement != null && llReefMeasurement.tagCount > 0 || llCoralMeasurement != null && llCoralMeasurement.tagCount > 0);
+    CalculatePID();
 
     // Debug
     SmartDashboard.putNumber("PID X", moveX);
@@ -93,29 +92,31 @@ public class Camera extends SubsystemBase {
     }
   }
 
-  public void CalculatePID (boolean calculate) {
-    var llReefMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(IO.Camera.kLimeLightReef);
-    var llCoralMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(IO.Camera.kLimeLightCoral);
-
-    if (!calculate) {
-      moveX = 0;
-      moveY = 0;
-      moveRot = 0;
-      return; // Exit function early if we see no april tags
-    }
+  public void CalculatePID () {
+    var llReefMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(IO.Camera.LIMELIGHT_REEF);
+    var llCoralMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(IO.Camera.LIMELIGHT_CORAL);
 
     if (isReefTracking) {
       if (llReefMeasurement != null && llReefMeasurement.tagCount > 0) {
         moveX = XReefController.calculate(xToTargetReef);
         moveY = YReefController.calculate(yToTargetReef);
         moveRot = RotReefController.calculate(rotToTargetReef.in(Degrees));
+      } else {
+        moveX = 0;
+        moveY = 0;
+        moveRot = 0;
+        return; // Exit function early if we see no april tags
       }
     } else {
-      // TODO: Track correctly
       if (llCoralMeasurement != null && llCoralMeasurement.tagCount > 0) {
-        moveX = XCoralController.calculate(xToTargetCoral) + 0.1; // Drive to the side a bit
+        moveX = XCoralController.calculate(xToTargetCoral) + 0.1; // Offset tracking to the side, this also can help not hitting the lolipop
         moveY = YCoralController.calculate(yToTargetCoral);
         moveRot = RotCoralController.calculate(rotToTargetCoral.in(Degrees));
+      } else {
+        moveX = 0;
+        moveY = 0;
+        moveRot = 0;
+        return; // Exit function early if we see no april tags
       }
     }
   }
@@ -126,10 +127,10 @@ public class Camera extends SubsystemBase {
 
     // Move slower in tele so brodie can cope
     if (DriverStation.isTeleop()) {
-      return -MathUtil.clamp(moveX, -Speeds.kTrackMoveSlow, Speeds.kTrackMoveSlow);
+      return -MathUtil.clamp(moveX, -Speeds.TRACK_MOVE_SLOW, Speeds.TRACK_MOVE_SLOW);
     }
 
-    return -MathUtil.clamp(moveX, isReefTracking?-Speeds.kTrackMoveMax:-Speeds.kTrackMoveSlow, isReefTracking?Speeds.kTrackMoveMax:Speeds.kTrackMoveSlow);
+    return -MathUtil.clamp(moveX, isReefTracking?-Speeds.TRACK_MOVE_MAX:-Speeds.TRACK_MOVE_SLOW, isReefTracking?Speeds.TRACK_MOVE_MAX:Speeds.TRACK_MOVE_SLOW);
   }
 
   public double MoveY(double position) {
@@ -137,24 +138,24 @@ public class Camera extends SubsystemBase {
 
     // Move slower in tele so brodie can cope
     if (DriverStation.isTeleop()) {
-      return MathUtil.clamp(moveY, -Speeds.kTrackMoveSlow, Speeds.kTrackMoveSlow);
+      return MathUtil.clamp(moveY, -Speeds.TRACK_MOVE_SLOW, Speeds.TRACK_MOVE_SLOW);
     }
 
-    return MathUtil.clamp(moveY, isReefTracking?-Speeds.kTrackMoveMax:-Speeds.kTrackMoveSlow, isReefTracking?Speeds.kTrackMoveMax:Speeds.kTrackMoveSlow);
+    return MathUtil.clamp(moveY, isReefTracking?-Speeds.TRACK_MOVE_MAX:-Speeds.TRACK_MOVE_SLOW, isReefTracking?Speeds.TRACK_MOVE_MAX:Speeds.TRACK_MOVE_SLOW);
   }
 
   public double MoveRot(Angle position) {
     RotReefController.setSetpoint(position.in(Degrees));
-    return MathUtil.clamp(moveRot, -Speeds.kTrackRotateMax, Speeds.kTrackRotateMax);
+    return MathUtil.clamp(moveRot, -Speeds.TRACK_ROTATE_MAX, Speeds.TRACK_ROTATE_MAX);
   } 
   
   public void SetLEDOn() {
-    LimelightHelpers.setLEDMode_ForceOn(isReefTracking?IO.Camera.kLimeLightReef:IO.Camera.kLimeLightCoral);
+    LimelightHelpers.setLEDMode_ForceOn(isReefTracking?IO.Camera.LIMELIGHT_REEF:IO.Camera.LIMELIGHT_CORAL);
     isTracking = true;
   }
 
   public void SetLEDOff() {
-    LimelightHelpers.setLEDMode_ForceOff(isReefTracking?IO.Camera.kLimeLightReef:IO.Camera.kLimeLightCoral);
+    LimelightHelpers.setLEDMode_ForceOff(isReefTracking?IO.Camera.LIMELIGHT_REEF:IO.Camera.LIMELIGHT_CORAL);
     isTracking = false;
   }
 

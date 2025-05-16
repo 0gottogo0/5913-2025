@@ -23,7 +23,7 @@ public class Robot extends TimedRobot {
 
   private final RobotContainer m_robotContainer;
 
-  private final CommandXboxController ManipulatorController = new CommandXboxController(Controllers.kManipulatorController);
+  private final CommandXboxController ManipulatorController = new CommandXboxController(Controllers.MANIPULATOR_CONTROLLER);
 
   Timer intakeTimer = new Timer();
 
@@ -49,9 +49,9 @@ public class Robot extends TimedRobot {
       double headingDeg = driveState.Pose.getRotation().getDegrees();
       double omegaRps = Units.radiansToRotations(driveState.Speeds.omegaRadiansPerSecond);
 
-      LimelightHelpers.SetRobotOrientation(IO.Camera.kLimeLightCoral, headingDeg, 0, 0, 0, 0, 0);
-      LimelightHelpers.SetRobotOrientation(IO.Camera.kLimeLightReef, headingDeg, 0, 0, 0, 0, 0);
-      var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(IO.Camera.kLimeLightReef);
+      LimelightHelpers.SetRobotOrientation(IO.Camera.LIMELIGHT_CORAL, headingDeg, 0, 0, 0, 0, 0);
+      LimelightHelpers.SetRobotOrientation(IO.Camera.LIMELIGHT_REEF, headingDeg, 0, 0, 0, 0, 0);
+      var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(IO.Camera.LIMELIGHT_REEF);
       
       if (llMeasurement != null && llMeasurement.tagCount > 0 && Math.abs(omegaRps) < 2.0) {
         m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement.pose, llMeasurement.timestampSeconds);
@@ -59,23 +59,23 @@ public class Robot extends TimedRobot {
     }
 
     // Dont ignore the beambreak if we are intaking
-    m_robotContainer.intake.ignoreBeamBreak = m_robotContainer.pivot.GetSetpoint() != PID.Pivot.kPivotIntake && m_robotContainer.wrist.GetSetpoint() != PID.Wrist.kWristIntake;
+    m_robotContainer.intake.ignoreBeamBreak = m_robotContainer.pivot.GetSetpoint() != PID.Pivot.PIVOT_INTAKE && m_robotContainer.wrist.GetSetpoint() != PID.Wrist.WRIST_INTAKE;
 
     // Slow the elevator if we are holding algae
     m_robotContainer.elevator.holdAglae = m_robotContainer.intake.holdAlgae == true;
 
     // Set lights to red if "bad error"
-    m_robotContainer.lights.badError = m_robotContainer.pivot.GetAngle().in(Degree) == (360 - IO.Misc.kPivotEncoderOffset) || m_robotContainer.wrist.GetAngle(false).in(Degree) == (360 - IO.Misc.kWristEncoderOffset) || m_robotContainer.wrist.GetAngle(true).in(Degree) < 0;
+    m_robotContainer.lights.badError = m_robotContainer.pivot.GetAngle().in(Degree) == (360 - IO.Misc.PIVOT_ENCODER_OFFSET) || m_robotContainer.wrist.GetAngle(false).in(Degree) == (360 - IO.Misc.WRIST_ENCODER_OFFSET) || m_robotContainer.wrist.GetAngle(true).in(Degree) < 0;
 
     SmartDashboard.putNumber("Controller Y", ManipulatorController.getLeftY());
     SmartDashboard.putNumber("Intake Timer", intakeTimer.get());
 
-    if (m_robotContainer.intake.GetBeamBreak() && m_robotContainer.pivot.GetSetpoint() == PID.Pivot.kPivotIntake) {
+    if (m_robotContainer.intake.GetBeamBreak() && m_robotContainer.pivot.GetSetpoint() == PID.Pivot.PIVOT_INTAKE) {
       intakeTimer.start();
       if (intakeTimer.get() >= 0.3) {
         intakeTimer.stop();
         intakeTimer.reset();
-        m_robotContainer.pivot.Set(PID.Pivot.kPivotL4);
+        m_robotContainer.pivot.Set(PID.Pivot.PIVOT_L4);
       }
     }
   }

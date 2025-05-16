@@ -22,15 +22,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Pivot extends SubsystemBase {
 
-  private TalonFX pivotLeftMaster = new TalonFX(MotorIDs.Misc.kPivotLeftMotor);
+  private TalonFX pivotLeftMaster = new TalonFX(MotorIDs.Misc.PIVOT_LEFT_MOTOR);
   private TalonFXConfiguration cfgLeft = new TalonFXConfiguration();
 
-  private TalonFX pivotRightFollower = new TalonFX(MotorIDs.Misc.kPivotRightMotor);
+  private TalonFX pivotRightFollower = new TalonFX(MotorIDs.Misc.PIVOT_RIGHT_MOTOR);
   private TalonFXConfiguration cfgRight = new TalonFXConfiguration();
 
-  private PIDController pivotController = new PIDController(PID.Pivot.kPivotKP, 0, 0);
+  private PIDController pivotController = new PIDController(PID.Pivot.PIVOT_KP, 0, 0);
 
-  private DutyCycleEncoder pivotEncoder = new DutyCycleEncoder(IO.Misc.kPivotEncoderID);
+  private DutyCycleEncoder pivotEncoder = new DutyCycleEncoder(IO.Misc.PIVOT_ENCODER);
   
   private double pivotSetpoint;
   private boolean pidToggle;
@@ -80,7 +80,7 @@ public class Pivot extends SubsystemBase {
       pid = pivotController.calculate(GetAngle().in(Degrees), pivotSetpoint);
     }
     
-    pid = MathUtil.applyDeadband(MathUtil.clamp(pid, -1 * Speeds.kPivotSpeedMax, Speeds.kPivotSpeedMax), PID.Pivot.kPivotDeadzone);
+    pid = MathUtil.applyDeadband(MathUtil.clamp(pid, -1 * Speeds.PIVOT_SPEED_MAX, Speeds.PIVOT_SPEED_MAX), PID.Pivot.PIVOT_DEADZONE);
     pivotLeftMaster.set(-1 * pid);
 
     // Debug
@@ -109,11 +109,11 @@ public class Pivot extends SubsystemBase {
   }
 
   public Angle GetAngle() {
-    return Rotations.of(pivotEncoder.get()).minus(Degrees.of(IO.Misc.kPivotEncoderOffset));
+    return Rotations.of(pivotEncoder.get()).minus(Degrees.of(IO.Misc.PIVOT_ENCODER_OFFSET));
   }
 
   public boolean IsConnected() {
-    return GetAngle().in(Degree) != (360 - IO.Misc.kPivotEncoderOffset);
+    return GetAngle().in(Degree) != (360 - IO.Misc.PIVOT_ENCODER_OFFSET);
   }
 
   public double GetSetpoint() {

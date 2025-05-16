@@ -22,13 +22,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Lights extends SubsystemBase {
 
-  private CANdle candle = new CANdle(IO.CANdle.kCANdleID);
+  private CANdle candle = new CANdle(IO.CANdle.CANDLE);
 
   private CANdleConfiguration cfg = new CANdleConfiguration();
 
   private Animation m_toAnimate = null;
 
-  private int allLights = IO.CANdle.kTotalLightAmount + 8;
+  private int allLights = IO.CANdle.TOTAL_LIGHT_AMOUNT + 8;
 
   public boolean badError = false;
 
