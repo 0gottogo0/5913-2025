@@ -318,6 +318,7 @@ public class RobotContainer {
       () -> intake.Stop()));
 
     // L1
+    // Rebind back buttons pls during offseason thx :)
     ManipulatorController.button(9).onTrue(intake.runOnce(
       () -> intake.CloseNoAlgae())
       .alongWith(elevator.runOnce(
@@ -329,6 +330,7 @@ public class RobotContainer {
       () -> wrist.Set(PID.Wrist.kWristL1)))));
 
     // Coral Ground
+    // Rebind back buttons pls during offseason thx :)
     ManipulatorController.button(10).onTrue(intake.runOnce(
       () -> intake.OpenNoAlgae(true))
       .alongWith(elevator.runOnce(
