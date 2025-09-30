@@ -219,8 +219,8 @@ public class RobotContainer {
     // Drivetrain will execute this command periodically
     drivetrain.setDefaultCommand(
       drivetrain.applyRequest(
-        () -> drive.withVelocityX(xLimiter.calculate(MathUtil.applyDeadband(-DriverController.getLeftY(), Drivetrain.kStickDeadzone) * MaxSpeed * drivetrain.SlowSwerve(DriverController.x().getAsBoolean()))) // Drive forward with negative Y (forward)
-                   .withVelocityY(yLimiter.calculate(MathUtil.applyDeadband(-DriverController.getLeftX(), Drivetrain.kStickDeadzone) * MaxSpeed * drivetrain.SlowSwerve(DriverController.x().getAsBoolean()))) // Drive left with negative X (left)
+        () -> drive.withVelocityX(xLimiter.calculate(MathUtil.applyDeadband(Math.pow(-DriverController.getLeftY(), 2), Drivetrain.kStickDeadzone) * MaxSpeed * drivetrain.SlowSwerve(DriverController.x().getAsBoolean()))) // Drive forward with negative Y (forward)
+                   .withVelocityY(yLimiter.calculate(MathUtil.applyDeadband(Math.pow(-DriverController.getLeftX(), 2), Drivetrain.kStickDeadzone) * MaxSpeed * drivetrain.SlowSwerve(DriverController.x().getAsBoolean()))) // Drive left with negative X (left)
                    .withRotationalRate(rotLimiter.calculate(MathUtil.applyDeadband(-DriverController.getRightX(), Drivetrain.kStickDeadzone) * MaxAngularRate * drivetrain.SlowSwerve(DriverController.x().getAsBoolean()))) // Drive counterclockwise with negative X (left)
       ));
 
