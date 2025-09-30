@@ -29,7 +29,7 @@ public final class Constants {
         public static final double kMoveSlewRateLimiter = 12.00;
         public static final double kRotateSlewRateLimiter = 40.00;
         public static final double kRotateMagnitude = 0.90;
-        public static final double kStickDeadzone = 0.02;
+        public static final double kStickDeadzone = 0.1;
 
         // CTRE
         public static final double kTrackWidthX = 23.5;   // These are how far the center of the swerves are apart
